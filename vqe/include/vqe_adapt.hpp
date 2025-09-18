@@ -217,19 +217,7 @@ namespace NWQSim {
           cumulative_coefficient_memory_mb += operator_coefficient_memory / (1024 * 1024);
           cumulative_zmask_memory_mb += operator_zmask_memory / (1024 * 1024);
           cumulative_clique_memory_mb += operator_clique_memory / (1024 * 1024);
-          
-          // Show detailed clique information (first few operators and sample cliques)
-          if (state->get_process_rank() == 0 && (i < 3 || i % 50 == 0)) {
-            auto clique_it = cliques.begin();
-            size_t clique_count = 0;
-            for (auto& clique_vec : cliques) {
-              if (clique_count < 3) {  // Show first 3 cliques
-                std::cout << "    Clique " << clique_count << " has " << clique_vec.size() << " terms" << std::endl;
-              }
-              clique_count++;
-              if (clique_count >= 3) break;
-            }
-          }
+
           
           // For each clique, we want to make an ObservableList object to compute expectation values after diagonalization
           auto cliqueiter = cliques.begin();
@@ -264,15 +252,6 @@ namespace NWQSim {
             Measurement circ2 (common, true); // inverse of the measurement circuit $U_M^\dagger$
             gradient_measurement[i]->compose(circ2, qubit_mapping);  // add the inverse
             cliqueiter++;
-            
-            // Show running memory totals every few observables (like pfb13.txt style)
-            if (state->get_process_rank() == 0 && total_observables_created % 100 == 0) {
-              double avg_memory_per_observable = (total_observables_created > 0) ? 
-                (cumulative_observable_memory_mb * 1024.0 / total_observables_created) : 0.0;
-              std::cout << "  Total observable memory so far: " << cumulative_observable_memory_mb << ".0 MB" << std::endl;
-              std::cout << "  Average memory per observable: " << std::fixed << std::setprecision(1) 
-                        << avg_memory_per_observable << " KB" << std::endl;
-            }
           }
           
           // Memory cleanup to prevent accumulation during operator processing
