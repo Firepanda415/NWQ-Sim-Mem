@@ -97,8 +97,8 @@ namespace NWQSim{
                          stop_val(-MAXFLOAT),
                          max_evals(100), // MZ: changed from 50 to 100, to match the default in main.cpp.
                          max_time(-1),
-                         lbound(-PI+0.0001), // MZ: avoid bad numerical issues
-                         ubound(PI-0.0001) {}
+                         lbound(-PI+0.00001), // MZ: avoid bad numerical issues
+                         ubound(PI-0.00001) {}
   };
 
 

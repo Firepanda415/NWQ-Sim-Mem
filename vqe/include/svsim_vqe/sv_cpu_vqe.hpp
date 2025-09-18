@@ -118,15 +118,6 @@ namespace NWQSim
             delete i;
         }
       }
-      
-      // PHASE 1 MEMORY FIX: Dummy implementation for CPU backend
-      virtual void deallocate_simulation_state() override {
-        // Dummy implementation - actual deallocation not implemented for this backend
-      };
-      
-      virtual void reallocate_simulation_state() override {
-        // Dummy implementation - actual reallocation not implemented for this backend  
-      };
     };
   };
 } // namespace NWQSim

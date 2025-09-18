@@ -9,7 +9,6 @@
 #include "src/ansatz_pool.cpp" // MZ: move the ansatz pool generation out of the src/utils.cpp
 #include "nwq_util.hpp"
 #include <chrono>
-#include <fstream>  // For system memory monitoring
 
 #define UNDERLINE "\033[4m"
 
@@ -366,7 +365,7 @@ std::shared_ptr<NWQSim::VQE::VQEState> optimize_ansatz(const VQEBackendManager& 
     // NWQSim::safe_print("Completed ADAPT-VQE Optimization in %.2e seconds\n", optimization_time); // Report the total time
     state -> set_duration(optimization_time); // MZ: time the optimization
     state -> set_numpauli(adapt_instance.get_numpauli()); // MZ: get the number of Pauli terms
-    state -> set_numcomm(adapt_instance.get_numcommutinggroups()); // MZ: get the number of commuting group
+    state -> set_numcomm(adapt_instance.get_numcomm()); // MZ: get the number of commuting cliques
 //     double commutator_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end_commutators - start_time).count() / 1e9;
 //     NWQSim::safe_print("Constructed ADAPT-VQE Commutators in %.2e seconds\n", commutator_time); // Report the commutator overhead
 //     adapt_instance.optimize(x, fval, params.adapt_maxeval, params.adapt_gradtol, params.adapt_fvaltol); // MAIN OPTIMIZATION LOOP
@@ -408,15 +407,6 @@ int main(int argc, char** argv) {
                                                                                                params.nparticles,
                                                                                                params.xacc);
   NWQSim::safe_print("Constructed %lld Pauli observables\n", hamil->num_ops());
-  
-  // MEMORY MONITORING: Print initial memory usage
-  #ifdef CUDA_ENABLED
-  size_t gpu_free, gpu_total;
-  cudaMemGetInfo(&gpu_free, &gpu_total);
-  NWQSim::safe_print("Initial GPU Memory: %.2f GB free, %.2f GB total (%.1f%% used)\n", 
-                     gpu_free/1e9, gpu_total/1e9, 100.0*(gpu_total-gpu_free)/gpu_total);
-  #endif
-  
   NWQSim::safe_print("Constructing the ansatz...\n");
   
   // Build the parameterized ansatz
@@ -451,14 +441,6 @@ int main(int argc, char** argv) {
   ansatz->buildAnsatz();
 
   NWQSim::safe_print("Starting with %lld Gates and %lld parameters\n" ,ansatz->num_gates(), ansatz->numParams());
-  
-  // MEMORY MONITORING: Print memory usage after ansatz construction
-  #ifdef CUDA_ENABLED
-  cudaMemGetInfo(&gpu_free, &gpu_total);
-  NWQSim::safe_print("After Ansatz GPU Memory: %.2f GB free, %.2f GB total (%.1f%% used)\n", 
-                     gpu_free/1e9, gpu_total/1e9, 100.0*(gpu_total-gpu_free)/gpu_total);
-  #endif
-  
   std::vector<double> x;
   double fval;
   if (params.adapt) {
@@ -490,7 +472,7 @@ int main(int argc, char** argv) {
 
   // Print out the Fermionic operators with their excitations                                        
   std::vector<std::pair<std::string, double> > param_map = ansatz->getFermionicOperatorParameters(); 
-
+  // MZ: A better summary at the end so I don't scroll all the way up, especially with gradient-free optimizater    
   NWQSim::safe_print("\n--------- Result Summary ---------\n");
   if (params.adapt) {
     NWQSim::safe_print("Method                 : ADAPT-VQE\n");
@@ -499,34 +481,33 @@ int main(int argc, char** argv) {
   }
   NWQSim::safe_print("Ansatz                 : %s\n", ansatz->getAnsatzName().c_str());  // MZ: don't want to scroll all the way up to see this
   NWQSim::safe_print("# Ham. Pauli Strings   : %lld \n", hamil->num_ops()); // MZ: don't want to scroll all the way up to see this
-  NWQSim::safe_print("# Ham. Commuting Groups: %lld \n", hamil->getPauliOperators().size());
   if (params.adapt) {
     // MZ: time
     double comm_total_secs = opt_info -> get_comm_duration();
     int comm_hours = static_cast<int>(comm_total_secs) / 3600;
     int comm_minutes = (static_cast<int>(comm_total_secs) % 3600) / 60;
     double comm_seconds = comm_total_secs - (comm_hours * 3600 + comm_minutes * 60);
-    NWQSim::safe_print("# Communting Groups (ADAPT): %d\n", opt_info->get_numcomm());
-    NWQSim::safe_print("# Pauli Strings (ADAPT)    : %d\n", opt_info->get_numpauli());
-    NWQSim::safe_print("Commutator Time (ADAPT)    : %d hrs %d mins %.4f secs\n", comm_hours, comm_minutes, comm_seconds);
+    NWQSim::safe_print("# commutators   (ADAPT): %d\n", opt_info->get_numcomm());
+    NWQSim::safe_print("# Pauli Strings (ADAPT): %d\n", opt_info->get_numpauli());
+    NWQSim::safe_print("Commutator Time (ADAPT): %d hrs %d mins %.4f secs\n", comm_hours, comm_minutes, comm_seconds);
   }
-    NWQSim::safe_print("Operator Stats             : %lld operators, %lld parameters, and %lld Gates\n" , ansatz->numOps(), ansatz->numParams(), ansatz->num_gates()); // MZ: don't want to scroll all the way up to see this
+    NWQSim::safe_print("Operator Stats         : %lld operators, %lld parameters, and %lld Gates\n" , ansatz->numOps(), ansatz->numParams(), ansatz->num_gates()); // MZ: don't want to scroll all the way up to see this
     NWQSim::CircuitMetrics final_metrics = ansatz -> circuit_metrics();
-    NWQSim::safe_print("Circuit Stats              : %lld depth, %lld 1q gates, %lld 2q gates, %.3f gate density\n", final_metrics.depth, final_metrics.one_q_gates, final_metrics.two_q_gates, final_metrics.gate_density);
+    NWQSim::safe_print("Circuit Stats          : %lld depth, %lld 1q gates, %lld 2q gates, %.3f gate density\n", final_metrics.depth, final_metrics.one_q_gates, final_metrics.two_q_gates, final_metrics.gate_density);
     std::string ter_rea;
     if (params.adapt) {
-      ter_rea =        "Optimization terminated    : "+get_termination_reason_adapt(opt_info->get_adaptresult())+"\n";
+      ter_rea = "Optimization terminated: "+get_termination_reason_adapt(opt_info->get_adaptresult())+"\n";
     } else {
-      ter_rea =        "Optimization terminated    : "+get_termination_reason(opt_info->get_optresult())+"\n";
+      ter_rea = "Optimization terminated: "+get_termination_reason(opt_info->get_optresult())+"\n";
     }
     NWQSim::safe_print(ter_rea.c_str());
     if (params.adapt) {
-      NWQSim::safe_print("# ADAPT rounds             : %d\n", opt_info->get_adaptrounds()); //MZ: ADAPT round
+      NWQSim::safe_print("# ADAPT rounds         : %d\n", opt_info->get_adaptrounds()); //MZ: ADAPT round
     } else {
-      NWQSim::safe_print("# function eval.           : %d\n", opt_info->get_numevals());
+      NWQSim::safe_print("# function eval.       : %d\n", opt_info->get_numevals());
     }
-    NWQSim::safe_print("Evaluation Time            : %d hrs %d mins %.4f secs\n", hours, minutes, seconds);
-    NWQSim::safe_print("Final objective value      : %.16f\nFinal parameters:\n", fval); 
+    NWQSim::safe_print("Evaluation Time        : %d hrs %d mins %.4f secs\n", hours, minutes, seconds);
+    NWQSim::safe_print("Final objective value  : %.16f\nFinal parameters:\n", fval); 
     for (auto& pair: param_map) {                                                                       
       NWQSim::safe_print("  %s :: %.16f\n", pair.first.c_str(), pair.second);  
     }

@@ -208,15 +208,6 @@ namespace NWQSim
           BARR_MPI;
       }
       
-      // PHASE 1 MEMORY FIX: Dummy implementation for MPI backend
-      virtual void deallocate_simulation_state() override {
-        // Dummy implementation - actual deallocation not implemented for this backend
-      };
-      
-      virtual void reallocate_simulation_state() override {
-        // Dummy implementation - actual reallocation not implemented for this backend  
-      };
-      
       protected:
         std::vector<ValType> current_params;
         STATUS stat;
