@@ -236,6 +236,16 @@ virtual void fill_obslist(IdxType index) override {
       virtual void allocate_observables(ObservableList*& observables, IdxType size) override {
         SAFE_ALOC_GPU(observables, size * sizeof(ObservableList));
       };
+      
+      // PHASE 1 MEMORY FIX: Dummy implementation for CUDA MPI backend
+      virtual void deallocate_simulation_state() override {
+        // Dummy implementation - actual deallocation not implemented for this backend
+      };
+      
+      virtual void reallocate_simulation_state() override {
+        // Dummy implementation - actual reallocation not implemented for this backend  
+      };
+      
     protected:
         IdxType n_cpus;
         STATUS stat; 

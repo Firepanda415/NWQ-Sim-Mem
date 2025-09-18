@@ -1,0 +1,641 @@
+=== ADAPT-VQE Memory Profiling Session ===
+Date: Tue 16 Sep 2025 06:06:26 PM PDT
+System Info:
+  CPU: AMD EPYC 7763 64-Core Processor
+  Total RAM: 251Gi
+  Available RAM: 228Gi
+GPU Info:
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+=== Initial Memory State ===
+CPU Memory:
+               total        used        free      shared  buff/cache   available
+Mem:           251Gi        22Gi       234Gi       700Mi       1.2Gi       228Gi
+Swap:             0B          0B          0B
+GPU Memory:
+40960, 40327, 1
+
+Starting simulation...
+Reading Hamiltonian...
+Constructed 905 Pauli observables
+Initial GPU Memory: 41.84 GB free, 42.29 GB total (1.1% used)
+Constructing the ansatz...
+Starting with 6 Gates and 0 parameters
+After Ansatz GPU Memory: 41.84 GB free, 42.29 GB total (1.1% used)
+Beginning ADAPT-VQE loop...
+
+=== ADAPT-VQE Memory Profiling (CPU + GPU) ===
+Initial CPU memory:
+  RSS (Resident Set Size): 134.551 MB
+  Peak memory usage: 5366.11 MB
+  Virtual memory size: 5337.03 MB
+
+Initial GPU memory:
+  Total GPU memory: 39.3812 GB
+  Free GPU memory: 38.965 GB
+  Used GPU memory: 0.41626 GB
+
+Starting UCCSD operator pool allocation...
+  Pool size: 63 operators
+  Hamiltonian terms: 315
+Processing operator 0/63 - CPU: 134.551 MB, GPU: 41.8383 GB free
+Operator 0: 416 Pauli terms -> 166 cliques (efficiency: 39.9%)
+    Clique 0 has 18 terms
+    Clique 1 has 18 terms
+    Clique 2 has 12 terms
+Operator 1: 416 Pauli terms -> 162 cliques (efficiency: 38.9%)
+    Clique 0 has 18 terms
+    Clique 1 has 18 terms
+    Clique 2 has 12 terms
+Operator 2: 264 Pauli terms -> 60 cliques (efficiency: 22.7%)
+    Clique 0 has 19 terms
+    Clique 1 has 19 terms
+    Clique 2 has 20 terms
+Operator 3: 348 Pauli terms -> 120 cliques (efficiency: 34.5%)
+  Total observable memory so far: 0.0 MB
+  Average memory per observable: 0.0 KB
+Operator 4: 348 Pauli terms -> 113 cliques (efficiency: 32.5%)
+  Total observable memory so far: 0.0 MB
+  Average memory per observable: 0.0 KB
+  Total observable memory so far: 0.0 MB
+  Average memory per observable: 0.0 KB
+  Total observable memory so far: 2.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 2.0 MB
+  Average memory per observable: 0.8 KB
+  Total observable memory so far: 2.0 MB
+  Average memory per observable: 0.7 KB
+  Total observable memory so far: 2.0 MB
+  Average memory per observable: 0.6 KB
+  Total observable memory so far: 4.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 4.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 4.0 MB
+  Average memory per observable: 0.8 KB
+  Total observable memory so far: 4.0 MB
+  Average memory per observable: 0.7 KB
+  Total observable memory so far: 6.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 6.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 6.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 6.0 MB
+  Average memory per observable: 0.8 KB
+  Total observable memory so far: 8.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 8.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 8.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 8.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 10.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 10.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 10.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 10.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 12.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 12.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 12.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 12.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 14.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 14.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 14.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 14.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 16.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 16.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 16.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 16.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 18.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 18.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 18.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 18.0 MB
+  Average memory per observable: 0.9 KB
+  Total observable memory so far: 20.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 20.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 20.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 20.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 22.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 22.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 22.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 22.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 24.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 24.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 24.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 24.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 26.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 26.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 26.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 26.0 MB
+  Average memory per observable: 1.0 KB
+Processing operator 50/63 - CPU: 319.5 MB, GPU: 41.8 GB free
+  Total observable memory so far: 28.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 28.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 28.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 28.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 30.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 30.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 30.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 30.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 32.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 32.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 32.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 32.0 MB
+  Average memory per observable: 1.0 KB
+  Total observable memory so far: 34.0 MB
+  Average memory per observable: 1.0 KB
+
+=== ADAPT-VQE Memory Usage Summary ===
+Generated 63 commutators with 91212 Individual Pauli Strings
+
+Final CPU memory state:
+  RSS (Resident Set Size): 361.2 MB
+  Peak memory usage: 5622.9 MB
+  Virtual memory size: 5622.9 MB
+  CPU memory increase from operators: 226.7 MB
+
+Final GPU memory state:
+  Free GPU memory: 38.9 GB
+  GPU memory used by ADAPT operators: 0.0 GB
+
+Detailed memory breakdown:
+  Total operators in pool: 63
+  Total commuting groups: 34208
+  Total Pauli terms: 91212
+  Average Pauli terms per operator: 1447
+  Average commuting groups per operator: 542
+
+Estimated memory by component:
+  Coefficients: 0.7 MB
+  Z-masks: 0.7 MB
+  ObservableList structs: 1.0 MB
+  Total estimated: 2.4 MB
+==========================================
+
+GPU Observable Allocation:
+  Allocated 315 ObservableList structs
+  Memory allocated: 0.0 MB
+  Struct size: 32 bytes
+  Expected memory: 0.0 MB
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:6, sim_gates:6, ngpus:1, comp:3.915 ms, comm:0.000 ms, sim:3.915 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2948, sim_gates:1405, ngpus:1, comp:8.926 ms, comm:0.000 ms, sim:8.926 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2980, sim_gates:1390, ngpus:1, comp:8.655 ms, comm:0.000 ms, sim:8.655 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:1072, sim_gates:458, ngpus:1, comp:3.186 ms, comm:0.000 ms, sim:3.186 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2204, sim_gates:1042, ngpus:1, comp:6.520 ms, comm:0.000 ms, sim:6.520 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2115, sim_gates:971, ngpus:1, comp:6.147 ms, comm:0.000 ms, sim:6.147 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2990, sim_gates:1420, ngpus:1, comp:8.888 ms, comm:0.000 ms, sim:8.888 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2038, sim_gates:960, ngpus:1, comp:6.063 ms, comm:0.000 ms, sim:6.063 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2097, sim_gates:961, ngpus:1, comp:6.173 ms, comm:0.000 ms, sim:6.173 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:2902, sim_gates:1382, ngpus:1, comp:8.617 ms, comm:0.000 ms, sim:8.617 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:18033, sim_gates:7981, ngpus:1, comp:46.930 ms, comm:0.000 ms, sim:46.930 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16729, sim_gates:7391, ngpus:1, comp:43.361 ms, comm:0.000 ms, sim:43.361 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17992, sim_gates:8043, ngpus:1, comp:47.626 ms, comm:0.000 ms, sim:47.626 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17249, sim_gates:7653, ngpus:1, comp:45.055 ms, comm:0.000 ms, sim:45.055 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16822, sim_gates:7313, ngpus:1, comp:42.763 ms, comm:0.000 ms, sim:42.763 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17483, sim_gates:7740, ngpus:1, comp:45.204 ms, comm:0.000 ms, sim:45.204 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11707, sim_gates:5405, ngpus:1, comp:31.858 ms, comm:0.000 ms, sim:31.858 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17872, sim_gates:7870, ngpus:1, comp:46.962 ms, comm:0.000 ms, sim:46.962 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17720, sim_gates:7865, ngpus:1, comp:46.222 ms, comm:0.000 ms, sim:46.222 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9481, sim_gates:3912, ngpus:1, comp:24.238 ms, comm:0.000 ms, sim:24.238 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:13258, sim_gates:5885, ngpus:1, comp:35.751 ms, comm:0.000 ms, sim:35.751 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:14612, sim_gates:6395, ngpus:1, comp:39.740 ms, comm:0.000 ms, sim:39.740 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11967, sim_gates:5014, ngpus:1, comp:30.754 ms, comm:0.000 ms, sim:30.754 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16583, sim_gates:7167, ngpus:1, comp:43.425 ms, comm:0.000 ms, sim:43.425 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17631, sim_gates:7743, ngpus:1, comp:45.688 ms, comm:0.000 ms, sim:45.688 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11704, sim_gates:4911, ngpus:1, comp:30.132 ms, comm:0.000 ms, sim:30.132 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16959, sim_gates:7290, ngpus:1, comp:43.943 ms, comm:0.000 ms, sim:43.943 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17997, sim_gates:7864, ngpus:1, comp:46.839 ms, comm:0.000 ms, sim:46.839 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9493, sim_gates:3801, ngpus:1, comp:23.968 ms, comm:0.000 ms, sim:23.968 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:14334, sim_gates:6149, ngpus:1, comp:38.362 ms, comm:0.000 ms, sim:38.362 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17349, sim_gates:7546, ngpus:1, comp:45.073 ms, comm:0.000 ms, sim:45.073 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12126, sim_gates:5172, ngpus:1, comp:31.879 ms, comm:0.000 ms, sim:31.879 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:15852, sim_gates:6823, ngpus:1, comp:40.513 ms, comm:0.000 ms, sim:40.513 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16507, sim_gates:7252, ngpus:1, comp:43.074 ms, comm:0.000 ms, sim:43.074 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11915, sim_gates:5146, ngpus:1, comp:31.086 ms, comm:0.000 ms, sim:31.086 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16661, sim_gates:7192, ngpus:1, comp:42.752 ms, comm:0.000 ms, sim:42.752 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:1901, sim_gates:851, ngpus:1, comp:6.586 ms, comm:0.000 ms, sim:6.586 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17382, sim_gates:7481, ngpus:1, comp:44.114 ms, comm:0.000 ms, sim:44.114 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17267, sim_gates:7374, ngpus:1, comp:43.301 ms, comm:0.000 ms, sim:43.301 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:15083, sim_gates:6552, ngpus:1, comp:40.290 ms, comm:0.000 ms, sim:40.290 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17612, sim_gates:7585, ngpus:1, comp:44.608 ms, comm:0.000 ms, sim:44.608 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16533, sim_gates:7135, ngpus:1, comp:42.193 ms, comm:0.000 ms, sim:42.193 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:14479, sim_gates:6238, ngpus:1, comp:38.903 ms, comm:0.000 ms, sim:38.903 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3368, sim_gates:1433, ngpus:1, comp:9.987 ms, comm:0.000 ms, sim:9.987 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:7051, sim_gates:3022, ngpus:1, comp:19.232 ms, comm:0.000 ms, sim:19.232 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12087, sim_gates:5202, ngpus:1, comp:31.512 ms, comm:0.000 ms, sim:31.512 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:7069, sim_gates:3014, ngpus:1, comp:19.107 ms, comm:0.000 ms, sim:19.107 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12146, sim_gates:5507, ngpus:1, comp:33.028 ms, comm:0.000 ms, sim:33.028 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17093, sim_gates:7445, ngpus:1, comp:44.623 ms, comm:0.000 ms, sim:44.623 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3211, sim_gates:1404, ngpus:1, comp:9.706 ms, comm:0.000 ms, sim:9.706 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12169, sim_gates:5228, ngpus:1, comp:31.947 ms, comm:0.000 ms, sim:31.947 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:12788, sim_gates:5776, ngpus:1, comp:34.509 ms, comm:0.000 ms, sim:34.509 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:6882, sim_gates:2970, ngpus:1, comp:18.880 ms, comm:0.000 ms, sim:18.880 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17012, sim_gates:7474, ngpus:1, comp:44.540 ms, comm:0.000 ms, sim:44.540 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9493, sim_gates:3884, ngpus:1, comp:24.422 ms, comm:0.000 ms, sim:24.422 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:16491, sim_gates:7215, ngpus:1, comp:43.297 ms, comm:0.000 ms, sim:43.297 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:17605, sim_gates:7619, ngpus:1, comp:45.092 ms, comm:0.000 ms, sim:45.092 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:13250, sim_gates:5855, ngpus:1, comp:35.715 ms, comm:0.000 ms, sim:35.715 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3070, sim_gates:1242, ngpus:1, comp:8.544 ms, comm:0.000 ms, sim:8.544 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:7835, sim_gates:3387, ngpus:1, comp:21.170 ms, comm:0.000 ms, sim:21.170 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11570, sim_gates:4825, ngpus:1, comp:29.523 ms, comm:0.000 ms, sim:29.523 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:3343, sim_gates:1411, ngpus:1, comp:9.797 ms, comm:0.000 ms, sim:9.797 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:11833, sim_gates:4974, ngpus:1, comp:30.854 ms, comm:0.000 ms, sim:30.854 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:9481, sim_gates:3849, ngpus:1, comp:24.421 ms, comm:0.000 ms, sim:24.421 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:310, sim_gates:104, ngpus:1, comp:0.494 ms, comm:0.000 ms, sim:0.494 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+SVSim_gpu is running! Requesting 12 qubits.
+
+============== SV-Sim ===============
+n_qubits:12, n_gates:5787, sim_gates:2725, ngpus:1, comp:17.219 ms, comm:0.000 ms, sim:17.219 ms, mem:0.125 MB, mem_per_gpu:0.125 MB
+=====================================
+
+----------- Iteration Summary -----------
+ Iter   Objective Value            # Evals  Grad Norm  |  Depth     #1q Gates  #2q Gates  GPU Mem(GB) |  Selected Operator                          
+------------------------------------------------------------------------------------------------------------------------------------
+
+--- Memory Breakdown (Iteration 0) ---
+  CPU RSS: 386.0 MB
+  GPU Total: 42.3 GB
+  GPU Used: 0.5 GB
+  GPU Free: 41.8 GB
+  Ansatz depth: 84
+  Parameters: 1
+-----------------------------------------------
+ 0      -231.77481423343784        21       2.806e-01  |  84        214        96         0.54        |  (4^ 3^ 2 1 ), (10^ 9^ 8 7 ),
+ 1      -231.77736298425708        36       2.046e-01  |  306       422        256        0.54        |  (10^ 3^ 8 1 ), (9^ 4^ 7 2 ),
+ 2      -231.78168090597137        52       1.728e-01  |  390       526        304        0.54        |  (9^ 3^ 8 2 ),
+ 3      -231.78610288302843        78       1.328e-01  |  531       630        416        0.54        |  (10^ 4^ 7 1 ),
+ 4      -231.78689091127561        81       7.034e-02  |  643       734        496        0.54        |  (10^ 4^ 8 2 ),
+
+--- Memory Breakdown (Iteration 5) ---
+  CPU RSS: 385.05 MB
+  GPU Total: 42.29 GB
+  GPU Used: 0.54 GB
+  GPU Free: 41.75 GB
+  Ansatz depth: 754
+  Parameters: 6
+-----------------------------------------------
+ 5      -231.78772267665508        96       5.215e-02  |  754       838        576        0.54        |  (9^ 3^ 7 1 ),
+ 6      -231.78774215201724        86       1.573e-02  |  959       942        752        0.54        |  (11^ 5^ 6 0 ),
+ 7      -231.78776376223391        103      1.250e-02  |  1134      1046       896        0.54        |  (10^ 4^ 6 0 ),
+ 8      -231.78777508468002        134      8.387e-03  |  1277      1150       1008       0.54        |  (9^ 3^ 6 0 ),
+ 9      -231.78777755937648        146      5.172e-03  |  1502      1358       1168       0.54        |  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ),
+
+--- Memory Breakdown (Iteration 10) ---
+  CPU RSS: 385.08 MB
+  GPU Total: 42.29 GB
+  GPU Used: 0.54 GB
+  GPU Free: 41.75 GB
+  Ansatz depth: 1676
+  Parameters: 11
+-----------------------------------------------
+ 10     -231.78777848937048        107      3.778e-03  |  1676      1462       1312       0.54        |  (11^ 5^ 7 1 ),
+ 11     -231.78778080796550        142      3.059e-03  |  1820      1566       1424       0.54        |  (11^ 5^ 8 2 ),
+ 12     -231.78778101348883        134      1.770e-03  |  2043      1774       1584       0.54        |  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ),
+ 13     -231.78778109525851        157      1.441e-03  |  2126      1878       1632       0.54        |  (9^ 3^ 8 2 ),
+ 14     -231.78778109889052        150      1.648e-03  |  2350      2086       1792       0.54        |  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ),
+
+--------- Result Summary ---------
+Method                 : ADAPT-VQE
+Ansatz                 : UCCSD Minimal (Dynamic)
+# Ham. Pauli Strings   : 905 
+# Ham. Commuting Groups: 315 
+# Communting Groups (ADAPT): 34208
+# Pauli Strings (ADAPT)    : 91212
+Commutator Time (ADAPT)    : 0 hrs 0 mins 2.3294 secs
+Operator Stats             : 15 operators, 15 parameters, and 3878 Gates
+Circuit Stats              : 2350 depth, 2086 1q gates, 1792 2q gates, 0.201 gate density
+Optimization terminated    : Abs. tol. for operator gradient norm is reached
+# ADAPT rounds             : 15
+Evaluation Time            : 0 hrs 1 mins 23.8004 secs
+Final objective value      : -231.7877810988905196
+Final parameters:
+  (4^ 3^ 2 1 ), (10^ 9^ 8 7 ), :: 6.2351546184823601
+  (10^ 3^ 8 1 ), (9^ 4^ 7 2 ), :: 3.0950139263200263
+  (9^ 3^ 8 2 ), :: -0.0787244957276720
+  (10^ 4^ 7 1 ), :: -0.0786520248969808
+  (10^ 4^ 8 2 ), :: -0.0334534260111963
+  (9^ 3^ 7 1 ), :: -0.0332609522438724
+  (11^ 5^ 6 0 ), :: 3.1375884808031604
+  (10^ 4^ 6 0 ), :: -0.0047424222239084
+  (9^ 3^ 6 0 ), :: -0.0033890296539208
+  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ), :: 0.0011455857353470
+  (11^ 5^ 7 1 ), :: -0.0014068030727742
+  (11^ 5^ 8 2 ), :: -0.0012482088673966
+  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ), :: 3.1419243016083098
+  (9^ 3^ 8 2 ), :: 0.0001840063173308
+  (9^ 4^ 8 1 ), (10^ 3^ 7 2 ), :: -0.0002728833687954
+
+=== Final Memory State ===
+CPU Memory:
+               total        used        free      shared  buff/cache   available
+Mem:           251Gi        22Gi       234Gi       701Mi       1.4Gi       228Gi
+Swap:             0B          0B          0B
+GPU Memory:
+40960, 40327, 1
+Memory profiling complete.

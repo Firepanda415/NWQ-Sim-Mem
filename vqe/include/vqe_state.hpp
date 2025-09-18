@@ -454,6 +454,14 @@ namespace NWQSim
       virtual void delete_observables(ObservableList* observables, IdxType size) {
         delete[] observables;
       };
+      
+      // PHASE 1 MEMORY FIX: Add virtual method to deallocate and reallocate simulation state
+      virtual void deallocate_simulation_state() {
+        // Default implementation - overridden by backends that support state deallocation
+      };
+      virtual void reallocate_simulation_state() {
+        // Default implementation - overridden by backends that support state reallocation  
+      };
       virtual ValType energy(const std::vector<double>& x) {
         ansatz->setParams(x);
 
@@ -476,8 +484,8 @@ namespace NWQSim
       size_t get_numpauli() const { return num_pauli_terms_total;}; // MZ, for adapt-vqe
       void set_numpauli(size_t value) { num_pauli_terms_total = value; }; //MZ, for adapt-vqe
 
-      size_t  get_numcomm() const { return num_comm_cliques;}; // MZ, for adapt-vqe
-      void set_numcomm(size_t value) { num_comm_cliques = value; }; //MZ, for adapt-vqe
+      size_t  get_numcomm() const { return num_comm_group;}; // MZ, for adapt-vqe
+      void set_numcomm(size_t value) { num_comm_group = value; }; //MZ, for adapt-vqe
 
       int get_adaptrounds() const {return num_adapt_rounds;}; // MZ: for adapt-vqe
       void set_adaptrounds(int rounds) { num_adapt_rounds = rounds;}; // MZ: for adapt-vqe
@@ -508,7 +516,7 @@ namespace NWQSim
         double opt_duration;                               // MZ: time the optimization
         double comm_duration;                              // MZ: time construction of ADAPT-VQE Commutators
         size_t num_pauli_terms_total;                      // MZ: Total number of Pauli terms in the commutator, for ADAPT-VQE 
-        size_t num_comm_cliques;                           // MZ: Total number of commuting cliques, for ADAPT-VQE 
+        size_t num_comm_group;                           // MZ: Total number of commuting cliques, for ADAPT-VQE 
         int num_adapt_rounds;                              // MZ: total number of ADAPT rounds
         int adapt_result;                                  // MZ: save adapt results: 
                                                            //    0 -> Reach gradient norm tolerance
