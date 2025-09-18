@@ -175,26 +175,26 @@ namespace NWQSim {
             double cpu_current_mb = vm_rss_current_kb / 1024.0;
 
             if (i == 0) {
-              std::cout << "\n┌─ OPERATOR PROCESSING PROGRESS ──────────────────────────────────────────────┐" << std::endl;
-              std::cout << "│ Op#  │ CPU(MB) │ ΔCpu │ GPU(GB) │ ΔGpu │ Paulis │ Cliques │ Efficiency │" << std::endl;
-              std::cout << "├──────┼─────────┼──────┼─────────┼──────┼────────┼─────────┼────────────┤" << std::endl;
+              std::cout << "\nOperator Processing Progress:" << std::endl;
+              std::cout << "Op#     CPU(MB)  ΔCpu  GPU(GB)  ΔGpu  Paulis  Cliques  Efficiency" << std::endl;
+              std::cout << "------- -------- ----- -------- ----- ------- -------- ----------" << std::endl;
             }
 
             #ifdef CUDA_ENABLED
-            std::cout << "│ " << std::setw(4) << i << " │ "
-                      << std::setw(7) << std::fixed << std::setprecision(1) << cpu_current_mb << " │ "
-                      << std::setw(4) << std::fixed << std::setprecision(1) << cpu_delta_mb << " │ "
-                      << std::setw(7) << std::fixed << std::setprecision(2) << (gpu_used_current / 1e9) << " │ "
-                      << std::setw(4) << std::fixed << std::setprecision(2) << (gpu_delta / 1e9) << " │ "
-                      << std::setw(6) << "..." << " │ " << std::setw(7) << "..." << " │ "
-                      << std::setw(10) << "..." << " │" << std::endl;
+            std::cout << std::setw(7) << i << " " 
+                      << std::setw(8) << std::fixed << std::setprecision(1) << cpu_current_mb << " "
+                      << std::setw(5) << std::fixed << std::setprecision(1) << cpu_delta_mb << " "
+                      << std::setw(8) << std::fixed << std::setprecision(2) << (gpu_used_current / 1e9) << " "
+                      << std::setw(5) << std::fixed << std::setprecision(2) << (gpu_delta / 1e9) << " "
+                      << std::setw(7) << "..." << " " << std::setw(8) << "..." << " "
+                      << std::setw(10) << "..." << std::endl;
             #else
-            std::cout << "│ " << std::setw(4) << i << " │ "
-                      << std::setw(7) << std::fixed << std::setprecision(1) << cpu_current_mb << " │ "
-                      << std::setw(4) << std::fixed << std::setprecision(1) << cpu_delta_mb << " │ "
-                      << std::setw(7) << "N/A" << " │ " << std::setw(4) << "N/A" << " │ "
-                      << std::setw(6) << "..." << " │ " << std::setw(7) << "..." << " │ "
-                      << std::setw(10) << "..." << " │" << std::endl;
+            std::cout << std::setw(7) << i << " " 
+                      << std::setw(8) << std::fixed << std::setprecision(1) << cpu_current_mb << " "
+                      << std::setw(5) << std::fixed << std::setprecision(1) << cpu_delta_mb << " "
+                      << std::setw(8) << "N/A" << " " << std::setw(5) << "N/A" << " "
+                      << std::setw(7) << "..." << " " << std::setw(8) << "..." << " "
+                      << std::setw(10) << "..." << std::endl;
             #endif
           }
           
@@ -234,8 +234,7 @@ namespace NWQSim {
             state->force_memory_cleanup();
 
             if (state->get_process_rank() == 0) {
-              std::cout << "│      ⚡ MEMORY CLEANUP: Forced cleanup at operator " << i
-                        << " (every 10 ops)                │" << std::endl;
+              std::cout << "      MEMORY CLEANUP: Forced cleanup at operator " << i << " (every 10 ops)" << std::endl;
             }
           }
           
@@ -270,27 +269,26 @@ namespace NWQSim {
             size_t gpu_used_current = gpu_total_current - gpu_free_current;
             size_t gpu_delta = (gpu_free_initial > gpu_free_current) ? (gpu_free_initial - gpu_free_current) : 0;
 
-            std::cout << "│ " << std::setw(4) << i << " │ "
-                      << std::setw(7) << std::fixed << std::setprecision(1) << "..." << " │ "
-                      << std::setw(4) << std::fixed << std::setprecision(1) << "..." << " │ "
-                      << std::setw(7) << std::fixed << std::setprecision(2) << (gpu_used_current / 1e9) << " │ "
-                      << std::setw(4) << std::fixed << std::setprecision(2) << (gpu_delta / 1e9) << " │ "
-                      << std::setw(6) << pauli_terms_size << " │ " << std::setw(7) << cliques_size << " │ "
-                      << std::setw(9) << std::fixed << std::setprecision(1) << efficiency << "% │" << std::endl;
+            std::cout << std::setw(7) << i << " " 
+                      << std::setw(8) << "..." << " " << std::setw(5) << "..." << " "
+                      << std::setw(8) << std::fixed << std::setprecision(2) << (gpu_used_current / 1e9) << " "
+                      << std::setw(5) << std::fixed << std::setprecision(2) << (gpu_delta / 1e9) << " "
+                      << std::setw(7) << pauli_terms_size << " " << std::setw(8) << cliques_size << " "
+                      << std::setw(9) << std::fixed << std::setprecision(1) << efficiency << "%" << std::endl;
             #else
-            std::cout << "│ " << std::setw(4) << i << " │ "
-                      << std::setw(7) << "..." << " │ " << std::setw(4) << "..." << " │ "
-                      << std::setw(7) << "N/A" << " │ " << std::setw(4) << "N/A" << " │ "
-                      << std::setw(6) << pauli_terms_size << " │ " << std::setw(7) << cliques_size << " │ "
-                      << std::setw(9) << std::fixed << std::setprecision(1) << efficiency << "% │" << std::endl;
+            std::cout << std::setw(7) << i << " " 
+                      << std::setw(8) << "..." << " " << std::setw(5) << "..." << " "
+                      << std::setw(8) << "N/A" << " " << std::setw(5) << "N/A" << " "
+                      << std::setw(7) << pauli_terms_size << " " << std::setw(8) << cliques_size << " "
+                      << std::setw(9) << std::fixed << std::setprecision(1) << efficiency << "%" << std::endl;
             #endif
 
             // Show detailed breakdown for first few operators
             if (i < 3) {
-              std::cout << "│      └─ Memory breakdown: Coeffs=" << std::fixed << std::setprecision(2)
+              std::cout << "        Memory breakdown: Coeffs=" << std::fixed << std::setprecision(2)
                         << (operator_coeff_memory / 1024.0) << "KB, ZMasks="
                         << (operator_zmask_memory / 1024.0) << "KB, Obs="
-                        << (operator_observable_memory / 1024.0) << "KB     │" << std::endl;
+                        << (operator_observable_memory / 1024.0) << "KB" << std::endl;
             }
           }
 
@@ -336,7 +334,7 @@ namespace NWQSim {
 
         // Close the progress table
         if (state->get_process_rank() == 0) {
-          std::cout << "└──────┴─────────┴──────┴─────────┴──────┴────────┴─────────┴────────────┘" << std::endl;
+          std::cout << "------- -------- ----- -------- ----- ------- -------- ----------" << std::endl;
         }
 
         // MEMORY OPTIMIZATION: Final comprehensive cleanup after all operators processed
@@ -365,40 +363,24 @@ namespace NWQSim {
           size_t memory_used_by_operators = gpu_free_initial - gpu_free_final;
           #endif
           
-          std::cout << "\n┌─ PHASE 3: FINAL MEMORY ANALYSIS ────────────────────────────────────────────┐" << std::endl;
-          std::cout << "│ Operator Pool Generation Complete                                           │" << std::endl;
-          std::cout << "│   • Total operators processed: " << std::setw(8) << pauli_op_pool.size() << "                                  │" << std::endl;
-          std::cout << "│   • Total Pauli strings:       " << std::setw(8) << num_pauli_terms_total << "                                  │" << std::endl;
-          std::cout << "│   • Total commuting groups:    " << std::setw(8) << num_commuting_groups << "                                  │" << std::endl;
-          std::cout << "└─────────────────────────────────────────────────────────────────────────────┘" << std::endl;
+          std::cout << "\nFinal Memory Analysis:" << std::endl;
+          std::cout << "  Total operators processed: " << pauli_op_pool.size() << std::endl;
+          std::cout << "  Total Pauli strings: " << num_pauli_terms_total << std::endl;
+          std::cout << "  Total commuting groups: " << num_commuting_groups << std::endl;
 
-          std::cout << "\n┌─ MEMORY CONSUMPTION BREAKDOWN ──────────────────────────────────────────────┐" << std::endl;
-          std::cout << "│                                                                             │" << std::endl;
-          std::cout << "│ CPU Memory Analysis:                                                        │" << std::endl;
-          std::cout << "│   • Initial RSS:              " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (vm_rss_kb / 1024.0) << " MB                                    │" << std::endl;
-          std::cout << "│   • Final RSS:                " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (vm_rss_final_kb / 1024.0) << " MB                                    │" << std::endl;
-          std::cout << "│   • Net CPU increase:          " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << ((vm_rss_final_kb - vm_rss_kb) / 1024.0) << " MB                                    │" << std::endl;
-          std::cout << "│   • Peak memory usage:        " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (vm_peak_final_kb / 1024.0) << " MB                                    │" << std::endl;
-          std::cout << "│   • Virtual memory size:      " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (vm_size_final_kb / 1024.0) << " MB                                    │" << std::endl;
+          std::cout << "\nCPU Memory Analysis:" << std::endl;
+          std::cout << "  Initial RSS: " << std::fixed << std::setprecision(2) << (vm_rss_kb / 1024.0) << " MB" << std::endl;
+          std::cout << "  Final RSS: " << std::fixed << std::setprecision(2) << (vm_rss_final_kb / 1024.0) << " MB" << std::endl;
+          std::cout << "  Net CPU increase: " << std::fixed << std::setprecision(2) << ((vm_rss_final_kb - vm_rss_kb) / 1024.0) << " MB" << std::endl;
+          std::cout << "  Peak memory usage: " << std::fixed << std::setprecision(2) << (vm_peak_final_kb / 1024.0) << " MB" << std::endl;
 
           #ifdef CUDA_ENABLED
-          std::cout << "│                                                                             │" << std::endl;
-          std::cout << "│ GPU Memory Analysis:                                                        │" << std::endl;
-          std::cout << "│   • Initial free:             " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (gpu_free_initial / (1024.0*1024.0*1024.0)) << " GB                                    │" << std::endl;
-          std::cout << "│   • Final free:               " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (gpu_free_final / (1024.0*1024.0*1024.0)) << " GB                                    │" << std::endl;
-          std::cout << "│   • Net GPU consumption:      " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (memory_used_by_operators / (1024.0*1024.0*1024.0)) << " GB                                    │" << std::endl;
-          std::cout << "│   • Total GPU capacity:       " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (gpu_total / (1024.0*1024.0*1024.0)) << " GB                                    │" << std::endl;
+          std::cout << "\nGPU Memory Analysis:" << std::endl;
+          std::cout << "  Initial free: " << std::fixed << std::setprecision(2) << (gpu_free_initial / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          std::cout << "  Final free: " << std::fixed << std::setprecision(2) << (gpu_free_final / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          std::cout << "  Net GPU consumption: " << std::fixed << std::setprecision(2) << (memory_used_by_operators / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          std::cout << "  Total GPU capacity: " << std::fixed << std::setprecision(2) << (gpu_total / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
           #endif
-          std::cout << "└─────────────────────────────────────────────────────────────────────────────┘" << std::endl;
 
           // Calculate detailed memory breakdown and validate clique computation
           size_t total_cliques_validation = 0;
@@ -408,8 +390,8 @@ namespace NWQSim {
 
           // Validation check: num_commuting_groups should equal total_cliques_validation
           if (num_commuting_groups != total_cliques_validation) {
-            std::cout << "\n⚠️  WARNING: Commuting groups count mismatch!" << std::endl;
-            std::cout << "   Expected: " << num_commuting_groups << ", Actual: " << total_cliques_validation << std::endl;
+            std::cout << "\nWARNING: Commuting groups count mismatch!" << std::endl;
+            std::cout << "  Expected: " << num_commuting_groups << ", Actual: " << total_cliques_validation << std::endl;
           }
 
           size_t total_cliques = total_cliques_validation;
@@ -421,30 +403,19 @@ namespace NWQSim {
           size_t gradient_circuits = poolsize * 1024; // Estimate for gradient measurement circuits
           size_t total_estimated = coeff_memory + zmask_memory + observable_structs + gradient_circuits;
 
-          std::cout << "\n┌─ DETAILED COMPONENT MEMORY BREAKDOWN ───────────────────────────────────────┐" << std::endl;
-          std::cout << "│                                                                             │" << std::endl;
-          std::cout << "│ Data Structure Analysis:                                                    │" << std::endl;
-          std::cout << "│   • Operators in pool:        " << std::setw(8) << poolsize << "                                    │" << std::endl;
-          std::cout << "│   • Commuting groups:          " << std::setw(8) << total_cliques << "                                    │" << std::endl;
-          std::cout << "│   • Pauli terms total:        " << std::setw(8) << num_pauli_terms_total << "                                    │" << std::endl;
-          std::cout << "│   • Avg Pauli/operator:       " << std::setw(8) << std::fixed << std::setprecision(0)
-                    << (num_pauli_terms_total / poolsize) << "                                    │" << std::endl;
-          std::cout << "│   • Avg groups/operator:      " << std::setw(8) << std::fixed << std::setprecision(0)
-                    << (total_cliques / poolsize) << "                                    │" << std::endl;
-          std::cout << "│                                                                             │" << std::endl;
-          std::cout << "│ Memory Component Breakdown:                                                 │" << std::endl;
-          std::cout << "│   • Coefficients storage:     " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (coeff_memory / (1024.0*1024.0)) << " MB                                    │" << std::endl;
-          std::cout << "│   • Z-mask storage:           " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (zmask_memory / (1024.0*1024.0)) << " MB                                    │" << std::endl;
-          std::cout << "│   • Observable structures:    " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (observable_structs / (1024.0*1024.0)) << " MB                                    │" << std::endl;
-          std::cout << "│   • Gradient circuits:        " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (gradient_circuits / (1024.0*1024.0)) << " MB                                    │" << std::endl;
-          std::cout << "│   ────────────────────────────────────────────────────────────────────── │" << std::endl;
-          std::cout << "│   • TOTAL ESTIMATED:          " << std::setw(8) << std::fixed << std::setprecision(2)
-                    << (total_estimated / (1024.0*1024.0)) << " MB                                    │" << std::endl;
-          std::cout << "│                                                                             │" << std::endl;
+          std::cout << "\nDetailed Component Memory Breakdown:" << std::endl;
+          std::cout << "  Operators in pool: " << poolsize << std::endl;
+          std::cout << "  Commuting groups: " << total_cliques << std::endl;
+          std::cout << "  Pauli terms total: " << num_pauli_terms_total << std::endl;
+          std::cout << "  Avg Pauli/operator: " << std::fixed << std::setprecision(0) << (num_pauli_terms_total / poolsize) << std::endl;
+          std::cout << "  Avg groups/operator: " << std::fixed << std::setprecision(0) << (total_cliques / poolsize) << std::endl;
+
+          std::cout << "\nMemory Component Breakdown:" << std::endl;
+          std::cout << "  Coefficients storage: " << std::fixed << std::setprecision(2) << (coeff_memory / (1024.0*1024.0)) << " MB" << std::endl;
+          std::cout << "  Z-mask storage: " << std::fixed << std::setprecision(2) << (zmask_memory / (1024.0*1024.0)) << " MB" << std::endl;
+          std::cout << "  Observable structures: " << std::fixed << std::setprecision(2) << (observable_structs / (1024.0*1024.0)) << " MB" << std::endl;
+          std::cout << "  Gradient circuits: " << std::fixed << std::setprecision(2) << (gradient_circuits / (1024.0*1024.0)) << " MB" << std::endl;
+          std::cout << "  TOTAL ESTIMATED: " << std::fixed << std::setprecision(2) << (total_estimated / (1024.0*1024.0)) << " MB" << std::endl;
 
           // Memory efficiency analysis
           double memory_efficiency = 100.0;
@@ -454,23 +425,18 @@ namespace NWQSim {
             memory_efficiency = (estimated_mb / actual_increase) * 100.0;
           }
 
-          std::cout << "│ Memory Efficiency Analysis:                                                 │" << std::endl;
-          std::cout << "│   • Estimated vs Actual:      " << std::setw(8) << std::fixed << std::setprecision(1)
-                    << memory_efficiency << "%                                    │" << std::endl;
+          std::cout << "\nMemory Efficiency Analysis:" << std::endl;
+          std::cout << "  Estimated vs Actual: " << std::fixed << std::setprecision(1) << memory_efficiency << "%" << std::endl;
 
           if (memory_efficiency < 50.0) {
-            std::cout << "│   ⚠️  LOW EFFICIENCY: Possible memory leaks detected                        │" << std::endl;
+            std::cout << "  WARNING: LOW EFFICIENCY - Possible memory leaks detected" << std::endl;
           } else if (memory_efficiency > 150.0) {
-            std::cout << "│   ℹ️  HIGH EFFICIENCY: Memory usage better than estimated                   │" << std::endl;
+            std::cout << "  INFO: HIGH EFFICIENCY - Memory usage better than estimated" << std::endl;
           } else {
-            std::cout << "│   ✅ GOOD EFFICIENCY: Memory usage within expected range                    │" << std::endl;
+            std::cout << "  OK: GOOD EFFICIENCY - Memory usage within expected range" << std::endl;
           }
 
-          std::cout << "└─────────────────────────────────────────────────────────────────────────────┘" << std::endl;
-
-          std::cout << "\n╔══════════════════════════════════════════════════════════════════════════════╗" << std::endl;
-          std::cout << "║                    ADAPT-VQE MEMORY PROFILING COMPLETE                      ║" << std::endl;
-          std::cout << "╚══════════════════════════════════════════════════════════════════════════════╝" << std::endl;
+          std::cout << "\n=== ADAPT-VQE MEMORY PROFILING COMPLETE ===" << std::endl;
         }
       }
 
@@ -533,12 +499,10 @@ namespace NWQSim {
           // Print update
           if (state->get_process_rank() == 0) {
             if (iter == 0) {
-              std::cout << "\n╔══════════════════════════════════════════════════════════════════════════════╗" << std::endl;
-              std::cout << "║                        ADAPT-VQE OPTIMIZATION PHASE                         ║" << std::endl;
-              std::cout << "╚══════════════════════════════════════════════════════════════════════════════╝" << std::endl;
-              std::cout << "\n┌─ OPTIMIZATION PROGRESS ─────────────────────────────────────────────────────┐" << std::endl;
-              std::cout << "│ Iter │    Energy (Hartree)     │ Evals │ Grad Norm │ Depth │ 1qG │ 2qG │ GPU(GB) │" << std::endl;
-              std::cout << "├──────┼─────────────────────────┼───────┼───────────┼───────┼─────┼─────┼─────────┤" << std::endl;
+              std::cout << "\n=== ADAPT-VQE OPTIMIZATION PHASE ===" << std::endl;
+              std::cout << "\nOptimization Progress:" << std::endl;
+              std::cout << "Iter    Energy (Hartree)        Evals  Grad Norm  Depth  1qG  2qG  GPU(GB)" << std::endl;
+              std::cout << "----  ----------------------  ------  ---------  -----  ---  ---  --------" << std::endl;
             }
             NWQSim::CircuitMetrics metrics = ansatz -> circuit_metrics();
             
@@ -562,35 +526,31 @@ namespace NWQSim {
                 }
               }
 
-              std::cout << "├──────┴─────────────────────────┴───────┴───────────┴───────┴─────┴─────┴─────────┤" << std::endl;
-              std::cout << "│ 📊 MEMORY SNAPSHOT (Iteration " << std::setw(2) << iter << ")                                          │" << std::endl;
-              std::cout << "│   • CPU RSS:        " << std::setw(8) << std::fixed << std::setprecision(1)
-                        << (vm_rss_opt_kb / 1024.0) << " MB                                              │" << std::endl;
-              std::cout << "│   • GPU Used:       " << std::setw(8) << std::fixed << std::setprecision(2)
-                        << gpu_used_gb << " GB                                              │" << std::endl;
-              std::cout << "│   • GPU Free:       " << std::setw(8) << std::fixed << std::setprecision(2)
-                        << (gpu_free / 1e9) << " GB                                              │" << std::endl;
-              std::cout << "│   • Circuit Depth:  " << std::setw(8) << metrics.depth << "                                                  │" << std::endl;
-              std::cout << "│   • Parameters:     " << std::setw(8) << parameters.size() << "                                                  │" << std::endl;
-              std::cout << "├──────┬─────────────────────────┬───────┬───────────┬───────┬─────┬─────┬─────────┤" << std::endl;
+              std::cout << "----  ----------------------  ------  ---------  -----  ---  ---  --------" << std::endl;
+              std::cout << "MEMORY SNAPSHOT (Iteration " << iter << "):" << std::endl;
+              std::cout << "  CPU RSS: " << std::fixed << std::setprecision(1) << (vm_rss_opt_kb / 1024.0) << " MB" << std::endl;
+              std::cout << "  GPU Used: " << std::fixed << std::setprecision(2) << gpu_used_gb << " GB" << std::endl;
+              std::cout << "  GPU Free: " << std::fixed << std::setprecision(2) << (gpu_free / 1e9) << " GB" << std::endl;
+              std::cout << "  Circuit Depth: " << metrics.depth << std::endl;
+              std::cout << "  Parameters: " << parameters.size() << std::endl;
+              std::cout << "----  ----------------------  ------  ---------  -----  ---  ---  --------" << std::endl;
             }
             #else
             double gpu_used_gb = 0.0;
             #endif
 
-            // Format the optimization progress in the enhanced table
-            std::cout << "│ " << std::setw(4) << iter << " │ "
-                      << std::setw(23) << std::fixed << std::setprecision(12) << ene << " │ "
-                      << std::setw(5) << num_func_evals << " │ "
-                      << std::setw(9) << std::scientific << std::setprecision(2) << grad_norm << " │ "
-                      << std::setw(5) << metrics.depth << " │ "
-                      << std::setw(3) << metrics.one_q_gates << " │ "
-                      << std::setw(3) << metrics.two_q_gates << " │ "
-                      << std::setw(7) << std::fixed << std::setprecision(2) << gpu_used_gb << " │" << std::endl;
+            // Format the optimization progress
+            std::cout << std::setw(4) << iter << "  "
+                      << std::setw(22) << std::fixed << std::setprecision(12) << ene << "  "
+                      << std::setw(6) << num_func_evals << "  "
+                      << std::setw(9) << std::scientific << std::setprecision(2) << grad_norm << "  "
+                      << std::setw(5) << metrics.depth << "  "
+                      << std::setw(3) << metrics.one_q_gates << "  "
+                      << std::setw(3) << metrics.two_q_gates << "  "
+                      << std::setw(8) << std::fixed << std::setprecision(2) << gpu_used_gb << std::endl;
 
             // Show selected operator details
-            std::cout << "│      └─ Selected: " << std::left << std::setw(58)
-                      << ansatz->get_operator_string(max_ind) << " │" << std::endl;
+            std::cout << "      Selected operator: " << ansatz->get_operator_string(max_ind) << std::endl;
           }
 
           // If the function value converged, then break
@@ -603,8 +563,8 @@ namespace NWQSim {
 
         // Close the optimization progress table
         if (state->get_process_rank() == 0) {
-          std::cout << "└──────┴─────────────────────────┴───────┴───────────┴───────┴─────┴─────┴─────────┘" << std::endl;
-          std::cout << "\n🎯 ADAPT-VQE Optimization completed after " << iter << " iterations" << std::endl;
+          std::cout << "----  ----------------------  ------  ---------  -----  ---  ---  --------" << std::endl;
+          std::cout << "\nADAPT-VQE Optimization completed after " << iter << " iterations" << std::endl;
         }
 
         state->set_adaptrounds(iter); // MZ: record numebr of ADAPT rounds
