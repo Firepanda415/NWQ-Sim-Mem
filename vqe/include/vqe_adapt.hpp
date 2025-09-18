@@ -26,10 +26,15 @@ namespace NWQSim {
         std::vector<IdxType> observable_sizes; // Stores the number of commuting cliques for each commutator  
         size_t num_pauli_terms_total; // MZ: Total number of Pauli terms in the commutator
         size_t num_comm_cliques; // MZ: Total number of commuting cliques
+        size_t num_commuting_groups; // MZ: Total number of commuting groups (measurement cliques)
 
     public: 
         size_t get_numpauli() const { return num_pauli_terms_total;}; // MZ
         void set_numpauli(size_t value) { num_pauli_terms_total = value; }; //MZ
+        
+        size_t get_numcommutinggroups() const { return num_commuting_groups;}; // MZ: Get number of commuting groups
+        void set_numcommutinggroups(size_t value) { num_commuting_groups = value; }; //MZ
+        
         size_t  get_numcomm() const { return num_comm_cliques;}; // MZ
         void set_numcomm(size_t value) { num_comm_cliques = value; }; //MZ
 
@@ -276,9 +281,6 @@ namespace NWQSim {
           comm_ops.clear();
           comm_ops.shrink_to_fit();
           cliques.clear();
-          
-          // Explicit state vector deallocation after each operator to prevent memory leaks
-          state->deallocate_simulation_state();
         }
         
         // Final memory analysis and categorical breakdown
