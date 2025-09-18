@@ -90,6 +90,50 @@ namespace NWQSim {
         const auto& pauli_op_pool = ansatz->get_pauli_op_pool();
         IdxType poolsize = pauli_op_pool.size();
         
+        // Memory profiling variables
+        size_t cumulative_observable_memory_mb = 0;
+        size_t cumulative_coefficient_memory_mb = 0;
+        size_t cumulative_zmask_memory_mb = 0;
+        size_t cumulative_clique_memory_mb = 0;
+        size_t total_observables_created = 0;
+        
+        // Initial memory state tracking
+        size_t initial_cpu_rss = 0;
+        #ifdef CUDA_ENABLED
+        size_t initial_gpu_free = 0, gpu_total = 0;
+        #endif
+        
+        if (state->get_process_rank() == 0) {
+          // Get initial CPU memory
+          std::ifstream status_file("/proc/self/status");
+          std::string line;
+          while (std::getline(status_file, line)) {
+            if (line.find("VmRSS:") == 0) {
+              sscanf(line.c_str(), "VmRSS: %zu kB", &initial_cpu_rss);
+              break;
+            }
+          }
+          
+          #ifdef CUDA_ENABLED
+          cudaMemGetInfo(&initial_gpu_free, &gpu_total);
+          #endif
+          
+          std::cout << "\n=== ADAPT-VQE Memory Profiling (CPU + GPU) ===" << std::endl;
+          std::cout << "Initial CPU memory:" << std::endl;
+          std::cout << "  RSS (Resident Set Size): " << std::fixed << std::setprecision(2) << (initial_cpu_rss / 1024.0) << " MB" << std::endl;
+          
+          #ifdef CUDA_ENABLED
+          std::cout << "Initial GPU memory:" << std::endl;
+          std::cout << "  Total GPU memory: " << std::fixed << std::setprecision(4) << (gpu_total / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          std::cout << "  Free GPU memory: " << std::fixed << std::setprecision(4) << ((initial_gpu_free) / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          std::cout << "  Used GPU memory: " << std::fixed << std::setprecision(4) << ((gpu_total - initial_gpu_free) / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          #endif
+          
+          std::cout << "\nStarting UCCSD operator pool allocation..." << std::endl;
+          std::cout << "  Pool size: " << poolsize << " operators" << std::endl;
+          std::cout << "  Hamiltonian terms: " << pauli_strings.size() << std::endl;
+        }
+        
         // allocate memory for commutator structures
         commutator_coeffs.resize(poolsize);
         gradient_measurement.resize(poolsize);
@@ -97,15 +141,45 @@ namespace NWQSim {
         gradient_magnitudes.resize(poolsize);
         gradient_observables.resize(poolsize);
         observable_sizes.resize(poolsize);
-        // size_t num_pauli_terms_total = 0; // MZ: want to pass this value out
-        num_pauli_terms_total = 0; // MZ: Initialize the total number of Pauli terms in the commutator
+        num_pauli_terms_total = 0;
+        num_commuting_groups = 0;
         for (size_t i = 0; i < poolsize; i++) {
+          // Memory tracking before operator processing
+          size_t cpu_rss_before = 0;
+          #ifdef CUDA_ENABLED
+          size_t gpu_free_before = 0, gpu_total_before = 0;
+          #endif
+          
+          if (state->get_process_rank() == 0) {
+            // Get CPU memory before this operator
+            std::ifstream status_file("/proc/self/status");
+            std::string line;
+            while (std::getline(status_file, line)) {
+              if (line.find("VmRSS:") == 0) {
+                sscanf(line.c_str(), "VmRSS: %zu kB", &cpu_rss_before);
+                break;
+              }
+            }
+            
+            #ifdef CUDA_ENABLED
+            cudaMemGetInfo(&gpu_free_before, &gpu_total_before);
+            #endif
+            
+            std::cout << "Processing operator " << i << "/" << poolsize << " - CPU: " 
+                      << std::fixed << std::setprecision(2) << (cpu_rss_before / 1024.0) << " MB";
+            #ifdef CUDA_ENABLED
+            std::cout << ", GPU: " << std::fixed << std::setprecision(4) << (gpu_free_before / (1024.0*1024.0*1024.0)) << " GB free";
+            #endif
+            std::cout << std::endl;
+          }
+          
           // Get all of the ungrouped Pauli strings for this commutator 
           std::unordered_map<PauliOperator,  std::complex<double>, PauliHash> pmap;
           std::vector<PauliOperator> oplist = pauli_op_pool[i];
           for (auto hamil_oplist: pauli_strings) {
             commutator(hamil_oplist, oplist, pmap);
           }
+          
           // Filter out the Paulis with zero coeffients
           std::vector<PauliOperator> comm_ops;
           comm_ops.reserve(pmap.size());
@@ -118,10 +192,40 @@ namespace NWQSim {
           }
 
           num_pauli_terms_total += comm_ops.size();
+          
           // Create commuting groups using the (nonoverlapping) Sorted Insertion heuristic (see Crawford et. al 2021)
           std::list<std::vector<IdxType>> cliques;
           sorted_insertion(comm_ops, cliques, false);
+          
+          if (state->get_process_rank() == 0) {
+            double efficiency = (comm_ops.size() > 0) ? (100.0 * cliques.size() / comm_ops.size()) : 0.0;
+            std::cout << "Operator " << i << ": " << comm_ops.size() << " Pauli terms -> " 
+                      << cliques.size() << " cliques (efficiency: " << std::fixed << std::setprecision(1) 
+                      << efficiency << "%)" << std::endl;
+          }
 
+          // Calculate memory usage for this operator's data structures
+          size_t operator_coefficient_memory = comm_ops.size() * sizeof(double);
+          size_t operator_zmask_memory = comm_ops.size() * sizeof(IdxType);
+          size_t operator_clique_memory = cliques.size() * sizeof(ObservableList);
+          
+          cumulative_coefficient_memory_mb += operator_coefficient_memory / (1024 * 1024);
+          cumulative_zmask_memory_mb += operator_zmask_memory / (1024 * 1024);
+          cumulative_clique_memory_mb += operator_clique_memory / (1024 * 1024);
+          
+          // Show detailed clique information (first few operators and sample cliques)
+          if (state->get_process_rank() == 0 && (i < 3 || i % 50 == 0)) {
+            auto clique_it = cliques.begin();
+            size_t clique_count = 0;
+            for (auto& clique_vec : cliques) {
+              if (clique_count < 3) {  // Show first 3 cliques
+                std::cout << "    Clique " << clique_count << " has " << clique_vec.size() << " terms" << std::endl;
+              }
+              clique_count++;
+              if (clique_count >= 3) break;
+            }
+          }
+          
           // For each clique, we want to make an ObservableList object to compute expectation values after diagonalization
           auto cliqueiter = cliques.begin();
           commutator_coeffs[i].resize(cliques.size()); // Pauli coefficient storage
@@ -130,7 +234,13 @@ namespace NWQSim {
           std::vector<IdxType> qubit_mapping (ansatz->num_qubits());
           std::iota(qubit_mapping.begin(), qubit_mapping.end(), 0);
           observable_sizes[i] = cliques.size();
+          num_commuting_groups += cliques.size();
           gradient_measurement[i] = std::make_shared<Ansatz>(ansatz->num_qubits());
+          
+          // Track observables created for this operator
+          total_observables_created += cliques.size();
+          cumulative_observable_memory_mb += (cliques.size() * sizeof(ObservableList)) / (1024 * 1024);
+          
           // For each clique, construct a measurement circuit and append
           for (size_t j = 0; j < cliques.size(); j++) {
             std::vector<IdxType>& clique = *cliqueiter;
@@ -149,12 +259,98 @@ namespace NWQSim {
             Measurement circ2 (common, true); // inverse of the measurement circuit $U_M^\dagger$
             gradient_measurement[i]->compose(circ2, qubit_mapping);  // add the inverse
             cliqueiter++;
+            
+            // Show running memory totals every few observables (like pfb13.txt style)
+            if (state->get_process_rank() == 0 && total_observables_created % 100 == 0) {
+              double avg_memory_per_observable = (total_observables_created > 0) ? 
+                (cumulative_observable_memory_mb * 1024.0 / total_observables_created) : 0.0;
+              std::cout << "  Total observable memory so far: " << cumulative_observable_memory_mb << ".0 MB" << std::endl;
+              std::cout << "  Average memory per observable: " << std::fixed << std::setprecision(1) 
+                        << avg_memory_per_observable << " KB" << std::endl;
+            }
           }
+          
+          // Memory cleanup to prevent accumulation during operator processing
+          pmap.clear();
+          std::unordered_map<PauliOperator, std::complex<double>, PauliHash>().swap(pmap);
+          comm_ops.clear();
+          comm_ops.shrink_to_fit();
+          cliques.clear();
+          
+          // Explicit state vector deallocation after each operator to prevent memory leaks
+          state->deallocate_simulation_state();
         }
-        num_comm_cliques = pauli_op_pool.size(); // MZ: Total number of commuting cliques
-        // Report commutator stats
+        
+        // Final memory analysis and categorical breakdown
         if (state->get_process_rank() == 0) {
-          std::cout << "Generated " << pauli_op_pool.size() << " commutators with " << num_pauli_terms_total << " (possibly degenerate) Individual Pauli Strings" << std::endl;
+          // Get final memory state
+          size_t final_cpu_rss = 0;
+          std::ifstream status_file_final("/proc/self/status");
+          std::string line_final;
+          while (std::getline(status_file_final, line_final)) {
+            if (line_final.find("VmRSS:") == 0) {
+              sscanf(line_final.c_str(), "VmRSS: %zu kB", &final_cpu_rss);
+              break;
+            }
+          }
+          
+          #ifdef CUDA_ENABLED
+          size_t final_gpu_free = 0, final_gpu_total = 0;
+          cudaMemGetInfo(&final_gpu_free, &final_gpu_total);
+          #endif
+          
+          std::cout << "\n=== COMMUTATORS GENERATION COMPLETE ===" << std::endl;
+          std::cout << "Final Memory State:" << std::endl;
+          std::cout << "  Final CPU RSS: " << std::fixed << std::setprecision(2) << (final_cpu_rss / 1024.0) << " MB" << std::endl;
+          std::cout << "  CPU Memory Growth: " << std::fixed << std::setprecision(2) << ((final_cpu_rss - initial_cpu_rss) / 1024.0) << " MB" << std::endl;
+          
+          #ifdef CUDA_ENABLED
+          std::cout << "  Final GPU Free: " << std::fixed << std::setprecision(4) << (final_gpu_free / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          size_t gpu_memory_consumed = (initial_gpu_free > final_gpu_free) ? (initial_gpu_free - final_gpu_free) : 0;
+          std::cout << "  GPU Memory Consumed: " << std::fixed << std::setprecision(4) << (gpu_memory_consumed / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
+          #endif
+          
+          std::cout << "\nCategorical Memory Breakdown:" << std::endl;
+          std::cout << "  Total Operators Processed: " << poolsize << std::endl;
+          std::cout << "  Total Pauli Terms Generated: " << num_pauli_terms_total << std::endl;
+          std::cout << "  Total Commuting Groups: " << num_commuting_groups << std::endl;
+          std::cout << "  Total Observables Created: " << total_observables_created << std::endl;
+          
+          std::cout << "\nMemory Usage by Category:" << std::endl;
+          std::cout << "  Coefficient Storage: " << std::fixed << std::setprecision(2) << cumulative_coefficient_memory_mb << " MB" << std::endl;
+          std::cout << "  Z-mask Storage: " << std::fixed << std::setprecision(2) << cumulative_zmask_memory_mb << " MB" << std::endl;
+          std::cout << "  Observable Structures: " << std::fixed << std::setprecision(2) << cumulative_observable_memory_mb << " MB" << std::endl;
+          std::cout << "  Clique Metadata: " << std::fixed << std::setprecision(2) << cumulative_clique_memory_mb << " MB" << std::endl;
+          
+          double total_estimated_mb = cumulative_coefficient_memory_mb + cumulative_zmask_memory_mb + 
+                                    cumulative_observable_memory_mb + cumulative_clique_memory_mb;
+          std::cout << "  Total Estimated: " << std::fixed << std::setprecision(2) << total_estimated_mb << " MB" << std::endl;
+          
+          // Memory efficiency analysis
+          double actual_growth_mb = (final_cpu_rss - initial_cpu_rss) / 1024.0;
+          if (actual_growth_mb > 0) {
+            double efficiency = (total_estimated_mb / actual_growth_mb) * 100.0;
+            std::cout << "\nMemory Efficiency Analysis:" << std::endl;
+            std::cout << "  Estimated vs Actual Growth: " << std::fixed << std::setprecision(1) << efficiency << "%" << std::endl;
+            
+            if (efficiency < 50.0) {
+              std::cout << "  WARNING: Possible memory leaks detected - efficiency below 50%" << std::endl;
+            } else if (efficiency > 150.0) {
+              std::cout << "  INFO: Better than expected memory usage" << std::endl;
+            } else {
+              std::cout << "  OK: Memory usage within expected range" << std::endl;
+            }
+          }
+          
+          // Check for potential statevector memory leaks
+          #ifdef CUDA_ENABLED
+          if (gpu_memory_consumed > (total_estimated_mb / 1024.0) * 2) {
+            std::cout << "  WARNING: GPU memory usage significantly higher than expected" << std::endl;
+            std::cout << "           This may indicate statevector memory not being properly freed" << std::endl;
+          }
+          #endif
+          
+          std::cout << "\nGenerated " << poolsize << " commutators with " << num_pauli_terms_total << " Individual Pauli Strings" << std::endl;
         }
       }
 
