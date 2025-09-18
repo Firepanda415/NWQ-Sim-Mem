@@ -460,7 +460,14 @@ namespace NWQSim
         // Default implementation - overridden by backends that support state deallocation
       };
       virtual void reallocate_simulation_state() {
-        // Default implementation - overridden by backends that support state reallocation  
+        // Default implementation - overridden by backends that support state reallocation
+      };
+
+      // MEMORY OPTIMIZATION: Add method to force memory cleanup during operator pool processing
+      virtual void force_memory_cleanup() {
+        // Force garbage collection and memory cleanup
+        deallocate_simulation_state();
+        reallocate_simulation_state();
       };
       virtual ValType energy(const std::vector<double>& x) {
         ansatz->setParams(x);

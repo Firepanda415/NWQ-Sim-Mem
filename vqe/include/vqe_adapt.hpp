@@ -194,6 +194,18 @@ namespace NWQSim {
           // Create commuting groups using the (nonoverlapping) Sorted Insertion heuristic (see Crawford et. al 2021)
           std::list<std::vector<IdxType>> cliques;
           sorted_insertion(comm_ops, cliques, false);
+
+          // MEMORY OPTIMIZATION: Force immediate memory cleanup for large operator pools
+          if (i > 0 && i % 10 == 0) {
+            // Force garbage collection of temporary data structures
+            std::vector<PauliOperator>().swap(comm_ops);
+            // Use the new force cleanup method
+            state->force_memory_cleanup();
+
+            if (state->get_process_rank() == 0) {
+              std::cout << "  [Memory cleanup performed at operator " << i << "]" << std::endl;
+            }
+          }
           
           // COMMUTING CLIQUES DEBUGGING: Show clique grouping efficiency
           if (state->get_process_rank() == 0 && (i < 5 || i % 100 == 0)) {
@@ -246,9 +258,17 @@ namespace NWQSim {
           
           // PHASE 1 STATE VECTOR MEMORY FIX: Deallocate accumulated state vectors after each operator
           state->deallocate_simulation_state();
+
+          // MEMORY OPTIMIZATION: Clear temporary data structures to prevent memory accumulation
+          comm_ops.clear();
+          comm_ops.shrink_to_fit();
+          cliques.clear();
           
         }
-        
+
+        // MEMORY OPTIMIZATION: Final comprehensive cleanup after all operators processed
+        state->force_memory_cleanup();
+
         // MEMORY PROFILING: Final state (both GPU and CPU)
         if (state->get_process_rank() == 0) {
           // CPU memory profiling - final state

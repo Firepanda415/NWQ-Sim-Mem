@@ -168,21 +168,27 @@ namespace NWQSim
         SAFE_ALOC_GPU(observables, size * sizeof(ObservableList));
       };
       
-      // PHASE 1 MEMORY FIX: Override to actually deallocate CUDA simulation state  
+      // PHASE 1 MEMORY FIX: Override to actually deallocate CUDA simulation state
       virtual void deallocate_simulation_state() override {
+        // Force GPU memory synchronization before deallocation
+        cudaDeviceSynchronize();
+
         // Free GPU memory
         if (sv_real) SAFE_FREE_GPU(sv_real);
         if (sv_imag) SAFE_FREE_GPU(sv_imag);
         if (m_real) SAFE_FREE_GPU(m_real);
         if (m_imag) SAFE_FREE_GPU(m_imag);
-        
-        // Free CPU memory  
+
+        // Free CPU memory
         if (sv_real_cpu) SAFE_FREE_HOST_CUDA(sv_real_cpu);
         if (sv_imag_cpu) SAFE_FREE_HOST_CUDA(sv_imag_cpu);
-        
+
         // Reset pointers to null
         sv_real = sv_imag = m_real = m_imag = nullptr;
         sv_real_cpu = sv_imag_cpu = nullptr;
+
+        // Force GPU memory cleanup
+        cudaDeviceSynchronize();
         std::cout << ">>>>>>     FLAG: Deallocate _simulation_state!      <<<<<<<" << std::endl;
       };
       
@@ -195,18 +201,21 @@ namespace NWQSim
           memset(sv_real_cpu, 0, sv_size);
           memset(sv_imag_cpu, 0, sv_size);
           sv_real_cpu[0] = 1.;  // |0⟩ state
-          
+
           // GPU side allocation
           SAFE_ALOC_GPU(sv_real, sv_size);
           SAFE_ALOC_GPU(sv_imag, sv_size);
           SAFE_ALOC_GPU(m_real, sv_size + sizeof(ValType));
           SAFE_ALOC_GPU(m_imag, sv_size + sizeof(ValType));
-          
+
           // Copy initial state to GPU
           cudaSafeCall(cudaMemcpy(sv_real, sv_real_cpu, sv_size, cudaMemcpyHostToDevice));
           cudaSafeCall(cudaMemcpy(sv_imag, sv_imag_cpu, sv_size, cudaMemcpyHostToDevice));
           cudaSafeCall(cudaMemset(m_real, 0, sv_size + sizeof(ValType)));
           cudaSafeCall(cudaMemset(m_imag, 0, sv_size + sizeof(ValType)));
+
+          // Ensure all operations complete
+          cudaDeviceSynchronize();
         }
       };
     protected:
