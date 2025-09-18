@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to run ADAPT-VQE with comprehensive GPU memory profiling
-# Usage: ./run_memory_profiling.sh [input_file] [output_file]
+# Usage: ./run_memory_profiling.sh [input_file] [NumParticles] [output_file]
 
 echo "========================================"
 echo "  NWQSim ADAPT-VQE Memory Profiling"
@@ -18,8 +18,8 @@ else
 fi
 
 # Set input parameters
-INPUT_FILE=${1:-"examples/molecules/H2_sto3g.yaml"}
-P=${2:-"6"}
+INPUT_FILE=${1:-"$HOME/NSMem/H2O_1.75_Eq_11-Orbitals_DUCC3_H2O-1.75_Eq_DUCC3_10-electrons_11-Orbitals.out-xacc"}
+P=${2:-"10"}
 OUTPUT_FILE=${2:-"memory_profile_output.log"}
 
 echo "Configuration:"
@@ -79,8 +79,8 @@ echo
     
     # Run the actual simulation
     echo "Starting simulation..."
-    # ./build/vqe/nwq_vqe -f "$INPUT_FILE" -p 6 -v --abstol 1e-8 --maxeval 1000 -o LN_BOBYQA --adapt -ag 1e-4
-    ./build/vqe/nwq_vqe -b NVGPU -f "$INPUT_FILE" -p "$P" -v --abstol 1e-6 --maxeval 5000 -o LN_COBYLA --adapt -ag 1e-3 -am 120
+    # $HOME/NSMem/build/vqe/nwq_vqe -f "$INPUT_FILE" -p 6 -v --abstol 1e-8 --maxeval 1000 -o LN_BOBYQA --adapt -ag 1e-4
+    $HOME/NSMem/build/vqe/nwq_vqe -b NVGPU -f "$INPUT_FILE" -p "$P" -v --abstol 1e-6 --maxeval 5000 -o LN_COBYLA --adapt -ag 1e-3 -am 120
     
     echo
     echo "=== Final Memory State ==="
