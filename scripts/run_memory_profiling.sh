@@ -29,8 +29,8 @@ echo "  Build type: GPU-enabled ADAPT-VQE"
 echo
 
 # Check if the executable exists
-if [ ! -f "./build/vqe/nwq_vqe" ]; then
-    echo "Error: ./build/vqe/main not found."
+if [ ! -f "$HOME/NSMem/build/vqe/nwq_vqe" ]; then
+    echo "Error: $HOME/NSMem/build/vqe/nwq_vqe not found."
     echo "Please build the project first with:"
     echo "  mkdir -p build && cd build"
     echo "  cmake .. -DCUDA_ENABLED=ON"
