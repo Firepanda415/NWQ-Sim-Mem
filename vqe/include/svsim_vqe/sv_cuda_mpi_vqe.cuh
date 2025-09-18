@@ -236,6 +236,59 @@ virtual void fill_obslist(IdxType index) override {
       virtual void allocate_observables(ObservableList*& observables, IdxType size) override {
         SAFE_ALOC_GPU(observables, size * sizeof(ObservableList));
       };
+      
+      // PHASE 1 MEMORY FIX: Proper implementation for CUDA MPI backend
+      virtual void deallocate_simulation_state() override {
+        // Force GPU memory synchronization before deallocation
+        cudaDeviceSynchronize();
+
+        // Free GPU memory
+        if (sv_real) nvshmem_free(sv_real);
+        if (sv_imag) nvshmem_free(sv_imag);
+        if (m_real) SAFE_FREE_GPU(m_real);
+        if (m_imag) SAFE_FREE_GPU(m_imag);
+
+        // Free CPU memory
+        if (sv_real_cpu) SAFE_FREE_HOST_CUDA(sv_real_cpu);
+        if (sv_imag_cpu) SAFE_FREE_HOST_CUDA(sv_imag_cpu);
+
+        // Reset pointers to null
+        sv_real = sv_imag = m_real = m_imag = nullptr;
+        sv_real_cpu = sv_imag_cpu = nullptr;
+
+        // Force GPU memory cleanup
+        cudaDeviceSynchronize();
+        std::cout << ">>>>>>     FLAG: Deallocate MPI simulation_state!      <<<<<<<" << std::endl;
+      };
+
+      virtual void reallocate_simulation_state() override {
+        // Only reallocate if memory was actually freed
+        if (sv_real == nullptr) {
+          // CPU side initialization
+          SAFE_ALOC_HOST_CUDA(sv_real_cpu, sv_size_per_gpu);
+          SAFE_ALOC_HOST_CUDA(sv_imag_cpu, sv_size_per_gpu);
+          memset(sv_real_cpu, 0, sv_size_per_gpu);
+          memset(sv_imag_cpu, 0, sv_size_per_gpu);
+          // State-vector initial state [0..0] = 1
+          if (i_proc == 0) sv_real_cpu[0] = 1.;
+
+          // NVSHMEM GPU memory allocation
+          sv_real = (ValType *)nvshmem_malloc(sv_size_per_gpu);
+          sv_imag = (ValType *)nvshmem_malloc(sv_size_per_gpu);
+          SAFE_ALOC_GPU(m_real, sv_size_per_gpu + sizeof(ValType));
+          SAFE_ALOC_GPU(m_imag, sv_size_per_gpu + sizeof(ValType));
+
+          // Copy initial state to GPU
+          cudaSafeCall(cudaMemcpy(sv_real, sv_real_cpu, sv_size_per_gpu, cudaMemcpyHostToDevice));
+          cudaSafeCall(cudaMemcpy(sv_imag, sv_imag_cpu, sv_size_per_gpu, cudaMemcpyHostToDevice));
+          cudaSafeCall(cudaMemset(m_real, 0, sv_size_per_gpu + sizeof(ValType)));
+          cudaSafeCall(cudaMemset(m_imag, 0, sv_size_per_gpu + sizeof(ValType)));
+
+          // Ensure all operations complete
+          cudaDeviceSynchronize();
+        }
+      };
+      
     protected:
         IdxType n_cpus;
         STATUS stat; 
