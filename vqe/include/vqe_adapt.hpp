@@ -283,8 +283,8 @@ namespace NWQSim {
                       << efficiency << "%) - Memory: " << std::fixed << std::setprecision(2) 
                       << (operator_total_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
             
-            // Detailed STL container breakdown
-            std::cout << "  STL Containers: PauliMap=" << std::fixed << std::setprecision(2) << (pmap_actual_bytes / (1024.0 * 1024.0)) 
+            // Detailed STL container breakdown (before cleanup)
+            std::cout << "  STL Containers (temp): PauliMap=" << std::fixed << std::setprecision(2) << (pmap_actual_bytes / (1024.0 * 1024.0)) 
                       << "MB, CommOps=" << (comm_ops_actual_bytes / (1024.0 * 1024.0))
                       << "MB, Cliques=" << (cliques_actual_bytes / (1024.0 * 1024.0)) << "MB" << std::endl;
             
@@ -333,16 +333,14 @@ namespace NWQSim {
           total_observables_created += cliques.size();
           cumulative_observable_memory_bytes += (cliques.size() * sizeof(ObservableList));
           
-          // Memory tracking before circuit construction
+          // Memory tracking before circuit construction (after STL container setup) - all processes
           size_t cpu_rss_before_circuits = 0;
-          if (state->get_process_rank() == 0) {
-            std::ifstream status_file_circuits("/proc/self/status");
-            std::string line_circuits;
-            while (std::getline(status_file_circuits, line_circuits)) {
-              if (line_circuits.find("VmRSS:") == 0) {
-                sscanf(line_circuits.c_str(), "VmRSS: %zu kB", &cpu_rss_before_circuits);
-                break;
-              }
+          std::ifstream status_file_circuits("/proc/self/status");
+          std::string line_circuits;
+          while (std::getline(status_file_circuits, line_circuits)) {
+            if (line_circuits.find("VmRSS:") == 0) {
+              sscanf(line_circuits.c_str(), "VmRSS: %zu kB", &cpu_rss_before_circuits);
+              break;
             }
           }
           
@@ -370,180 +368,252 @@ namespace NWQSim {
             cliqueiter++;
           }
           
+          // Shrink vectors to actual size to reclaim over-allocated memory
+          if (gradient_measurement[i] != nullptr) {
+            // Shrink main gates vector
+            if (gradient_measurement[i]->gates != nullptr) {
+              gradient_measurement[i]->gates->shrink_to_fit();
+            }
+            
+            // Shrink nested gate_parameter_pointers structure
+            auto gate_pointers = gradient_measurement[i]->getParamGatePointers();
+            if (gate_pointers != nullptr) {
+              gate_pointers->shrink_to_fit(); // Shrink outer vector
+              for (auto& inner_vec : *gate_pointers) {
+                inner_vec.shrink_to_fit(); // Shrink each inner vector
+              }
+            }
+            
+            // Shrink other Ansatz vectors
+            if (gradient_measurement[i]->getParams() != nullptr) {
+              gradient_measurement[i]->getParams()->shrink_to_fit();
+            }
+            if (gradient_measurement[i]->getParamGateIndices() != nullptr) {
+              gradient_measurement[i]->getParamGateIndices()->shrink_to_fit();
+            }
+          }
           
-          // Memory tracking after circuit construction
-          size_t cpu_rss_after_circuits = 0;
+          // Memory tracking immediately after circuit construction (before cleanup)
+          size_t cpu_rss_after_circuits_before_cleanup = 0;
           if (state->get_process_rank() == 0) {
             std::ifstream status_file_circuits_after("/proc/self/status");
             std::string line_circuits_after;
             while (std::getline(status_file_circuits_after, line_circuits_after)) {
               if (line_circuits_after.find("VmRSS:") == 0) {
-                sscanf(line_circuits_after.c_str(), "VmRSS: %zu kB", &cpu_rss_after_circuits);
+                sscanf(line_circuits_after.c_str(), "VmRSS: %zu kB", &cpu_rss_after_circuits_before_cleanup);
                 break;
               }
             }
+          }
+          
+          // Store cliques size before cleanup for static variable
+          size_t cliques_count = cliques.size();
+          
+          // Memory cleanup to prevent accumulation during operator processing
+          pmap.clear();
+          std::unordered_map<PauliOperator, std::complex<double>, PauliHash>().swap(pmap);
+          comm_ops.clear();
+          comm_ops.shrink_to_fit();
+          cliques.clear();
+          
+          // Memory tracking after cleanup to isolate persistent circuit memory (all processes)
+          size_t cpu_rss_after_cleanup = 0;
+          double persistent_circuit_memory = 0.0;
+          double circuit_memory_mb = 0.0;
+          double total_memory_with_temps = 0.0;
+          double temporary_memory_cleaned = 0.0;
+          
+          // Get memory state after cleanup for all processes
+          std::ifstream status_file_cleanup("/proc/self/status");
+          std::string line_cleanup;
+          while (std::getline(status_file_cleanup, line_cleanup)) {
+            if (line_cleanup.find("VmRSS:") == 0) {
+              sscanf(line_cleanup.c_str(), "VmRSS: %zu kB", &cpu_rss_after_cleanup);
+              break;
+            }
+          }
+          
+          if (state->get_process_rank() == 0) {
+            // Calculate memory components (only for output)
+            total_memory_with_temps = (cpu_rss_after_circuits_before_cleanup - cpu_rss_before_circuits) / 1024.0;
+            persistent_circuit_memory = (cpu_rss_after_cleanup - cpu_rss_before_circuits) / 1024.0;
+            temporary_memory_cleaned = total_memory_with_temps - persistent_circuit_memory;
             
-            double circuit_memory_mb = (cpu_rss_after_circuits - cpu_rss_before_circuits) / 1024.0;
-            std::cout << "  Circuit Construction: +" << std::fixed << std::setprecision(2) << circuit_memory_mb 
-                      << " MB (" << cliques.size() << " circuits)" << std::endl;
+            std::cout << "  Circuit + Temp Memory: +" << std::fixed << std::setprecision(2) << total_memory_with_temps 
+                      << " MB, Persistent Circuit: +" << std::fixed << std::setprecision(2) << persistent_circuit_memory 
+                      << " MB, Cleaned Temp: " << std::fixed << std::setprecision(2) << temporary_memory_cleaned << " MB";
             
+            // Verify cleanup efficiency
+            double total_temp_stl = (pmap_actual_bytes + comm_ops_actual_bytes + cliques_actual_bytes) / (1024.0 * 1024.0);
+            double cleanup_efficiency = (total_temp_stl > 0) ? (temporary_memory_cleaned / total_temp_stl) * 100.0 : 100.0;
+            std::cout << " (cleanup: " << std::fixed << std::setprecision(1) << cleanup_efficiency << "%)" << std::endl;
+            
+          }
+          
+          // Calculate circuit memory for all processes with bounds checking
+          if (cpu_rss_after_cleanup > 0 && cpu_rss_before_circuits > 0 && cpu_rss_after_cleanup >= cpu_rss_before_circuits) {
+            circuit_memory_mb = (cpu_rss_after_cleanup - cpu_rss_before_circuits) / 1024.0;
+          } else {
+            circuit_memory_mb = 0.0; // Fallback for edge cases
+          }
+          
+          if (state->get_process_rank() == 0) {
             // Show cumulative circuit memory growth
             static double total_circuit_memory = 0.0;
             static double prev_circuit_memory = 0.0;
             static size_t prev_cliques = 0;
             static size_t total_circuits_created = 0;
             total_circuit_memory += circuit_memory_mb;
-            total_circuits_created += cliques.size();
+            total_circuits_created += cliques_count; // Use stored count before cleanup
             std::cout << "  Cumulative Circuit Memory: " << std::fixed << std::setprecision(2) 
                       << total_circuit_memory << " MB (Total circuits: " << total_circuits_created << ")" << std::endl;
             
             // Comprehensive Ansatz memory analysis - all members and overhead
             if (gradient_measurement[i] != nullptr) {
-              // 1. shared_ptr overhead (control blocks for reference counting)
-              size_t shared_ptr_overhead = 4 * (sizeof(std::shared_ptr<void>) + 32); // 4 shared_ptrs + control blocks
-              
-              // 2. theta vector (parameters) with shared_ptr overhead
+              // Error checking for null pointers
               auto theta_ptr = gradient_measurement[i]->getParams();
-              size_t theta_data_bytes = theta_ptr->capacity() * sizeof(ValType);
-              size_t theta_total_bytes = theta_data_bytes + sizeof(std::vector<ValType>);
-              
-              // 3. parameterized_gates vector with shared_ptr overhead  
               auto param_gates_ptr = gradient_measurement[i]->getParamGateIndices();
-              size_t param_gates_data_bytes = param_gates_ptr->capacity() * sizeof(IdxType);
-              size_t param_gates_total_bytes = param_gates_data_bytes + sizeof(std::vector<IdxType>);
+              auto gates_ptr = gradient_measurement[i]->gates;
               
-              // 4. gate_parameter_pointers - complex nested structure with shared_ptr
-              size_t gate_param_pointers_bytes = 0;
-              auto gate_pointers = gradient_measurement[i]->getParamGatePointers();
-              if (gate_pointers != nullptr) {
-                // Outer vector overhead
-                gate_param_pointers_bytes += gate_pointers->capacity() * sizeof(std::vector<std::pair<IdxType, ValType>>);
-                gate_param_pointers_bytes += sizeof(std::vector<std::vector<std::pair<IdxType, ValType>>>);
+              if (theta_ptr == nullptr || param_gates_ptr == nullptr || gates_ptr == nullptr) {
+                std::cout << "  Ansatz Analysis: Null pointer detected, skipping analysis" << std::endl;
+              } else {
+                // 1. shared_ptr overhead (control blocks for reference counting)
+                size_t shared_ptr_overhead = 4 * (sizeof(std::shared_ptr<void>) + 32); // 4 shared_ptrs + control blocks
                 
-                // Inner vectors overhead and data
-                for (const auto& inner_vec : *gate_pointers) {
-                  gate_param_pointers_bytes += inner_vec.capacity() * sizeof(std::pair<IdxType, ValType>);
-                  gate_param_pointers_bytes += sizeof(std::vector<std::pair<IdxType, ValType>>); // vector object overhead
+                // 2. theta vector (parameters) with shared_ptr overhead
+                size_t theta_data_bytes = theta_ptr->capacity() * sizeof(ValType);
+                size_t theta_total_bytes = theta_data_bytes + sizeof(std::vector<ValType>);
+                
+                // 3. parameterized_gates vector with shared_ptr overhead  
+                size_t param_gates_data_bytes = param_gates_ptr->capacity() * sizeof(IdxType);
+                size_t param_gates_total_bytes = param_gates_data_bytes + sizeof(std::vector<IdxType>);
+                
+                // 4. gate_parameter_pointers - complex nested structure with shared_ptr
+                size_t gate_param_pointers_bytes = 0;
+                auto gate_pointers = gradient_measurement[i]->getParamGatePointers();
+                if (gate_pointers != nullptr) {
+                  // Outer vector overhead
+                  gate_param_pointers_bytes += gate_pointers->capacity() * sizeof(std::vector<std::pair<IdxType, ValType>>);
+                  gate_param_pointers_bytes += sizeof(std::vector<std::vector<std::pair<IdxType, ValType>>>);
+                  
+                  // Inner vectors overhead and data
+                  for (const auto& inner_vec : *gate_pointers) {
+                    gate_param_pointers_bytes += inner_vec.capacity() * sizeof(std::pair<IdxType, ValType>);
+                    gate_param_pointers_bytes += sizeof(std::vector<std::pair<IdxType, ValType>>); // vector object overhead
+                  }
                 }
-              }
-              
-              // 5. gate_coefficients vector (missing from previous analysis!)
-              size_t gate_coeffs_bytes = 0; // Cannot access directly, estimate based on param gates
-              if (param_gates_ptr != nullptr) {
-                gate_coeffs_bytes = param_gates_ptr->size() * sizeof(ValType) + sizeof(std::vector<ValType>);
-              }
-              
-              // 6. excitation_index_map unordered_map<string, IdxType> (potential memory hog!)
-              size_t excitation_map_bytes = 0;
-              // Estimate: assume average string length of 20 chars, map overhead of 32 bytes per entry
-              // This could be HUGE with many operators
-              size_t estimated_map_entries = std::min((size_t)100, param_gates_ptr->size()); // conservative estimate
-              excitation_map_bytes = estimated_map_entries * (20 + sizeof(IdxType) + 32) + 64; // map overhead
-              
-              // 7. Circuit gates from inherited Circuit class (actual Gate objects)
-              auto gates_ptr = gradient_measurement[i]->getGates();
-              size_t circuit_gates_data_bytes = gates_ptr->capacity() * sizeof(Gate);
-              size_t circuit_gates_total_bytes = circuit_gates_data_bytes + sizeof(std::vector<Gate>);
-              
-              // 8. Ansatz object overhead (vtable, padding, etc.)
-              size_t ansatz_object_overhead = sizeof(Ansatz) + sizeof(Circuit); // inheritance overhead
-              
-              // 9. ansatz_name string
-              size_t ansatz_name_bytes = 32; // estimated string overhead
-              
-              // Total calculation
-              size_t total_ansatz_bytes = shared_ptr_overhead + theta_total_bytes + param_gates_total_bytes + 
-                                         gate_param_pointers_bytes + gate_coeffs_bytes + excitation_map_bytes +
-                                         circuit_gates_total_bytes + ansatz_object_overhead + ansatz_name_bytes;
-              
-              std::cout << "  Complete Ansatz Memory Breakdown:" << std::endl;
-              std::cout << "    shared_ptr overhead: " << std::fixed << std::setprecision(2) 
-                        << (shared_ptr_overhead / 1024.0) << " KB" << std::endl;
-              std::cout << "    theta (params): " << std::fixed << std::setprecision(2) 
-                        << (theta_total_bytes / 1024.0) << " KB (" << theta_ptr->size() << "/" << theta_ptr->capacity() << ")" << std::endl;
-              std::cout << "    parameterized_gates: " << std::fixed << std::setprecision(2) 
-                        << (param_gates_total_bytes / 1024.0) << " KB (" << param_gates_ptr->size() << "/" << param_gates_ptr->capacity() << ")" << std::endl;
-              std::cout << "    gate_parameter_pointers: " << std::fixed << std::setprecision(2) 
-                        << (gate_param_pointers_bytes / 1024.0) << " KB (nested structure)" << std::endl;
-              std::cout << "    gate_coefficients: " << std::fixed << std::setprecision(2) 
-                        << (gate_coeffs_bytes / 1024.0) << " KB (estimated)" << std::endl;
-              std::cout << "    excitation_index_map: " << std::fixed << std::setprecision(2) 
-                        << (excitation_map_bytes / 1024.0) << " KB (string map)" << std::endl;
-              std::cout << "    circuit_gates: " << std::fixed << std::setprecision(2) 
-                        << (circuit_gates_total_bytes / 1024.0) << " KB (" << gates_ptr->size() << "/" << gates_ptr->capacity() << ")" << std::endl;
-              std::cout << "    object_overhead: " << std::fixed << std::setprecision(2) 
-                        << ((ansatz_object_overhead + ansatz_name_bytes) / 1024.0) << " KB" << std::endl;
-              std::cout << "    Total Ansatz Object: " << std::fixed << std::setprecision(3) 
-                        << (total_ansatz_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
-              
-              // Memory efficiency analysis  
-              size_t useful_data = theta_ptr->size() * sizeof(ValType) + 
-                                  param_gates_ptr->size() * sizeof(IdxType) + 
-                                  gates_ptr->size() * sizeof(Gate);
-              double efficiency = (useful_data > 0) ? (100.0 * useful_data / total_ansatz_bytes) : 0.0;
-              std::cout << "    Memory Efficiency: " << std::fixed << std::setprecision(1) << efficiency 
-                        << "% (useful data vs total)" << std::endl;
-              
-              // Identify the largest memory consumer
-              std::vector<std::pair<std::string, size_t>> components = {
-                {"circuit_gates", circuit_gates_total_bytes},
-                {"gate_parameter_pointers", gate_param_pointers_bytes},
-                {"theta", theta_total_bytes},
-                {"excitation_map", excitation_map_bytes},
-                {"shared_ptr_overhead", shared_ptr_overhead}
-              };
-              
-              auto max_component = std::max_element(components.begin(), components.end(),
-                [](const auto& a, const auto& b) { return a.second < b.second; });
-              
-              std::cout << "    Memory Hotspot: " << max_component->first << " (" 
-                        << std::fixed << std::setprecision(1) << (100.0 * max_component->second / total_ansatz_bytes) 
-                        << "% of object)" << std::endl;
+                
+                // 5. gate_coefficients vector (missing from previous analysis!)
+                size_t gate_coeffs_bytes = 0; // Cannot access directly, estimate based on param gates
+                if (param_gates_ptr != nullptr) {
+                  gate_coeffs_bytes = param_gates_ptr->size() * sizeof(ValType) + sizeof(std::vector<ValType>);
+                }
+                
+                // 6. excitation_index_map unordered_map<string, IdxType> (potential memory hog!)
+                size_t excitation_map_bytes = 0;
+                // Estimate: assume average string length of 20 chars, map overhead of 32 bytes per entry
+                // This could be HUGE with many operators
+                size_t estimated_map_entries = std::min((size_t)100, param_gates_ptr->size()); // conservative estimate
+                excitation_map_bytes = estimated_map_entries * (20 + sizeof(IdxType) + 32) + 64; // map overhead
+                
+                // 7. Circuit gates from inherited Circuit class (actual Gate objects) - use existing gates_ptr
+                size_t circuit_gates_data_bytes = gates_ptr->capacity() * sizeof(Gate);
+                size_t circuit_gates_total_bytes = circuit_gates_data_bytes + sizeof(std::vector<Gate>);
+                
+                // 8. Ansatz object overhead (vtable, padding, etc.)
+                size_t ansatz_object_overhead = sizeof(Ansatz) + sizeof(Circuit); // inheritance overhead
+                
+                // 9. ansatz_name string
+                size_t ansatz_name_bytes = 32; // estimated string overhead
+                
+                // Total calculation
+                size_t total_ansatz_bytes = shared_ptr_overhead + theta_total_bytes + param_gates_total_bytes + 
+                                           gate_param_pointers_bytes + gate_coeffs_bytes + excitation_map_bytes +
+                                           circuit_gates_total_bytes + ansatz_object_overhead + ansatz_name_bytes;
+                
+                std::cout << "  Complete Ansatz Memory Breakdown:" << std::endl;
+                std::cout << "    shared_ptr overhead: " << std::fixed << std::setprecision(2) 
+                          << (shared_ptr_overhead / 1024.0) << " KB" << std::endl;
+                std::cout << "    theta (params): " << std::fixed << std::setprecision(2) 
+                          << (theta_total_bytes / 1024.0) << " KB (" << theta_ptr->size() << "/" << theta_ptr->capacity() << ")" << std::endl;
+                std::cout << "    parameterized_gates: " << std::fixed << std::setprecision(2) 
+                          << (param_gates_total_bytes / 1024.0) << " KB (" << param_gates_ptr->size() << "/" << param_gates_ptr->capacity() << ")" << std::endl;
+                std::cout << "    gate_parameter_pointers: " << std::fixed << std::setprecision(2) 
+                          << (gate_param_pointers_bytes / 1024.0) << " KB (nested structure)" << std::endl;
+                std::cout << "    gate_coefficients: " << std::fixed << std::setprecision(2) 
+                          << (gate_coeffs_bytes / 1024.0) << " KB (estimated)" << std::endl;
+                std::cout << "    excitation_index_map: " << std::fixed << std::setprecision(2) 
+                          << (excitation_map_bytes / 1024.0) << " KB (string map)" << std::endl;
+                std::cout << "    circuit_gates: " << std::fixed << std::setprecision(2) 
+                          << (circuit_gates_total_bytes / 1024.0) << " KB (" << gates_ptr->size() << "/" << gates_ptr->capacity() << ")" << std::endl;
+                std::cout << "    object_overhead: " << std::fixed << std::setprecision(2) 
+                          << ((ansatz_object_overhead + ansatz_name_bytes) / 1024.0) << " KB" << std::endl;
+                std::cout << "    Total Ansatz Object: " << std::fixed << std::setprecision(3) 
+                          << (total_ansatz_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
+                
+                // Memory efficiency analysis with division by zero protection
+                size_t useful_data = theta_ptr->size() * sizeof(ValType) + 
+                                    param_gates_ptr->size() * sizeof(IdxType) + 
+                                    gates_ptr->size() * sizeof(Gate);
+                double efficiency = (useful_data > 0 && total_ansatz_bytes > 0) ? (100.0 * useful_data / total_ansatz_bytes) : 0.0;
+                std::cout << "    Memory Efficiency: " << std::fixed << std::setprecision(1) << efficiency 
+                          << "% (useful data vs total)" << std::endl;
+                
+                // Identify the largest memory consumer with STL safety
+                std::vector<std::pair<std::string, size_t>> components = {
+                  {"circuit_gates", circuit_gates_total_bytes},
+                  {"gate_parameter_pointers", gate_param_pointers_bytes},
+                  {"theta", theta_total_bytes},
+                  {"excitation_map", excitation_map_bytes},
+                  {"shared_ptr_overhead", shared_ptr_overhead}
+                };
+                
+                if (!components.empty() && total_ansatz_bytes > 0) {
+                  auto max_component = std::max_element(components.begin(), components.end(),
+                    [](const auto& a, const auto& b) { return a.second < b.second; });
+                  
+                  std::cout << "    Memory Hotspot: " << max_component->first << " (" 
+                            << std::fixed << std::setprecision(1) << (100.0 * max_component->second / total_ansatz_bytes) 
+                            << "% of object)" << std::endl;
+                } else {
+                  std::cout << "    Memory Hotspot: Unable to determine (no valid components)" << std::endl;
+                }
+              } // end of null pointer check
             }
             
-            // Track circuit memory per clique for analysis
-            if (i > 0 && prev_cliques > 0) {
-              double memory_per_clique_current = circuit_memory_mb / cliques.size();
+            // Track circuit memory per clique for analysis with division protection
+            if (i > 0 && prev_cliques > 0 && cliques_count > 0) {
+              double memory_per_clique_current = circuit_memory_mb / cliques_count;
               double memory_per_clique_prev = prev_circuit_memory / prev_cliques;
               
               std::cout << "  Memory/Clique: " << std::fixed << std::setprecision(3) 
                         << memory_per_clique_current << " MB (prev: " 
                         << memory_per_clique_prev << " MB)" << std::endl;
-            } else if (cliques.size() > 0) {
-              double memory_per_clique_current = circuit_memory_mb / cliques.size();
+            } else if (cliques_count > 0) {
+              double memory_per_clique_current = circuit_memory_mb / cliques_count;
               std::cout << "  Memory/Clique: " << std::fixed << std::setprecision(3) 
                         << memory_per_clique_current << " MB" << std::endl;
+            } else {
+              std::cout << "  Memory/Clique: No cliques available for analysis" << std::endl;
             }
             
             // Track for next iteration
             prev_circuit_memory = circuit_memory_mb;
-            prev_cliques = cliques.size();
+            prev_cliques = cliques_count;
           }
           
-          // Memory tracking after operator processing
-          size_t cpu_rss_after = 0;
+          // Memory tracking after operator processing (using cleanup memory)
+          size_t cpu_rss_after = cpu_rss_after_cleanup;
           #ifdef CUDA_ENABLED
           size_t gpu_free_after = 0, gpu_total_after = 0;
+          cudaMemGetInfo(&gpu_free_after, &gpu_total_after);
           #endif
           
           if (state->get_process_rank() == 0) {
-            // Get CPU memory after this operator
-            std::ifstream status_file_after("/proc/self/status");
-            std::string line_after;
-            while (std::getline(status_file_after, line_after)) {
-              if (line_after.find("VmRSS:") == 0) {
-                sscanf(line_after.c_str(), "VmRSS: %zu kB", &cpu_rss_after);
-                break;
-              }
-            }
-            
-            #ifdef CUDA_ENABLED
-            cudaMemGetInfo(&gpu_free_after, &gpu_total_after);
-            #endif
-            
-            // Print intermediate memory checkpoint
+            // Print intermediate memory checkpoint using persistent memory
             double cpu_growth_mb = (cpu_rss_after - cpu_rss_before) / 1024.0;
-            std::cout << "  → Memory delta: CPU +" << std::fixed << std::setprecision(2) << cpu_growth_mb << " MB";
+            std::cout << "  → Net Memory Delta: CPU +" << std::fixed << std::setprecision(2) << cpu_growth_mb << " MB";
             
             #ifdef CUDA_ENABLED
             if (gpu_free_before > gpu_free_after) {
@@ -552,10 +622,12 @@ namespace NWQSim {
             }
             #endif
             
-            // Memory growth ratio
-            double growth_ratio = (operator_total_memory_bytes > 0) ? 
-                                (cpu_growth_mb * 1024.0 * 1024.0) / operator_total_memory_bytes : 0.0;
-            std::cout << " [" << std::fixed << std::setprecision(1) << growth_ratio << "x]";
+            // Detailed memory accounting analysis
+            double total_data_structures_mb = (operator_total_memory_bytes / (1024.0 * 1024.0));
+            double unaccounted_memory = cpu_growth_mb - circuit_memory_mb - total_data_structures_mb;
+            std::cout << " [Circuit: " << std::fixed << std::setprecision(1) << circuit_memory_mb 
+                      << "MB + Data: " << std::fixed << std::setprecision(1) << total_data_structures_mb 
+                      << "MB + Overhead: " << std::fixed << std::setprecision(1) << unaccounted_memory << "MB]";
             std::cout << std::endl;
             
             // Periodic summary every 10 operators
@@ -611,13 +683,6 @@ namespace NWQSim {
               batch_efficiency_sum = 0.0;
             }
           }
-          
-          // Memory cleanup to prevent accumulation during operator processing
-          pmap.clear();
-          std::unordered_map<PauliOperator, std::complex<double>, PauliHash>().swap(pmap);
-          comm_ops.clear();
-          comm_ops.shrink_to_fit();
-          cliques.clear();
         }
         
         // Final memory analysis and categorical breakdown
@@ -693,15 +758,23 @@ namespace NWQSim {
           
           for (size_t j = 0; j < gradient_measurement.size(); j++) {
             if (gradient_measurement[j] != nullptr) {
+              // Error checking for null pointers
+              auto theta_ptr = gradient_measurement[j]->getParams();
+              auto param_gates_ptr = gradient_measurement[j]->getParamGateIndices();
+              auto gates_ptr = gradient_measurement[j]->gates;
+              
+              if (theta_ptr == nullptr || param_gates_ptr == nullptr || gates_ptr == nullptr) {
+                // Skip this object if any pointers are null
+                continue;
+              }
+              
               // shared_ptr overhead per object
               cumulative_shared_ptr_overhead += 4 * (sizeof(std::shared_ptr<void>) + 32);
               
               // theta vectors
-              auto theta_ptr = gradient_measurement[j]->getParams();
               cumulative_theta_memory += theta_ptr->capacity() * sizeof(ValType) + sizeof(std::vector<ValType>);
               
               // parameterized_gates vectors
-              auto param_gates_ptr = gradient_measurement[j]->getParamGateIndices();
               cumulative_param_gates_memory += param_gates_ptr->capacity() * sizeof(IdxType) + sizeof(std::vector<IdxType>);
               
               // gate_parameter_pointers nested structures
@@ -723,7 +796,6 @@ namespace NWQSim {
               cumulative_excitation_maps_memory += estimated_map_entries * (20 + sizeof(IdxType) + 32) + 64;
               
               // circuit_gates vectors
-              auto gates_ptr = gradient_measurement[j]->getGates();
               cumulative_circuit_gates_memory += gates_ptr->capacity() * sizeof(Gate) + sizeof(std::vector<Gate>);
               
               // object overhead
@@ -759,7 +831,7 @@ namespace NWQSim {
           std::cout << "  Total Ansatz System Memory: " << std::fixed << std::setprecision(3) 
                     << (total_ansatz_system_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
           
-          // Identify the largest cumulative memory consumer
+          // Identify the largest cumulative memory consumer with safety checks
           std::vector<std::pair<std::string, size_t>> cumulative_components = {
             {"circuit_gates", cumulative_circuit_gates_memory},
             {"gate_parameter_pointers", cumulative_gate_param_pointers_memory},
@@ -768,16 +840,20 @@ namespace NWQSim {
             {"shared_ptr_overhead", cumulative_shared_ptr_overhead}
           };
           
-          auto max_cumulative = std::max_element(cumulative_components.begin(), cumulative_components.end(),
-            [](const auto& a, const auto& b) { return a.second < b.second; });
+          if (!cumulative_components.empty() && total_ansatz_system_memory > 0) {
+            auto max_cumulative = std::max_element(cumulative_components.begin(), cumulative_components.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+            
+            std::cout << "  System Memory Hotspot: " << max_cumulative->first << " (" 
+                      << std::fixed << std::setprecision(1) << (100.0 * max_cumulative->second / total_ansatz_system_memory) 
+                      << "% of all Ansatz memory)" << std::endl;
+          } else {
+            std::cout << "  System Memory Hotspot: Unable to determine (no valid data)" << std::endl;
+          }
           
-          std::cout << "  System Memory Hotspot: " << max_cumulative->first << " (" 
-                    << std::fixed << std::setprecision(1) << (100.0 * max_cumulative->second / total_ansatz_system_memory) 
-                    << "% of all Ansatz memory)" << std::endl;
-          
-          // Circuit density analysis
-          double avg_circuit_memory_per_operator = estimated_circuit_memory_mb / poolsize;
-          double avg_cliques_per_operator = (double)num_commuting_groups / poolsize;
+          // Circuit density analysis with division by zero protection
+          double avg_circuit_memory_per_operator = (poolsize > 0) ? estimated_circuit_memory_mb / poolsize : 0.0;
+          double avg_cliques_per_operator = (poolsize > 0) ? (double)num_commuting_groups / poolsize : 0.0;
           std::cout << "  Average Circuit Memory/Operator: " << std::fixed << std::setprecision(3) 
                     << avg_circuit_memory_per_operator << " MB (" << std::fixed << std::setprecision(1) 
                     << avg_cliques_per_operator << " cliques/op)" << std::endl;
@@ -788,12 +864,15 @@ namespace NWQSim {
           std::cout << "  Total Estimated: " << std::fixed << std::setprecision(3) << total_estimated_mb << " MB" << std::endl;
           std::cout << "  Largest Single Operator: " << std::fixed << std::setprecision(3) << (max_single_operator_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
           
-          // Memory analysis
+          // Memory analysis with division protection
           if (total_growth_mb > 0) {
             double efficiency_ratio = total_estimated_mb / total_growth_mb;
             std::cout << "\nMemory Analysis:" << std::endl;
             std::cout << "  Estimated vs Actual Growth: " << std::fixed << std::setprecision(1) << (efficiency_ratio * 100.0) << "%" << std::endl;
             std::cout << "  Memory Efficiency Ratio: " << std::fixed << std::setprecision(2) << efficiency_ratio << std::endl;
+          } else {
+            std::cout << "\nMemory Analysis:" << std::endl;
+            std::cout << "  No memory growth detected for analysis" << std::endl;
           }
           
           // Enhanced GPU memory analysis
