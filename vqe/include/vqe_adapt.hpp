@@ -347,12 +347,6 @@ namespace NWQSim {
           }
           
           // For each clique, construct a measurement circuit and append
-          size_t circuit_gate_count_before = 0;
-          size_t circuit_instruction_count_before = 0;
-          if (state->get_process_rank() == 0) {
-            circuit_gate_count_before = gradient_measurement[i]->get_gate_count();
-            circuit_instruction_count_before = gradient_measurement[i]->get_instruction_count();
-          }
           
           for (size_t j = 0; j < cliques.size(); j++) {
             std::vector<IdxType>& clique = *cliqueiter;
@@ -364,18 +358,6 @@ namespace NWQSim {
                                                   commutator_zmasks[i][j], 
                                                   commutator_coeffs[i][j]);
             
-            // Track memory before individual circuit construction
-            size_t clique_cpu_before = 0;
-            if (state->get_process_rank() == 0 && j == 0) {
-              std::ifstream status_clique("/proc/self/status");
-              std::string line_clique;
-              while (std::getline(status_clique, line_clique)) {
-                if (line_clique.find("VmRSS:") == 0) {
-                  sscanf(line_clique.c_str(), "VmRSS: %zu kB", &clique_cpu_before);
-                  break;
-                }
-              }
-            }
             
             Measurement circ1 (common, false); // QWC measurement circuit $U_M$
             gradient_measurement[i]->compose(circ1, qubit_mapping);         // add to gradient measurement
@@ -384,52 +366,10 @@ namespace NWQSim {
             Measurement circ2 (common, true); // inverse of the measurement circuit $U_M^\dagger$
             gradient_measurement[i]->compose(circ2, qubit_mapping);  // add the inverse
             
-            // Track memory after individual circuit construction (sample first few)
-            if (state->get_process_rank() == 0 && j < 3) {
-              size_t clique_cpu_after = 0;
-              std::ifstream status_clique_after("/proc/self/status");
-              std::string line_clique_after;
-              while (std::getline(status_clique_after, line_clique_after)) {
-                if (line_clique_after.find("VmRSS:") == 0) {
-                  sscanf(line_clique_after.c_str(), "VmRSS: %zu kB", &clique_cpu_after);
-                  break;
-                }
-              }
-              
-              double clique_memory_delta = (clique_cpu_after - clique_cpu_before) / 1024.0;
-              std::cout << "    Clique " << j << " Memory: +" << std::fixed << std::setprecision(3) 
-                        << clique_memory_delta << " MB (" << commuting_group.size() << " Pauli ops)" << std::endl;
-            }
             
             cliqueiter++;
           }
           
-          // Detailed circuit construction analysis
-          if (state->get_process_rank() == 0) {
-            size_t circuit_gate_count_after = gradient_measurement[i]->get_gate_count();
-            size_t circuit_instruction_count_after = gradient_measurement[i]->get_instruction_count();
-            size_t gates_added = circuit_gate_count_after - circuit_gate_count_before;
-            size_t instructions_added = circuit_instruction_count_after - circuit_instruction_count_before;
-            
-            std::cout << "  Circuit Details: +" << gates_added << " gates, +" << instructions_added 
-                      << " instructions (" << cliques.size() << " cliques * 2 circuits each)" << std::endl;
-            
-            // Memory per gate analysis
-            double circuit_memory_mb = (cpu_rss_after_circuits - cpu_rss_before_circuits) / 1024.0;
-            if (gates_added > 0) {
-              double memory_per_gate_kb = (circuit_memory_mb * 1024.0) / gates_added;
-              std::cout << "  Memory/Gate: " << std::fixed << std::setprecision(2) << memory_per_gate_kb 
-                        << " KB (" << std::fixed << std::setprecision(1) << (gates_added / (double)cliques.size()) 
-                        << " gates/clique)" << std::endl;
-            }
-            
-            // Circuit object memory analysis
-            size_t estimated_circuit_object_bytes = sizeof(std::shared_ptr<Ansatz>) + 
-                                                   gates_added * 64 + // estimated gate storage
-                                                   instructions_added * 32; // estimated instruction storage
-            std::cout << "  Estimated Circuit Object: " << std::fixed << std::setprecision(3) 
-                      << (estimated_circuit_object_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
-          }
           
           // Memory tracking after circuit construction
           size_t cpu_rss_after_circuits = 0;
@@ -457,13 +397,109 @@ namespace NWQSim {
             std::cout << "  Cumulative Circuit Memory: " << std::fixed << std::setprecision(2) 
                       << total_circuit_memory << " MB (Total circuits: " << total_circuits_created << ")" << std::endl;
             
-            // gradient_measurement vector analysis
-            size_t gradient_measurement_vector_bytes = gradient_measurement.capacity() * sizeof(std::shared_ptr<Ansatz>);
-            size_t accumulated_ansatz_objects = (i + 1) * sizeof(Ansatz); // approximation
-            std::cout << "  gradient_measurement Vector: " << std::fixed << std::setprecision(3) 
-                      << (gradient_measurement_vector_bytes / (1024.0 * 1024.0)) << " MB capacity, " 
-                      << std::fixed << std::setprecision(3) << (accumulated_ansatz_objects / (1024.0 * 1024.0)) 
-                      << " MB ansatz objects" << std::endl;
+            // Comprehensive Ansatz memory analysis - all members and overhead
+            if (gradient_measurement[i] != nullptr) {
+              // 1. shared_ptr overhead (control blocks for reference counting)
+              size_t shared_ptr_overhead = 4 * (sizeof(std::shared_ptr<void>) + 32); // 4 shared_ptrs + control blocks
+              
+              // 2. theta vector (parameters) with shared_ptr overhead
+              auto theta_ptr = gradient_measurement[i]->getParams();
+              size_t theta_data_bytes = theta_ptr->capacity() * sizeof(ValType);
+              size_t theta_total_bytes = theta_data_bytes + sizeof(std::vector<ValType>);
+              
+              // 3. parameterized_gates vector with shared_ptr overhead  
+              auto param_gates_ptr = gradient_measurement[i]->getParamGateIndices();
+              size_t param_gates_data_bytes = param_gates_ptr->capacity() * sizeof(IdxType);
+              size_t param_gates_total_bytes = param_gates_data_bytes + sizeof(std::vector<IdxType>);
+              
+              // 4. gate_parameter_pointers - complex nested structure with shared_ptr
+              size_t gate_param_pointers_bytes = 0;
+              auto gate_pointers = gradient_measurement[i]->getParamGatePointers();
+              if (gate_pointers != nullptr) {
+                // Outer vector overhead
+                gate_param_pointers_bytes += gate_pointers->capacity() * sizeof(std::vector<std::pair<IdxType, ValType>>);
+                gate_param_pointers_bytes += sizeof(std::vector<std::vector<std::pair<IdxType, ValType>>>);
+                
+                // Inner vectors overhead and data
+                for (const auto& inner_vec : *gate_pointers) {
+                  gate_param_pointers_bytes += inner_vec.capacity() * sizeof(std::pair<IdxType, ValType>);
+                  gate_param_pointers_bytes += sizeof(std::vector<std::pair<IdxType, ValType>>); // vector object overhead
+                }
+              }
+              
+              // 5. gate_coefficients vector (missing from previous analysis!)
+              size_t gate_coeffs_bytes = 0; // Cannot access directly, estimate based on param gates
+              if (param_gates_ptr != nullptr) {
+                gate_coeffs_bytes = param_gates_ptr->size() * sizeof(ValType) + sizeof(std::vector<ValType>);
+              }
+              
+              // 6. excitation_index_map unordered_map<string, IdxType> (potential memory hog!)
+              size_t excitation_map_bytes = 0;
+              // Estimate: assume average string length of 20 chars, map overhead of 32 bytes per entry
+              // This could be HUGE with many operators
+              size_t estimated_map_entries = std::min((size_t)100, param_gates_ptr->size()); // conservative estimate
+              excitation_map_bytes = estimated_map_entries * (20 + sizeof(IdxType) + 32) + 64; // map overhead
+              
+              // 7. Circuit gates from inherited Circuit class (actual Gate objects)
+              auto gates_ptr = gradient_measurement[i]->getGates();
+              size_t circuit_gates_data_bytes = gates_ptr->capacity() * sizeof(Gate);
+              size_t circuit_gates_total_bytes = circuit_gates_data_bytes + sizeof(std::vector<Gate>);
+              
+              // 8. Ansatz object overhead (vtable, padding, etc.)
+              size_t ansatz_object_overhead = sizeof(Ansatz) + sizeof(Circuit); // inheritance overhead
+              
+              // 9. ansatz_name string
+              size_t ansatz_name_bytes = 32; // estimated string overhead
+              
+              // Total calculation
+              size_t total_ansatz_bytes = shared_ptr_overhead + theta_total_bytes + param_gates_total_bytes + 
+                                         gate_param_pointers_bytes + gate_coeffs_bytes + excitation_map_bytes +
+                                         circuit_gates_total_bytes + ansatz_object_overhead + ansatz_name_bytes;
+              
+              std::cout << "  Complete Ansatz Memory Breakdown:" << std::endl;
+              std::cout << "    shared_ptr overhead: " << std::fixed << std::setprecision(2) 
+                        << (shared_ptr_overhead / 1024.0) << " KB" << std::endl;
+              std::cout << "    theta (params): " << std::fixed << std::setprecision(2) 
+                        << (theta_total_bytes / 1024.0) << " KB (" << theta_ptr->size() << "/" << theta_ptr->capacity() << ")" << std::endl;
+              std::cout << "    parameterized_gates: " << std::fixed << std::setprecision(2) 
+                        << (param_gates_total_bytes / 1024.0) << " KB (" << param_gates_ptr->size() << "/" << param_gates_ptr->capacity() << ")" << std::endl;
+              std::cout << "    gate_parameter_pointers: " << std::fixed << std::setprecision(2) 
+                        << (gate_param_pointers_bytes / 1024.0) << " KB (nested structure)" << std::endl;
+              std::cout << "    gate_coefficients: " << std::fixed << std::setprecision(2) 
+                        << (gate_coeffs_bytes / 1024.0) << " KB (estimated)" << std::endl;
+              std::cout << "    excitation_index_map: " << std::fixed << std::setprecision(2) 
+                        << (excitation_map_bytes / 1024.0) << " KB (string map)" << std::endl;
+              std::cout << "    circuit_gates: " << std::fixed << std::setprecision(2) 
+                        << (circuit_gates_total_bytes / 1024.0) << " KB (" << gates_ptr->size() << "/" << gates_ptr->capacity() << ")" << std::endl;
+              std::cout << "    object_overhead: " << std::fixed << std::setprecision(2) 
+                        << ((ansatz_object_overhead + ansatz_name_bytes) / 1024.0) << " KB" << std::endl;
+              std::cout << "    Total Ansatz Object: " << std::fixed << std::setprecision(3) 
+                        << (total_ansatz_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
+              
+              // Memory efficiency analysis  
+              size_t useful_data = theta_ptr->size() * sizeof(ValType) + 
+                                  param_gates_ptr->size() * sizeof(IdxType) + 
+                                  gates_ptr->size() * sizeof(Gate);
+              double efficiency = (useful_data > 0) ? (100.0 * useful_data / total_ansatz_bytes) : 0.0;
+              std::cout << "    Memory Efficiency: " << std::fixed << std::setprecision(1) << efficiency 
+                        << "% (useful data vs total)" << std::endl;
+              
+              // Identify the largest memory consumer
+              std::vector<std::pair<std::string, size_t>> components = {
+                {"circuit_gates", circuit_gates_total_bytes},
+                {"gate_parameter_pointers", gate_param_pointers_bytes},
+                {"theta", theta_total_bytes},
+                {"excitation_map", excitation_map_bytes},
+                {"shared_ptr_overhead", shared_ptr_overhead}
+              };
+              
+              auto max_component = std::max_element(components.begin(), components.end(),
+                [](const auto& a, const auto& b) { return a.second < b.second; });
+              
+              std::cout << "    Memory Hotspot: " << max_component->first << " (" 
+                        << std::fixed << std::setprecision(1) << (100.0 * max_component->second / total_ansatz_bytes) 
+                        << "% of object)" << std::endl;
+            }
             
             // Track circuit memory per clique for analysis
             if (i > 0 && prev_cliques > 0) {
@@ -632,20 +668,112 @@ namespace NWQSim {
           double non_circuit_memory_mb = (cumulative_coefficient_memory_bytes + cumulative_zmask_memory_bytes + 
                                          cumulative_observable_memory_bytes + cumulative_clique_memory_bytes +
                                          cumulative_pauli_map_memory_bytes + cumulative_comm_ops_memory_bytes) / (1024.0 * 1024.0);
-          double actual_growth_mb = (final_cpu_rss - initial_cpu_rss) / 1024.0;
-          double estimated_circuit_memory_mb = actual_growth_mb - non_circuit_memory_mb;
+          double total_growth_mb = (final_cpu_rss - initial_cpu_rss) / 1024.0;
+          double estimated_circuit_memory_mb = total_growth_mb - non_circuit_memory_mb;
           
           std::cout << "\nCircuit Memory Analysis:" << std::endl;
           std::cout << "  Non-Circuit Memory: " << std::fixed << std::setprecision(3) << non_circuit_memory_mb << " MB" << std::endl;
           std::cout << "  Estimated Circuit Memory: " << std::fixed << std::setprecision(3) << estimated_circuit_memory_mb << " MB" << std::endl;
           std::cout << "  Circuit Memory Percentage: " << std::fixed << std::setprecision(1) 
-                    << (100.0 * estimated_circuit_memory_mb / actual_growth_mb) << "%" << std::endl;
+                    << (100.0 * estimated_circuit_memory_mb / total_growth_mb) << "%" << std::endl;
           
-          // gradient_measurement vector final analysis
-          size_t final_gradient_measurement_bytes = gradient_measurement.size() * sizeof(std::shared_ptr<Ansatz>);
-          std::cout << "  gradient_measurement Vector Size: " << gradient_measurement.size() << " entries, " 
-                    << std::fixed << std::setprecision(3) << (final_gradient_measurement_bytes / (1024.0 * 1024.0)) 
-                    << " MB vector overhead" << std::endl;
+          // Comprehensive cumulative Ansatz memory analysis
+          size_t total_ansatz_objects = gradient_measurement.size();
+          size_t gradient_measurement_vector_overhead = gradient_measurement.capacity() * sizeof(std::shared_ptr<Ansatz>);
+          
+          // Accumulate all Ansatz memory components across all operators
+          size_t cumulative_shared_ptr_overhead = 0;
+          size_t cumulative_theta_memory = 0;
+          size_t cumulative_param_gates_memory = 0;
+          size_t cumulative_gate_param_pointers_memory = 0;
+          size_t cumulative_gate_coeffs_memory = 0;
+          size_t cumulative_excitation_maps_memory = 0;
+          size_t cumulative_circuit_gates_memory = 0;
+          size_t cumulative_object_overhead = 0;
+          
+          for (size_t j = 0; j < gradient_measurement.size(); j++) {
+            if (gradient_measurement[j] != nullptr) {
+              // shared_ptr overhead per object
+              cumulative_shared_ptr_overhead += 4 * (sizeof(std::shared_ptr<void>) + 32);
+              
+              // theta vectors
+              auto theta_ptr = gradient_measurement[j]->getParams();
+              cumulative_theta_memory += theta_ptr->capacity() * sizeof(ValType) + sizeof(std::vector<ValType>);
+              
+              // parameterized_gates vectors
+              auto param_gates_ptr = gradient_measurement[j]->getParamGateIndices();
+              cumulative_param_gates_memory += param_gates_ptr->capacity() * sizeof(IdxType) + sizeof(std::vector<IdxType>);
+              
+              // gate_parameter_pointers nested structures
+              auto gate_pointers = gradient_measurement[j]->getParamGatePointers();
+              if (gate_pointers != nullptr) {
+                cumulative_gate_param_pointers_memory += gate_pointers->capacity() * sizeof(std::vector<std::pair<IdxType, ValType>>) +
+                                                         sizeof(std::vector<std::vector<std::pair<IdxType, ValType>>>);
+                for (const auto& inner_vec : *gate_pointers) {
+                  cumulative_gate_param_pointers_memory += inner_vec.capacity() * sizeof(std::pair<IdxType, ValType>) +
+                                                           sizeof(std::vector<std::pair<IdxType, ValType>>);
+                }
+              }
+              
+              // gate_coefficients vectors (estimated)
+              cumulative_gate_coeffs_memory += param_gates_ptr->size() * sizeof(ValType) + sizeof(std::vector<ValType>);
+              
+              // excitation_index_map string maps (estimated)
+              size_t estimated_map_entries = std::min((size_t)100, param_gates_ptr->size());
+              cumulative_excitation_maps_memory += estimated_map_entries * (20 + sizeof(IdxType) + 32) + 64;
+              
+              // circuit_gates vectors
+              auto gates_ptr = gradient_measurement[j]->getGates();
+              cumulative_circuit_gates_memory += gates_ptr->capacity() * sizeof(Gate) + sizeof(std::vector<Gate>);
+              
+              // object overhead
+              cumulative_object_overhead += sizeof(Ansatz) + sizeof(Circuit) + 32; // ansatz_name
+            }
+          }
+          
+          size_t total_ansatz_system_memory = cumulative_shared_ptr_overhead + cumulative_theta_memory + 
+                                             cumulative_param_gates_memory + cumulative_gate_param_pointers_memory +
+                                             cumulative_gate_coeffs_memory + cumulative_excitation_maps_memory +
+                                             cumulative_circuit_gates_memory + cumulative_object_overhead;
+          
+          std::cout << "\nComprehensive Cumulative Ansatz Memory:" << std::endl;
+          std::cout << "  Total Ansatz Objects: " << total_ansatz_objects << std::endl;
+          std::cout << "  gradient_measurement Vector Overhead: " << std::fixed << std::setprecision(3) 
+                    << (gradient_measurement_vector_overhead / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All shared_ptr overhead: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_shared_ptr_overhead / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All theta vectors: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_theta_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All parameterized_gates: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_param_gates_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All gate_parameter_pointers: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_gate_param_pointers_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All gate_coefficients: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_gate_coeffs_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All excitation_maps: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_excitation_maps_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All circuit_gates: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_circuit_gates_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  All object overhead: " << std::fixed << std::setprecision(3) 
+                    << (cumulative_object_overhead / (1024.0 * 1024.0)) << " MB" << std::endl;
+          std::cout << "  Total Ansatz System Memory: " << std::fixed << std::setprecision(3) 
+                    << (total_ansatz_system_memory / (1024.0 * 1024.0)) << " MB" << std::endl;
+          
+          // Identify the largest cumulative memory consumer
+          std::vector<std::pair<std::string, size_t>> cumulative_components = {
+            {"circuit_gates", cumulative_circuit_gates_memory},
+            {"gate_parameter_pointers", cumulative_gate_param_pointers_memory},
+            {"theta_vectors", cumulative_theta_memory},
+            {"excitation_maps", cumulative_excitation_maps_memory},
+            {"shared_ptr_overhead", cumulative_shared_ptr_overhead}
+          };
+          
+          auto max_cumulative = std::max_element(cumulative_components.begin(), cumulative_components.end(),
+            [](const auto& a, const auto& b) { return a.second < b.second; });
+          
+          std::cout << "  System Memory Hotspot: " << max_cumulative->first << " (" 
+                    << std::fixed << std::setprecision(1) << (100.0 * max_cumulative->second / total_ansatz_system_memory) 
+                    << "% of all Ansatz memory)" << std::endl;
           
           // Circuit density analysis
           double avg_circuit_memory_per_operator = estimated_circuit_memory_mb / poolsize;
@@ -661,9 +789,8 @@ namespace NWQSim {
           std::cout << "  Largest Single Operator: " << std::fixed << std::setprecision(3) << (max_single_operator_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
           
           // Memory analysis
-          double actual_growth_mb = (final_cpu_rss - initial_cpu_rss) / 1024.0;
-          if (actual_growth_mb > 0) {
-            double efficiency_ratio = total_estimated_mb / actual_growth_mb;
+          if (total_growth_mb > 0) {
+            double efficiency_ratio = total_estimated_mb / total_growth_mb;
             std::cout << "\nMemory Analysis:" << std::endl;
             std::cout << "  Estimated vs Actual Growth: " << std::fixed << std::setprecision(1) << (efficiency_ratio * 100.0) << "%" << std::endl;
             std::cout << "  Memory Efficiency Ratio: " << std::fixed << std::setprecision(2) << efficiency_ratio << std::endl;
