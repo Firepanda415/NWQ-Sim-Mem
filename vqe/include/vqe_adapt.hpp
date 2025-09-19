@@ -241,7 +241,26 @@ namespace NWQSim {
           size_t operator_clique_memory_bytes = 0;
           size_t operator_total_memory_bytes = 0;
           
+          // Detailed STL container size tracking
+          size_t pmap_actual_bytes = 0;
+          size_t comm_ops_actual_bytes = 0;
+          size_t cliques_actual_bytes = 0;
+          
           if (state->get_process_rank() == 0) {
+            // Measure actual STL container sizes
+            pmap_actual_bytes = pmap.size() * (sizeof(PauliOperator) + sizeof(std::complex<double>)) + 
+                               pmap.bucket_count() * sizeof(void*) + 
+                               pmap.size() * 32; // hash table overhead
+            
+            comm_ops_actual_bytes = comm_ops.capacity() * sizeof(PauliOperator);
+            
+            // Calculate cliques list memory (complex nested structure)
+            cliques_actual_bytes = 0;
+            for (const auto& clique : cliques) {
+              cliques_actual_bytes += sizeof(std::vector<IdxType>) + clique.capacity() * sizeof(IdxType);
+            }
+            cliques_actual_bytes += cliques.size() * sizeof(std::list<std::vector<IdxType>>::value_type);
+            
             // More accurate memory calculations
             operator_coefficient_memory_bytes = comm_ops.size() * sizeof(std::complex<double>); // coefficients are complex
             operator_zmask_memory_bytes = comm_ops.size() * sizeof(IdxType) * 2; // both xmask and zmask
@@ -263,6 +282,19 @@ namespace NWQSim {
                       << cliques.size() << " cliques (efficiency: " << std::fixed << std::setprecision(1) 
                       << efficiency << "%) - Memory: " << std::fixed << std::setprecision(2) 
                       << (operator_total_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
+            
+            // Detailed STL container breakdown
+            std::cout << "  STL Containers: PauliMap=" << std::fixed << std::setprecision(2) << (pmap_actual_bytes / (1024.0 * 1024.0)) 
+                      << "MB, CommOps=" << (comm_ops_actual_bytes / (1024.0 * 1024.0))
+                      << "MB, Cliques=" << (cliques_actual_bytes / (1024.0 * 1024.0)) << "MB" << std::endl;
+            
+            // Show container efficiency
+            double pmap_overhead = (pmap_actual_bytes > pauli_map_memory_bytes) ? 
+                                  ((double)pmap_actual_bytes / pauli_map_memory_bytes) : 1.0;
+            double comm_ops_overhead = (comm_ops_actual_bytes > comm_ops_memory_bytes) ? 
+                                      ((double)comm_ops_actual_bytes / comm_ops_memory_bytes) : 1.0;
+            std::cout << "  Container Overhead: PauliMap=" << std::fixed << std::setprecision(1) << pmap_overhead 
+                      << "x, CommOps=" << comm_ops_overhead << "x" << std::endl;
             
             // Update batch tracking
             batch_pauli_terms += comm_ops.size();
@@ -286,6 +318,19 @@ namespace NWQSim {
           total_observables_created += cliques.size();
           cumulative_observable_memory_bytes += (cliques.size() * sizeof(ObservableList));
           
+          // Memory tracking before circuit construction
+          size_t cpu_rss_before_circuits = 0;
+          if (state->get_process_rank() == 0) {
+            std::ifstream status_file_circuits("/proc/self/status");
+            std::string line_circuits;
+            while (std::getline(status_file_circuits, line_circuits)) {
+              if (line_circuits.find("VmRSS:") == 0) {
+                sscanf(line_circuits.c_str(), "VmRSS: %zu kB", &cpu_rss_before_circuits);
+                break;
+              }
+            }
+          }
+          
           // For each clique, construct a measurement circuit and append
           for (size_t j = 0; j < cliques.size(); j++) {
             std::vector<IdxType>& clique = *cliqueiter;
@@ -304,6 +349,32 @@ namespace NWQSim {
             Measurement circ2 (common, true); // inverse of the measurement circuit $U_M^\dagger$
             gradient_measurement[i]->compose(circ2, qubit_mapping);  // add the inverse
             cliqueiter++;
+          }
+          
+          // Memory tracking after circuit construction
+          size_t cpu_rss_after_circuits = 0;
+          if (state->get_process_rank() == 0) {
+            std::ifstream status_file_circuits_after("/proc/self/status");
+            std::string line_circuits_after;
+            while (std::getline(status_file_circuits_after, line_circuits_after)) {
+              if (line_circuits_after.find("VmRSS:") == 0) {
+                sscanf(line_circuits_after.c_str(), "VmRSS: %zu kB", &cpu_rss_after_circuits);
+                break;
+              }
+            }
+            
+            double circuit_memory_mb = (cpu_rss_after_circuits - cpu_rss_before_circuits) / 1024.0;
+            std::cout << "  Circuit Construction: +" << std::fixed << std::setprecision(2) << circuit_memory_mb 
+                      << " MB (" << cliques.size() << " circuits)" << std::endl;
+            
+            // Estimate gradient_measurement size
+            size_t estimated_circuit_size = 0;
+            if (gradient_measurement[i]) {
+              // Rough estimate based on circuit gates and qubits
+              estimated_circuit_size = ansatz->num_qubits() * cliques.size() * 64; // 64 bytes per gate estimate
+            }
+            std::cout << "  Estimated Circuit Memory: " << std::fixed << std::setprecision(2) 
+                      << (estimated_circuit_size / (1024.0 * 1024.0)) << " MB" << std::endl;
           }
           
           // Memory tracking after operator processing
@@ -359,10 +430,47 @@ namespace NWQSim {
               std::cout << "  Average Efficiency: " << std::fixed << std::setprecision(1) << avg_efficiency << "%" << std::endl;
               std::cout << "  Cumulative Memory: " << std::fixed << std::setprecision(2) << (current_cpu_rss / 1024.0) << " MB" << std::endl;
               
+              // Memory per operator analysis
+              double avg_memory_per_op = batch_memory_growth / summary_interval;
+              std::cout << "  Average Memory/Operator: " << std::fixed << std::setprecision(2) << avg_memory_per_op << " MB" << std::endl;
+              
+              // Theoretical vs actual comparison
+              double avg_pauli_per_op = (double)batch_pauli_terms / summary_interval;
+              double theoretical_mb_per_op = (avg_pauli_per_op * 16 + avg_pauli_per_op * 8 + batch_cliques * 128 / summary_interval) / (1024.0 * 1024.0);
+              double bloat_factor = avg_memory_per_op / theoretical_mb_per_op;
+              std::cout << "  Theoretical Memory/Op: " << std::fixed << std::setprecision(2) << theoretical_mb_per_op 
+                        << " MB (bloat factor: " << std::fixed << std::setprecision(1) << bloat_factor << "x)" << std::endl;
+              
               // Check for concerning trends
               if (batch_memory_growth > 50.0) {
                 std::cout << "  ⚠️  High memory growth in this batch" << std::endl;
               }
+              if (avg_efficiency < 30.0) {
+                std::cout << "  ⚠️  Low grouping efficiency in this batch" << std::endl;
+              }
+              if (bloat_factor > 10.0) {
+                std::cout << "  🔴 CRITICAL: " << std::fixed << std::setprecision(1) << bloat_factor 
+                          << "x memory bloat detected!" << std::endl;
+              } else if (bloat_factor > 5.0) {
+                std::cout << "  ⚠️  High memory bloat: " << std::fixed << std::setprecision(1) << bloat_factor << "x" << std::endl;
+              }
+              
+              // Memory fragmentation analysis
+              size_t total_heap_size = 0;
+              size_t total_heap_free = 0;
+              std::ifstream meminfo("/proc/meminfo");
+              std::string line_mem;
+              while (std::getline(meminfo, line_mem)) {
+                if (line_mem.find("MemTotal:") == 0) {
+                  sscanf(line_mem.c_str(), "MemTotal: %zu kB", &total_heap_size);
+                } else if (line_mem.find("MemAvailable:") == 0) {
+                  sscanf(line_mem.c_str(), "MemAvailable: %zu kB", &total_heap_free);
+                  break;
+                }
+              }
+              
+              double memory_pressure = 100.0 * (1.0 - (double)total_heap_free / total_heap_size);
+              std::cout << "  System Memory Pressure: " << std::fixed << std::setprecision(1) << memory_pressure << "%" << std::endl;
               std::cout << "--- END SUMMARY ---\n" << std::endl;
               
               // Reset batch counters
@@ -454,10 +562,11 @@ namespace NWQSim {
           std::cout << "  Final Free: " << std::fixed << std::setprecision(4) << (final_gpu_free / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
           std::cout << "  Net Consumed: " << std::fixed << std::setprecision(4) << (gpu_memory_consumed / (1024.0*1024.0*1024.0)) << " GB" << std::endl;
           
-          // Calculate expected GPU memory (rough estimate for 12-qubit statevector)
-          size_t statevector_size_bytes = (1ULL << 12) * sizeof(std::complex<double>); // 2^12 * 16 bytes
+          // Calculate expected GPU memory (statevector size based on number of qubits)
+          size_t num_qubits = ansatz->num_qubits();
+          size_t statevector_size_bytes = (1ULL << num_qubits) * sizeof(std::complex<double>); // 2^n_qubits * 16 bytes
           double expected_gpu_mb = statevector_size_bytes / (1024.0 * 1024.0);
-          std::cout << "  Expected Statevector: " << std::fixed << std::setprecision(2) << expected_gpu_mb << " MB" << std::endl;
+          std::cout << "  Expected Statevector (" << num_qubits << " qubits): " << std::fixed << std::setprecision(2) << expected_gpu_mb << " MB" << std::endl;
           
           if (gpu_memory_consumed > (total_estimated_mb / 1024.0) * 2) {
             std::cout << "  WARNING: GPU memory usage significantly higher than expected" << std::endl;

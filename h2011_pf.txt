@@ -1,0 +1,1560 @@
+========================================
+  NWQSim ADAPT-VQE Memory Profiling
+========================================
+CUDA detected. GPU information:
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+
+Configuration:
+  Input file: /global/homes/z/zhen002/NSMem/H2O_1.75_Eq_11-Orbitals_DUCC3_H2O-1.75_Eq_DUCC3_10-electrons_11-Orbitals.out-xacc
+  Output file: memory_profile_output.log
+  Build type: GPU-enabled ADAPT-VQE
+
+Starting ADAPT-VQE with GPU memory profiling...
+Output will be saved to: memory_profile_output.log
+
+=== ADAPT-VQE Memory Profiling Session ===
+Date: Thu 18 Sep 2025 05:25:22 PM PDT
+System Info:
+  CPU: AMD EPYC 7763 64-Core Processor
+  Total RAM: 251Gi
+  Available RAM: 228Gi
+GPU Info:
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+=== Initial Memory State ===
+CPU Memory:
+               total        used        free      shared  buff/cache   available
+Mem:           251Gi        22Gi       234Gi       833Mi       1.5Gi       228Gi
+Swap:             0B          0B          0B
+GPU Memory:
+40960, 40327, 1
+40960, 40327, 1
+40960, 40327, 1
+40960, 40327, 1
+
+Starting simulation...
+Reading Hamiltonian...
+Constructed 33016 Pauli observables
+Constructing the ansatz...
+Starting with 10 Gates and 0 parameters
+Beginning ADAPT-VQE loop...
+
+=== ADAPT-VQE Memory Profiling (CPU + GPU) ===
+Initial CPU memory:
+  RSS (Resident Set Size): 255.98 MB
+Initial GPU memory:
+  Total GPU memory: 39.3812 GB
+  Free GPU memory: 38.8380 GB
+  Used GPU memory: 0.5432 GB
+
+Starting UCCSD operator pool allocation...
+  Pool size: 645 operators
+  Hamiltonian terms: 7833
+Processing operator 0/645 - CPU: 256.06 MB, GPU: 38.8380 GB free
+Operator 0: 11136 Pauli terms -> 3077 cliques (efficiency: 27.6%) - Memory: 32.65 MB
+  → Memory delta: CPU +12.20 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 1/645 - CPU: 267.50 MB, GPU: 38.8341 GB free
+Operator 1: 11136 Pauli terms -> 2962 cliques (efficiency: 26.6%) - Memory: 32.58 MB
+  → Memory delta: CPU +22.63 MB, GPU +4.00 MB
+Processing operator 2/645 - CPU: 290.13 MB, GPU: 38.8302 GB free
+Operator 2: 11136 Pauli terms -> 2991 cliques (efficiency: 26.9%) - Memory: 32.73 MB
+  → Memory delta: CPU +17.82 MB, GPU +2.00 MB
+Processing operator 3/645 - CPU: 307.31 MB, GPU: 38.8282 GB free
+Operator 3: 11136 Pauli terms -> 3037 cliques (efficiency: 27.3%) - Memory: 32.89 MB
+  → Memory delta: CPU +18.37 MB, GPU +4.00 MB
+Processing operator 4/645 - CPU: 324.92 MB, GPU: 38.8243 GB free
+Operator 4: 11136 Pauli terms -> 3064 cliques (efficiency: 27.5%) - Memory: 32.67 MB
+  → Memory delta: CPU +26.36 MB, GPU +2.00 MB
+Processing operator 5/645 - CPU: 351.28 MB, GPU: 38.8224 GB free
+Operator 5: 9384 Pauli terms -> 3152 cliques (efficiency: 33.6%) - Memory: 34.09 MB
+  → Memory delta: CPU +19.06 MB, GPU +4.00 MB
+Processing operator 6/645 - CPU: 369.80 MB, GPU: 38.8185 GB free
+Operator 6: 11136 Pauli terms -> 2949 cliques (efficiency: 26.5%) - Memory: 32.63 MB
+  → Memory delta: CPU +19.32 MB, GPU +2.00 MB
+Processing operator 7/645 - CPU: 389.12 MB, GPU: 38.8165 GB free
+Operator 7: 11136 Pauli terms -> 2871 cliques (efficiency: 25.8%) - Memory: 32.58 MB
+  → Memory delta: CPU +15.07 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 8/645 - CPU: 404.19 MB, GPU: 38.8126 GB free
+Operator 8: 11136 Pauli terms -> 2935 cliques (efficiency: 26.4%) - Memory: 32.72 MB
+  → Memory delta: CPU +14.06 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 9/645 - CPU: 418.25 MB, GPU: 38.8107 GB free
+Operator 9: 11136 Pauli terms -> 2988 cliques (efficiency: 26.8%) - Memory: 32.82 MB
+  → Memory delta: CPU +19.37 MB, GPU +4.00 MB
+
+--- SUMMARY: Operators 0-9 ---
+  Batch Memory Growth: +181.63 MB
+  Pauli Terms Generated: 109608
+  Commuting Groups: 30026
+  Average Efficiency: 27.5%
+  Cumulative Memory: 437.61 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 10/645 - CPU: 437.61 MB, GPU: 38.8068 GB free
+Operator 10: 11136 Pauli terms -> 3049 cliques (efficiency: 27.4%) - Memory: 32.71 MB
+  → Memory delta: CPU +20.80 MB, GPU +2.00 MB
+Processing operator 11/645 - CPU: 458.42 MB, GPU: 38.8048 GB free
+Operator 11: 9384 Pauli terms -> 3047 cliques (efficiency: 32.5%) - Memory: 34.05 MB
+  → Memory delta: CPU +18.30 MB, GPU +4.00 MB
+Processing operator 12/645 - CPU: 476.72 MB, GPU: 38.8009 GB free
+Operator 12: 11136 Pauli terms -> 2913 cliques (efficiency: 26.2%) - Memory: 32.80 MB
+  → Memory delta: CPU +23.31 MB, GPU +2.00 MB
+Processing operator 13/645 - CPU: 500.04 MB, GPU: 38.7990 GB free
+Operator 13: 11136 Pauli terms -> 2905 cliques (efficiency: 26.1%) - Memory: 32.72 MB
+  → Memory delta: CPU +7.77 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 14/645 - CPU: 507.81 MB, GPU: 38.7950 GB free
+Operator 14: 11136 Pauli terms -> 2941 cliques (efficiency: 26.4%) - Memory: 32.87 MB
+  → Memory delta: CPU +26.36 MB, GPU +2.00 MB
+Processing operator 15/645 - CPU: 534.17 MB, GPU: 38.7931 GB free
+Operator 15: 11136 Pauli terms -> 2970 cliques (efficiency: 26.7%) - Memory: 32.98 MB
+  → Memory delta: CPU +19.06 MB, GPU +4.00 MB
+Processing operator 16/645 - CPU: 553.23 MB, GPU: 38.7892 GB free
+Operator 16: 11136 Pauli terms -> 3082 cliques (efficiency: 27.7%) - Memory: 32.83 MB
+  → Memory delta: CPU +14.30 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 17/645 - CPU: 567.53 MB, GPU: 38.7872 GB free
+Operator 17: 9384 Pauli terms -> 3050 cliques (efficiency: 32.5%) - Memory: 34.22 MB
+  → Memory delta: CPU +21.45 MB, GPU +4.00 MB
+Processing operator 18/645 - CPU: 588.34 MB, GPU: 38.7833 GB free
+Operator 18: 9384 Pauli terms -> 2568 cliques (efficiency: 27.4%) - Memory: 34.03 MB
+  → Memory delta: CPU +16.22 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 19/645 - CPU: 604.55 MB, GPU: 38.7814 GB free
+Operator 19: 9384 Pauli terms -> 2568 cliques (efficiency: 27.4%) - Memory: 33.94 MB
+  → Memory delta: CPU +13.98 MB, GPU +2.00 MB [LOW GROWTH]
+
+--- SUMMARY: Operators 10-19 ---
+  Batch Memory Growth: +180.92 MB
+  Pauli Terms Generated: 104352
+  Commuting Groups: 29093
+  Average Efficiency: 28.0%
+  Cumulative Memory: 618.53 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 20/645 - CPU: 618.53 MB, GPU: 38.7794 GB free
+Operator 20: 9384 Pauli terms -> 2614 cliques (efficiency: 27.9%) - Memory: 34.11 MB
+  → Memory delta: CPU +17.24 MB, GPU +4.00 MB
+Processing operator 21/645 - CPU: 635.77 MB, GPU: 38.7755 GB free
+Operator 21: 9384 Pauli terms -> 2636 cliques (efficiency: 28.1%) - Memory: 34.23 MB
+  → Memory delta: CPU +16.80 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 22/645 - CPU: 652.57 MB, GPU: 38.7736 GB free
+Operator 22: 9384 Pauli terms -> 2731 cliques (efficiency: 29.1%) - Memory: 34.08 MB
+  → Memory delta: CPU +22.09 MB, GPU +2.00 MB
+Processing operator 23/645 - CPU: 674.66 MB, GPU: 38.7716 GB free
+Operator 23: 3912 Pauli terms -> 1117 cliques (efficiency: 28.6%) - Memory: 33.88 MB
+  → Memory delta: CPU +6.00 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 24/645 - CPU: 678.72 MB, GPU: 38.7697 GB free
+Operator 24: 11136 Pauli terms -> 2998 cliques (efficiency: 26.9%) - Memory: 32.67 MB
+  → Memory delta: CPU +30.86 MB, GPU +2.00 MB
+Processing operator 25/645 - CPU: 709.58 MB, GPU: 38.7677 GB free
+Operator 25: 11136 Pauli terms -> 2865 cliques (efficiency: 25.7%) - Memory: 32.60 MB
+  → Memory delta: CPU +10.49 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 26/645 - CPU: 720.07 MB, GPU: 38.7638 GB free
+Operator 26: 11136 Pauli terms -> 2936 cliques (efficiency: 26.4%) - Memory: 32.76 MB
+  → Memory delta: CPU +13.59 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 27/645 - CPU: 733.66 MB, GPU: 38.7618 GB free
+Operator 27: 11136 Pauli terms -> 2984 cliques (efficiency: 26.8%) - Memory: 32.87 MB
+  → Memory delta: CPU +19.77 MB, GPU +4.00 MB
+Processing operator 28/645 - CPU: 753.43 MB, GPU: 38.7579 GB free
+Operator 28: 11136 Pauli terms -> 3063 cliques (efficiency: 27.5%) - Memory: 32.71 MB
+  → Memory delta: CPU +19.00 MB, GPU +2.00 MB
+Processing operator 29/645 - CPU: 772.43 MB, GPU: 38.7560 GB free
+Operator 29: 9384 Pauli terms -> 2983 cliques (efficiency: 31.8%) - Memory: 34.08 MB
+  → Memory delta: CPU +19.74 MB, GPU +4.00 MB
+
+--- SUMMARY: Operators 20-29 ---
+  Batch Memory Growth: +173.63 MB
+  Pauli Terms Generated: 97128
+  Commuting Groups: 26927
+  Average Efficiency: 27.9%
+  Cumulative Memory: 792.16 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 30/645 - CPU: 792.18 MB, GPU: 38.7521 GB free
+Operator 30: 76160 Pauli terms -> 25523 cliques (efficiency: 33.5%) - Memory: 117.60 MB
+  → Memory delta: CPU +224.25 MB, GPU +26.00 MB
+Processing operator 31/645 - CPU: 1009.66 MB, GPU: 38.7267 GB free
+Operator 31: 76160 Pauli terms -> 22302 cliques (efficiency: 29.3%) - Memory: 117.14 MB
+  → Memory delta: CPU +155.84 MB, GPU +22.00 MB
+Processing operator 32/645 - CPU: 1158.95 MB, GPU: 38.7052 GB free
+Operator 32: 76160 Pauli terms -> 22065 cliques (efficiency: 29.0%) - Memory: 117.38 MB
+  → Memory delta: CPU +156.44 MB, GPU +22.00 MB
+Processing operator 33/645 - CPU: 1308.70 MB, GPU: 38.6837 GB free
+Operator 33: 76160 Pauli terms -> 24145 cliques (efficiency: 31.7%) - Memory: 117.42 MB
+  → Memory delta: CPU +170.88 MB, GPU +24.00 MB
+Processing operator 34/645 - CPU: 1472.94 MB, GPU: 38.6603 GB free
+Operator 34: 73904 Pauli terms -> 26723 cliques (efficiency: 36.2%) - Memory: 121.38 MB
+  → Memory delta: CPU +190.14 MB, GPU +28.00 MB
+Processing operator 35/645 - CPU: 1656.61 MB, GPU: 38.6329 GB free
+Operator 35: 76160 Pauli terms -> 24194 cliques (efficiency: 31.8%) - Memory: 117.84 MB
+  → Memory delta: CPU +164.45 MB, GPU +24.00 MB
+Processing operator 36/645 - CPU: 1814.23 MB, GPU: 38.6095 GB free
+Operator 36: 76160 Pauli terms -> 21274 cliques (efficiency: 27.9%) - Memory: 117.69 MB
+  → Memory delta: CPU +151.21 MB, GPU +22.00 MB
+Processing operator 37/645 - CPU: 1958.42 MB, GPU: 38.5880 GB free
+Operator 37: 76160 Pauli terms -> 21420 cliques (efficiency: 28.1%) - Memory: 117.92 MB
+  → Memory delta: CPU +151.64 MB, GPU +20.00 MB
+Processing operator 38/645 - CPU: 2104.91 MB, GPU: 38.5685 GB free
+Operator 38: 76160 Pauli terms -> 23402 cliques (efficiency: 30.7%) - Memory: 117.82 MB
+  → Memory delta: CPU +165.48 MB, GPU +24.00 MB
+Processing operator 39/645 - CPU: 2263.39 MB, GPU: 38.5450 GB free
+Operator 39: 73904 Pauli terms -> 25695 cliques (efficiency: 34.8%) - Memory: 121.93 MB
+  → Memory delta: CPU +183.29 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 30-39 ---
+  Batch Memory Growth: +1654.52 MB
+  Pauli Terms Generated: 757088
+  Commuting Groups: 236743
+  Average Efficiency: 31.3%
+  Cumulative Memory: 2446.68 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 40/645 - CPU: 2439.93 MB, GPU: 38.5197 GB free
+Operator 40: 73904 Pauli terms -> 23356 cliques (efficiency: 31.6%) - Memory: 121.08 MB
+  → Memory delta: CPU +163.81 MB, GPU +24.00 MB
+Processing operator 41/645 - CPU: 2597.07 MB, GPU: 38.4962 GB free
+Operator 41: 73904 Pauli terms -> 21214 cliques (efficiency: 28.7%) - Memory: 121.02 MB
+  → Memory delta: CPU +151.19 MB, GPU +22.00 MB
+Processing operator 42/645 - CPU: 2741.67 MB, GPU: 38.4747 GB free
+Operator 42: 73904 Pauli terms -> 21511 cliques (efficiency: 29.1%) - Memory: 121.34 MB
+  → Memory delta: CPU +154.78 MB, GPU +20.00 MB
+Processing operator 43/645 - CPU: 2889.70 MB, GPU: 38.4552 GB free
+Operator 43: 73904 Pauli terms -> 22769 cliques (efficiency: 30.8%) - Memory: 120.96 MB
+  → Memory delta: CPU +163.12 MB, GPU +24.00 MB
+Processing operator 44/645 - CPU: 3046.35 MB, GPU: 38.4318 GB free
+Operator 44: 65600 Pauli terms -> 22835 cliques (efficiency: 34.8%) - Memory: 124.87 MB
+  → Memory delta: CPU +162.43 MB, GPU +22.00 MB
+Processing operator 45/645 - CPU: 3204.05 MB, GPU: 38.4103 GB free
+Operator 45: 76160 Pauli terms -> 24445 cliques (efficiency: 32.1%) - Memory: 117.28 MB
+  → Memory delta: CPU +159.95 MB, GPU +26.00 MB
+Processing operator 46/645 - CPU: 3357.41 MB, GPU: 38.3849 GB free
+Operator 46: 76160 Pauli terms -> 21098 cliques (efficiency: 27.7%) - Memory: 116.90 MB
+  → Memory delta: CPU +151.44 MB, GPU +20.00 MB
+Processing operator 47/645 - CPU: 3502.08 MB, GPU: 38.3654 GB free
+Operator 47: 76160 Pauli terms -> 21266 cliques (efficiency: 27.9%) - Memory: 117.33 MB
+  → Memory delta: CPU +147.19 MB, GPU +22.00 MB
+Processing operator 48/645 - CPU: 3642.42 MB, GPU: 38.3439 GB free
+Operator 48: 76160 Pauli terms -> 23097 cliques (efficiency: 30.3%) - Memory: 117.06 MB
+  → Memory delta: CPU +160.34 MB, GPU +24.00 MB
+Processing operator 49/645 - CPU: 3796.18 MB, GPU: 38.3204 GB free
+Operator 49: 73904 Pauli terms -> 26141 cliques (efficiency: 35.4%) - Memory: 121.25 MB
+  → Memory delta: CPU +185.06 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 40-49 ---
+  Batch Memory Growth: +1534.56 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 227732
+  Average Efficiency: 30.8%
+  Cumulative Memory: 3981.25 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 50/645 - CPU: 3974.84 MB, GPU: 38.2950 GB free
+Operator 50: 76160 Pauli terms -> 24760 cliques (efficiency: 32.5%) - Memory: 117.60 MB
+  → Memory delta: CPU +168.47 MB, GPU +24.00 MB
+Processing operator 51/645 - CPU: 4136.71 MB, GPU: 38.2716 GB free
+Operator 51: 76160 Pauli terms -> 22307 cliques (efficiency: 29.3%) - Memory: 117.64 MB
+  → Memory delta: CPU +167.86 MB, GPU +24.00 MB
+Processing operator 52/645 - CPU: 4297.54 MB, GPU: 38.2482 GB free
+Operator 52: 76160 Pauli terms -> 24143 cliques (efficiency: 31.7%) - Memory: 117.28 MB
+  → Memory delta: CPU +160.95 MB, GPU +24.00 MB
+Processing operator 53/645 - CPU: 4451.94 MB, GPU: 38.2247 GB free
+Operator 53: 73904 Pauli terms -> 26666 cliques (efficiency: 36.1%) - Memory: 121.49 MB
+  → Memory delta: CPU +189.24 MB, GPU +26.00 MB
+Processing operator 54/645 - CPU: 4634.65 MB, GPU: 38.1993 GB free
+Operator 54: 76160 Pauli terms -> 23363 cliques (efficiency: 30.7%) - Memory: 117.89 MB
+  → Memory delta: CPU +166.31 MB, GPU +24.00 MB
+Processing operator 55/645 - CPU: 4793.88 MB, GPU: 38.1759 GB free
+Operator 55: 76160 Pauli terms -> 21682 cliques (efficiency: 28.5%) - Memory: 117.94 MB
+  → Memory delta: CPU +149.91 MB, GPU +22.00 MB
+Processing operator 56/645 - CPU: 4936.74 MB, GPU: 38.1544 GB free
+Operator 56: 76160 Pauli terms -> 23478 cliques (efficiency: 30.8%) - Memory: 117.48 MB
+  → Memory delta: CPU +164.47 MB, GPU +24.00 MB
+Processing operator 57/645 - CPU: 5094.57 MB, GPU: 38.1310 GB free
+Operator 57: 73904 Pauli terms -> 25725 cliques (efficiency: 34.8%) - Memory: 121.79 MB
+  → Memory delta: CPU +183.24 MB, GPU +26.00 MB
+Processing operator 58/645 - CPU: 5271.09 MB, GPU: 38.1056 GB free
+Operator 58: 73904 Pauli terms -> 22414 cliques (efficiency: 30.3%) - Memory: 121.20 MB
+  → Memory delta: CPU +159.82 MB, GPU +22.00 MB
+Processing operator 59/645 - CPU: 5424.10 MB, GPU: 38.0841 GB free
+Operator 59: 73904 Pauli terms -> 22036 cliques (efficiency: 29.8%) - Memory: 121.54 MB
+  → Memory delta: CPU +157.07 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 50-59 ---
+  Batch Memory Growth: +1599.92 MB
+  Pauli Terms Generated: 752576
+  Commuting Groups: 236574
+  Average Efficiency: 31.5%
+  Cumulative Memory: 5581.16 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 60/645 - CPU: 5574.19 MB, GPU: 38.0626 GB free
+Operator 60: 73904 Pauli terms -> 23158 cliques (efficiency: 31.3%) - Memory: 120.82 MB
+  → Memory delta: CPU +163.23 MB, GPU +24.00 MB
+Processing operator 61/645 - CPU: 5731.07 MB, GPU: 38.0392 GB free
+Operator 61: 65600 Pauli terms -> 22164 cliques (efficiency: 33.8%) - Memory: 124.74 MB
+  → Memory delta: CPU +165.38 MB, GPU +22.00 MB
+Processing operator 62/645 - CPU: 5891.55 MB, GPU: 38.0177 GB free
+Operator 62: 76160 Pauli terms -> 22406 cliques (efficiency: 29.4%) - Memory: 117.36 MB
+  → Memory delta: CPU +144.87 MB, GPU +22.00 MB
+Processing operator 63/645 - CPU: 6029.64 MB, GPU: 37.9962 GB free
+Operator 63: 76160 Pauli terms -> 21029 cliques (efficiency: 27.6%) - Memory: 117.68 MB
+  → Memory delta: CPU +150.20 MB, GPU +22.00 MB
+Processing operator 64/645 - CPU: 6172.71 MB, GPU: 37.9747 GB free
+Operator 64: 76160 Pauli terms -> 22818 cliques (efficiency: 30.0%) - Memory: 117.05 MB
+  → Memory delta: CPU +162.73 MB, GPU +22.00 MB
+Processing operator 65/645 - CPU: 6328.72 MB, GPU: 37.9532 GB free
+Operator 65: 73904 Pauli terms -> 25486 cliques (efficiency: 34.5%) - Memory: 121.47 MB
+  → Memory delta: CPU +180.82 MB, GPU +26.00 MB
+Processing operator 66/645 - CPU: 6502.86 MB, GPU: 37.9279 GB free
+Operator 66: 76160 Pauli terms -> 23129 cliques (efficiency: 30.4%) - Memory: 117.90 MB
+  → Memory delta: CPU +161.84 MB, GPU +24.00 MB
+Processing operator 67/645 - CPU: 6657.74 MB, GPU: 37.9044 GB free
+Operator 67: 76160 Pauli terms -> 23147 cliques (efficiency: 30.4%) - Memory: 117.42 MB
+  → Memory delta: CPU +164.73 MB, GPU +24.00 MB
+Processing operator 68/645 - CPU: 6815.66 MB, GPU: 37.8810 GB free
+Operator 68: 73904 Pauli terms -> 26137 cliques (efficiency: 35.4%) - Memory: 121.58 MB
+  → Memory delta: CPU +188.67 MB, GPU +26.00 MB
+Processing operator 69/645 - CPU: 6997.59 MB, GPU: 37.8556 GB free
+Operator 69: 76160 Pauli terms -> 22498 cliques (efficiency: 29.5%) - Memory: 118.45 MB
+  → Memory delta: CPU +155.82 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 60-69 ---
+  Batch Memory Growth: +1572.25 MB
+  Pauli Terms Generated: 744272
+  Commuting Groups: 231972
+  Average Efficiency: 31.2%
+  Cumulative Memory: 7153.41 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 70/645 - CPU: 7148.23 MB, GPU: 37.8341 GB free
+Operator 70: 76160 Pauli terms -> 23094 cliques (efficiency: 30.3%) - Memory: 117.95 MB
+  → Memory delta: CPU +173.60 MB, GPU +24.00 MB
+Processing operator 71/645 - CPU: 7314.71 MB, GPU: 37.8107 GB free
+Operator 71: 73904 Pauli terms -> 25322 cliques (efficiency: 34.3%) - Memory: 122.15 MB
+  → Memory delta: CPU +172.88 MB, GPU +24.00 MB
+Processing operator 72/645 - CPU: 7480.63 MB, GPU: 37.7872 GB free
+Operator 72: 73904 Pauli terms -> 23166 cliques (efficiency: 31.3%) - Memory: 122.09 MB
+  → Memory delta: CPU +163.04 MB, GPU +24.00 MB
+Processing operator 73/645 - CPU: 7638.56 MB, GPU: 37.7638 GB free
+Operator 73: 73904 Pauli terms -> 23615 cliques (efficiency: 32.0%) - Memory: 121.43 MB
+  → Memory delta: CPU +167.38 MB, GPU +24.00 MB
+Processing operator 74/645 - CPU: 7799.16 MB, GPU: 37.7404 GB free
+Operator 74: 65600 Pauli terms -> 22315 cliques (efficiency: 34.0%) - Memory: 125.21 MB
+  → Memory delta: CPU +160.45 MB, GPU +22.00 MB
+Processing operator 75/645 - CPU: 7954.66 MB, GPU: 37.7189 GB free
+Operator 75: 76160 Pauli terms -> 22416 cliques (efficiency: 29.4%) - Memory: 118.10 MB
+  → Memory delta: CPU +151.26 MB, GPU +22.00 MB
+Processing operator 76/645 - CPU: 8100.67 MB, GPU: 37.6974 GB free
+Operator 76: 76160 Pauli terms -> 22934 cliques (efficiency: 30.1%) - Memory: 117.47 MB
+  → Memory delta: CPU +160.01 MB, GPU +24.00 MB
+Processing operator 77/645 - CPU: 8253.82 MB, GPU: 37.6740 GB free
+Operator 77: 73904 Pauli terms -> 24564 cliques (efficiency: 33.2%) - Memory: 121.60 MB
+  → Memory delta: CPU +177.38 MB, GPU +24.00 MB
+Processing operator 78/645 - CPU: 8424.44 MB, GPU: 37.6505 GB free
+Operator 78: 76160 Pauli terms -> 21989 cliques (efficiency: 28.9%) - Memory: 117.82 MB
+  → Memory delta: CPU +157.98 MB, GPU +24.00 MB
+Processing operator 79/645 - CPU: 8575.52 MB, GPU: 37.6271 GB free
+Operator 79: 73904 Pauli terms -> 24943 cliques (efficiency: 33.8%) - Memory: 121.93 MB
+  → Memory delta: CPU +183.66 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 70-79 ---
+  Batch Memory Growth: +1605.76 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 234358
+  Average Efficiency: 31.7%
+  Cumulative Memory: 8759.17 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 80/645 - CPU: 8752.21 MB, GPU: 37.6036 GB free
+Operator 80: 76160 Pauli terms -> 23218 cliques (efficiency: 30.5%) - Memory: 118.49 MB
+  → Memory delta: CPU +161.77 MB, GPU +24.00 MB
+Processing operator 81/645 - CPU: 8908.63 MB, GPU: 37.5802 GB free
+Operator 81: 73904 Pauli terms -> 25272 cliques (efficiency: 34.2%) - Memory: 122.59 MB
+  → Memory delta: CPU +182.09 MB, GPU +24.00 MB
+Processing operator 82/645 - CPU: 9085.61 MB, GPU: 37.5568 GB free
+Operator 82: 73904 Pauli terms -> 25355 cliques (efficiency: 34.3%) - Memory: 122.26 MB
+  → Memory delta: CPU +179.52 MB, GPU +26.00 MB
+Processing operator 83/645 - CPU: 9260.02 MB, GPU: 37.5314 GB free
+Operator 83: 65600 Pauli terms -> 23243 cliques (efficiency: 35.4%) - Memory: 125.90 MB
+  → Memory delta: CPU +160.78 MB, GPU +24.00 MB
+Processing operator 84/645 - CPU: 9415.57 MB, GPU: 37.5079 GB free
+Operator 84: 76160 Pauli terms -> 23943 cliques (efficiency: 31.4%) - Memory: 118.30 MB
+  → Memory delta: CPU +172.66 MB, GPU +24.00 MB
+Processing operator 85/645 - CPU: 9581.01 MB, GPU: 37.4845 GB free
+Operator 85: 73904 Pauli terms -> 24971 cliques (efficiency: 33.8%) - Memory: 122.31 MB
+  → Memory delta: CPU +166.12 MB, GPU +26.00 MB
+Processing operator 86/645 - CPU: 9742.12 MB, GPU: 37.4591 GB free
+Operator 86: 73904 Pauli terms -> 23929 cliques (efficiency: 32.4%) - Memory: 121.17 MB
+  → Memory delta: CPU +177.19 MB, GPU +24.00 MB
+Processing operator 87/645 - CPU: 9912.64 MB, GPU: 37.4357 GB free
+Operator 87: 73904 Pauli terms -> 25570 cliques (efficiency: 34.6%) - Memory: 121.97 MB
+  → Memory delta: CPU +183.53 MB, GPU +26.00 MB
+Processing operator 88/645 - CPU: 10089.33 MB, GPU: 37.4103 GB free
+Operator 88: 65600 Pauli terms -> 24234 cliques (efficiency: 36.9%) - Memory: 125.15 MB
+  → Memory delta: CPU +170.90 MB, GPU +24.00 MB
+Processing operator 89/645 - CPU: 10255.32 MB, GPU: 37.3868 GB free
+Operator 89: 73904 Pauli terms -> 25973 cliques (efficiency: 35.1%) - Memory: 121.63 MB
+  → Memory delta: CPU +179.06 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 80-89 ---
+  Batch Memory Growth: +1675.21 MB
+  Pauli Terms Generated: 726944
+  Commuting Groups: 245708
+  Average Efficiency: 33.9%
+  Cumulative Memory: 10434.38 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 90/645 - CPU: 10427.70 MB, GPU: 37.3615 GB free
+Operator 90: 76160 Pauli terms -> 22853 cliques (efficiency: 30.0%) - Memory: 117.60 MB
+  → Memory delta: CPU +155.29 MB, GPU +22.00 MB
+Processing operator 91/645 - CPU: 10576.11 MB, GPU: 37.3400 GB free
+Operator 91: 76160 Pauli terms -> 19827 cliques (efficiency: 26.0%) - Memory: 117.41 MB
+  → Memory delta: CPU +143.14 MB, GPU +20.00 MB
+Processing operator 92/645 - CPU: 10712.37 MB, GPU: 37.3204 GB free
+Operator 92: 76160 Pauli terms -> 20142 cliques (efficiency: 26.4%) - Memory: 117.34 MB
+  → Memory delta: CPU +160.64 MB, GPU +22.00 MB
+Processing operator 93/645 - CPU: 10865.95 MB, GPU: 37.2990 GB free
+Operator 93: 76160 Pauli terms -> 22038 cliques (efficiency: 28.9%) - Memory: 117.87 MB
+  → Memory delta: CPU +143.01 MB, GPU +22.00 MB
+Processing operator 94/645 - CPU: 11001.93 MB, GPU: 37.2775 GB free
+Operator 94: 73904 Pauli terms -> 24316 cliques (efficiency: 32.9%) - Memory: 121.67 MB
+  → Memory delta: CPU +174.52 MB, GPU +24.00 MB
+Processing operator 95/645 - CPU: 11169.58 MB, GPU: 37.2540 GB free
+Operator 95: 73904 Pauli terms -> 21132 cliques (efficiency: 28.6%) - Memory: 120.94 MB
+  → Memory delta: CPU +152.52 MB, GPU +22.00 MB
+Processing operator 96/645 - CPU: 11315.32 MB, GPU: 37.2325 GB free
+Operator 96: 73904 Pauli terms -> 18967 cliques (efficiency: 25.7%) - Memory: 120.90 MB
+  → Memory delta: CPU +143.86 MB, GPU +18.00 MB
+Processing operator 97/645 - CPU: 11452.25 MB, GPU: 37.2150 GB free
+Operator 97: 73904 Pauli terms -> 19260 cliques (efficiency: 26.1%) - Memory: 120.85 MB
+  → Memory delta: CPU +134.34 MB, GPU +20.00 MB
+Processing operator 98/645 - CPU: 11579.91 MB, GPU: 37.1954 GB free
+Operator 98: 73904 Pauli terms -> 20476 cliques (efficiency: 27.7%) - Memory: 121.10 MB
+  → Memory delta: CPU +162.54 MB, GPU +20.00 MB
+Processing operator 99/645 - CPU: 11735.54 MB, GPU: 37.1759 GB free
+Operator 99: 65600 Pauli terms -> 20485 cliques (efficiency: 31.2%) - Memory: 124.71 MB
+  → Memory delta: CPU +134.77 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 90-99 ---
+  Batch Memory Growth: +1435.92 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 209496
+  Average Efficiency: 28.4%
+  Cumulative Memory: 11870.30 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 100/645 - CPU: 11865.49 MB, GPU: 37.1564 GB free
+Operator 100: 76160 Pauli terms -> 22622 cliques (efficiency: 29.7%) - Memory: 117.03 MB
+  → Memory delta: CPU +149.53 MB, GPU +24.00 MB
+Processing operator 101/645 - CPU: 12008.31 MB, GPU: 37.1329 GB free
+Operator 101: 76160 Pauli terms -> 19299 cliques (efficiency: 25.3%) - Memory: 116.71 MB
+  → Memory delta: CPU +138.39 MB, GPU +20.00 MB
+Processing operator 102/645 - CPU: 12140.14 MB, GPU: 37.1134 GB free
+Operator 102: 76160 Pauli terms -> 19439 cliques (efficiency: 25.5%) - Memory: 116.80 MB
+  → Memory delta: CPU +139.17 MB, GPU +18.00 MB
+Processing operator 103/645 - CPU: 12272.61 MB, GPU: 37.0958 GB free
+Operator 103: 76160 Pauli terms -> 21133 cliques (efficiency: 27.7%) - Memory: 117.10 MB
+  → Memory delta: CPU +159.13 MB, GPU +22.00 MB
+Processing operator 104/645 - CPU: 12424.87 MB, GPU: 37.0743 GB free
+Operator 104: 73904 Pauli terms -> 23999 cliques (efficiency: 32.5%) - Memory: 120.92 MB
+  → Memory delta: CPU +163.56 MB, GPU +24.00 MB
+Processing operator 105/645 - CPU: 12582.08 MB, GPU: 37.0509 GB free
+Operator 105: 76160 Pauli terms -> 22044 cliques (efficiency: 28.9%) - Memory: 117.45 MB
+  → Memory delta: CPU +152.23 MB, GPU +22.00 MB
+Processing operator 106/645 - CPU: 12727.56 MB, GPU: 37.0294 GB free
+Operator 106: 76160 Pauli terms -> 20416 cliques (efficiency: 26.8%) - Memory: 117.27 MB
+  → Memory delta: CPU +149.73 MB, GPU +22.00 MB
+Processing operator 107/645 - CPU: 12870.29 MB, GPU: 37.0079 GB free
+Operator 107: 76160 Pauli terms -> 21936 cliques (efficiency: 28.8%) - Memory: 117.34 MB
+  → Memory delta: CPU +151.96 MB, GPU +22.00 MB
+Processing operator 108/645 - CPU: 13015.33 MB, GPU: 36.9865 GB free
+Operator 108: 73904 Pauli terms -> 24146 cliques (efficiency: 32.7%) - Memory: 121.39 MB
+  → Memory delta: CPU +178.91 MB, GPU +24.00 MB
+Processing operator 109/645 - CPU: 13187.46 MB, GPU: 36.9630 GB free
+Operator 109: 73904 Pauli terms -> 20075 cliques (efficiency: 27.2%) - Memory: 120.81 MB
+  → Memory delta: CPU +146.09 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 100-109 ---
+  Batch Memory Growth: +1463.25 MB
+  Pauli Terms Generated: 754832
+  Commuting Groups: 215109
+  Average Efficiency: 28.5%
+  Cumulative Memory: 13333.55 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 110/645 - CPU: 13326.75 MB, GPU: 36.9435 GB free
+Operator 110: 73904 Pauli terms -> 19385 cliques (efficiency: 26.2%) - Memory: 120.85 MB
+  → Memory delta: CPU +135.99 MB, GPU +20.00 MB
+Processing operator 111/645 - CPU: 13455.87 MB, GPU: 36.9240 GB free
+Operator 111: 73904 Pauli terms -> 20418 cliques (efficiency: 27.6%) - Memory: 120.65 MB
+  → Memory delta: CPU +144.62 MB, GPU +20.00 MB
+Processing operator 112/645 - CPU: 13593.98 MB, GPU: 36.9044 GB free
+Operator 112: 65600 Pauli terms -> 19887 cliques (efficiency: 30.3%) - Memory: 124.41 MB
+  → Memory delta: CPU +144.97 MB, GPU +20.00 MB
+Processing operator 113/645 - CPU: 13734.19 MB, GPU: 36.8849 GB free
+Operator 113: 76160 Pauli terms -> 20522 cliques (efficiency: 26.9%) - Memory: 116.83 MB
+  → Memory delta: CPU +138.68 MB, GPU +20.00 MB
+Processing operator 114/645 - CPU: 13866.24 MB, GPU: 36.8654 GB free
+Operator 114: 76160 Pauli terms -> 18877 cliques (efficiency: 24.8%) - Memory: 116.89 MB
+  → Memory delta: CPU +145.95 MB, GPU +20.00 MB
+Processing operator 115/645 - CPU: 14005.26 MB, GPU: 36.8458 GB free
+Operator 115: 76160 Pauli terms -> 20694 cliques (efficiency: 27.2%) - Memory: 116.77 MB
+  → Memory delta: CPU +140.20 MB, GPU +20.00 MB
+Processing operator 116/645 - CPU: 14138.95 MB, GPU: 36.8263 GB free
+Operator 116: 73904 Pauli terms -> 23099 cliques (efficiency: 31.3%) - Memory: 120.85 MB
+  → Memory delta: CPU +166.82 MB, GPU +24.00 MB
+Processing operator 117/645 - CPU: 14299.41 MB, GPU: 36.8029 GB free
+Operator 117: 76160 Pauli terms -> 21616 cliques (efficiency: 28.4%) - Memory: 117.76 MB
+  → Memory delta: CPU +156.76 MB, GPU +22.00 MB
+Processing operator 118/645 - CPU: 14449.03 MB, GPU: 36.7814 GB free
+Operator 118: 76160 Pauli terms -> 21891 cliques (efficiency: 28.7%) - Memory: 117.79 MB
+  → Memory delta: CPU +151.76 MB, GPU +22.00 MB
+Processing operator 119/645 - CPU: 14593.68 MB, GPU: 36.7599 GB free
+Operator 119: 73904 Pauli terms -> 24324 cliques (efficiency: 32.9%) - Memory: 121.77 MB
+  → Memory delta: CPU +174.11 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 110-119 ---
+  Batch Memory Growth: +1434.24 MB
+  Pauli Terms Generated: 742016
+  Commuting Groups: 210713
+  Average Efficiency: 28.4%
+  Cumulative Memory: 14767.80 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 120/645 - CPU: 14760.89 MB, GPU: 36.7365 GB free
+Operator 120: 73904 Pauli terms -> 20523 cliques (efficiency: 27.8%) - Memory: 121.37 MB
+  → Memory delta: CPU +155.00 MB, GPU +20.00 MB
+Processing operator 121/645 - CPU: 14908.86 MB, GPU: 36.7169 GB free
+Operator 121: 73904 Pauli terms -> 20960 cliques (efficiency: 28.4%) - Memory: 121.24 MB
+  → Memory delta: CPU +145.45 MB, GPU +22.00 MB
+Processing operator 122/645 - CPU: 15047.61 MB, GPU: 36.6954 GB free
+Operator 122: 65600 Pauli terms -> 19983 cliques (efficiency: 30.5%) - Memory: 124.85 MB
+  → Memory delta: CPU +146.39 MB, GPU +20.00 MB
+Processing operator 123/645 - CPU: 15189.09 MB, GPU: 36.6759 GB free
+Operator 123: 76160 Pauli terms -> 20371 cliques (efficiency: 26.7%) - Memory: 117.34 MB
+  → Memory delta: CPU +158.95 MB, GPU +20.00 MB
+Processing operator 124/645 - CPU: 15341.02 MB, GPU: 36.6564 GB free
+Operator 124: 76160 Pauli terms -> 20921 cliques (efficiency: 27.5%) - Memory: 117.22 MB
+  → Memory delta: CPU +129.32 MB, GPU +22.00 MB
+Processing operator 125/645 - CPU: 15463.59 MB, GPU: 36.6349 GB free
+Operator 125: 73904 Pauli terms -> 22293 cliques (efficiency: 30.2%) - Memory: 121.03 MB
+  → Memory delta: CPU +163.08 MB, GPU +22.00 MB
+Processing operator 126/645 - CPU: 15619.93 MB, GPU: 36.6134 GB free
+Operator 126: 76160 Pauli terms -> 22651 cliques (efficiency: 29.7%) - Memory: 118.15 MB
+  → Memory delta: CPU +158.04 MB, GPU +22.00 MB
+Processing operator 127/645 - CPU: 15772.89 MB, GPU: 36.5919 GB free
+Operator 127: 73904 Pauli terms -> 24321 cliques (efficiency: 32.9%) - Memory: 121.91 MB
+  → Memory delta: CPU +176.98 MB, GPU +26.00 MB
+Processing operator 128/645 - CPU: 15942.97 MB, GPU: 36.5665 GB free
+Operator 128: 73904 Pauli terms -> 22595 cliques (efficiency: 30.6%) - Memory: 121.77 MB
+  → Memory delta: CPU +158.07 MB, GPU +22.00 MB
+Processing operator 129/645 - CPU: 16096.20 MB, GPU: 36.5450 GB free
+Operator 129: 65600 Pauli terms -> 20635 cliques (efficiency: 31.5%) - Memory: 125.16 MB
+  → Memory delta: CPU +150.39 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 120-129 ---
+  Batch Memory Growth: +1478.79 MB
+  Pauli Terms Generated: 729200
+  Commuting Groups: 215253
+  Average Efficiency: 29.6%
+  Cumulative Memory: 16246.59 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 130/645 - CPU: 16241.54 MB, GPU: 36.5255 GB free
+Operator 130: 76160 Pauli terms -> 22001 cliques (efficiency: 28.9%) - Memory: 117.79 MB
+  → Memory delta: CPU +149.70 MB, GPU +24.00 MB
+Processing operator 131/645 - CPU: 16384.31 MB, GPU: 36.5021 GB free
+Operator 131: 73904 Pauli terms -> 22524 cliques (efficiency: 30.5%) - Memory: 121.41 MB
+  → Memory delta: CPU +174.36 MB, GPU +22.00 MB
+Processing operator 132/645 - CPU: 16551.75 MB, GPU: 36.4806 GB free
+Operator 132: 73904 Pauli terms -> 24555 cliques (efficiency: 33.2%) - Memory: 121.87 MB
+  → Memory delta: CPU +165.44 MB, GPU +24.00 MB
+Processing operator 133/645 - CPU: 16710.37 MB, GPU: 36.4572 GB free
+Operator 133: 65600 Pauli terms -> 21500 cliques (efficiency: 32.8%) - Memory: 124.97 MB
+  → Memory delta: CPU +153.87 MB, GPU +22.00 MB
+Processing operator 134/645 - CPU: 16859.43 MB, GPU: 36.4357 GB free
+Operator 134: 73904 Pauli terms -> 23439 cliques (efficiency: 31.7%) - Memory: 121.25 MB
+  → Memory delta: CPU +162.57 MB, GPU +24.00 MB
+Processing operator 135/645 - CPU: 17015.24 MB, GPU: 36.4122 GB free
+Operator 135: 73904 Pauli terms -> 20947 cliques (efficiency: 28.3%) - Memory: 121.21 MB
+  → Memory delta: CPU +164.16 MB, GPU +20.00 MB
+Processing operator 136/645 - CPU: 17172.48 MB, GPU: 36.3927 GB free
+Operator 136: 73904 Pauli terms -> 19332 cliques (efficiency: 26.2%) - Memory: 121.49 MB
+  → Memory delta: CPU +132.45 MB, GPU +20.00 MB
+Processing operator 137/645 - CPU: 17299.75 MB, GPU: 36.3732 GB free
+Operator 137: 73904 Pauli terms -> 19864 cliques (efficiency: 26.9%) - Memory: 121.40 MB
+  → Memory delta: CPU +152.07 MB, GPU +20.00 MB
+Processing operator 138/645 - CPU: 17446.71 MB, GPU: 36.3536 GB free
+Operator 138: 73904 Pauli terms -> 21123 cliques (efficiency: 28.6%) - Memory: 121.56 MB
+  → Memory delta: CPU +134.39 MB, GPU +22.00 MB
+Processing operator 139/645 - CPU: 17576.02 MB, GPU: 36.3322 GB free
+Operator 139: 65600 Pauli terms -> 21438 cliques (efficiency: 32.7%) - Memory: 125.39 MB
+  → Memory delta: CPU +151.79 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 130-139 ---
+  Batch Memory Growth: +1481.22 MB
+  Pauli Terms Generated: 724688
+  Commuting Groups: 216723
+  Average Efficiency: 30.0%
+  Cumulative Memory: 17727.81 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 140/645 - CPU: 17722.67 MB, GPU: 36.3107 GB free
+Operator 140: 76160 Pauli terms -> 21522 cliques (efficiency: 28.3%) - Memory: 117.22 MB
+  → Memory delta: CPU +143.86 MB, GPU +22.00 MB
+Processing operator 141/645 - CPU: 17859.66 MB, GPU: 36.2892 GB free
+Operator 141: 76160 Pauli terms -> 19771 cliques (efficiency: 26.0%) - Memory: 117.37 MB
+  → Memory delta: CPU +140.73 MB, GPU +20.00 MB
+Processing operator 142/645 - CPU: 17993.50 MB, GPU: 36.2697 GB free
+Operator 142: 76160 Pauli terms -> 21277 cliques (efficiency: 27.9%) - Memory: 117.55 MB
+  → Memory delta: CPU +161.89 MB, GPU +20.00 MB
+Processing operator 143/645 - CPU: 18148.33 MB, GPU: 36.2501 GB free
+Operator 143: 76160 Pauli terms -> 23185 cliques (efficiency: 30.4%) - Memory: 117.85 MB
+  → Memory delta: CPU +156.18 MB, GPU +24.00 MB
+Processing operator 144/645 - CPU: 18297.45 MB, GPU: 36.2267 GB free
+Operator 144: 73904 Pauli terms -> 25606 cliques (efficiency: 34.6%) - Memory: 121.79 MB
+  → Memory delta: CPU +174.97 MB, GPU +26.00 MB
+Processing operator 145/645 - CPU: 18465.76 MB, GPU: 36.2013 GB free
+Operator 145: 73904 Pauli terms -> 21080 cliques (efficiency: 28.5%) - Memory: 121.37 MB
+  → Memory delta: CPU +150.90 MB, GPU +20.00 MB
+Processing operator 146/645 - CPU: 18609.71 MB, GPU: 36.1818 GB free
+Operator 146: 73904 Pauli terms -> 20659 cliques (efficiency: 28.0%) - Memory: 121.30 MB
+  → Memory delta: CPU +151.41 MB, GPU +22.00 MB
+Processing operator 147/645 - CPU: 18754.12 MB, GPU: 36.1603 GB free
+Operator 147: 73904 Pauli terms -> 21396 cliques (efficiency: 29.0%) - Memory: 121.04 MB
+  → Memory delta: CPU +150.15 MB, GPU +22.00 MB
+Processing operator 148/645 - CPU: 18897.47 MB, GPU: 36.1388 GB free
+Operator 148: 65600 Pauli terms -> 20731 cliques (efficiency: 31.6%) - Memory: 124.88 MB
+  → Memory delta: CPU +163.04 MB, GPU +20.00 MB
+Processing operator 149/645 - CPU: 19055.43 MB, GPU: 36.1193 GB free
+Operator 149: 76160 Pauli terms -> 20667 cliques (efficiency: 27.1%) - Memory: 117.31 MB
+  → Memory delta: CPU +128.40 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 140-149 ---
+  Batch Memory Growth: +1456.02 MB
+  Pauli Terms Generated: 742016
+  Commuting Groups: 215894
+  Average Efficiency: 29.1%
+  Cumulative Memory: 19183.83 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 150/645 - CPU: 19176.84 MB, GPU: 36.0978 GB free
+Operator 150: 76160 Pauli terms -> 20030 cliques (efficiency: 26.3%) - Memory: 117.34 MB
+  → Memory delta: CPU +150.44 MB, GPU +20.00 MB
+Processing operator 151/645 - CPU: 19320.22 MB, GPU: 36.0782 GB free
+Operator 151: 76160 Pauli terms -> 21697 cliques (efficiency: 28.5%) - Memory: 117.22 MB
+  → Memory delta: CPU +147.41 MB, GPU +22.00 MB
+Processing operator 152/645 - CPU: 19460.93 MB, GPU: 36.0568 GB free
+Operator 152: 73904 Pauli terms -> 24014 cliques (efficiency: 32.5%) - Memory: 121.42 MB
+  → Memory delta: CPU +171.70 MB, GPU +24.00 MB
+Processing operator 153/645 - CPU: 19625.90 MB, GPU: 36.0333 GB free
+Operator 153: 73904 Pauli terms -> 22737 cliques (efficiency: 30.8%) - Memory: 122.19 MB
+  → Memory delta: CPU +169.27 MB, GPU +22.00 MB
+Processing operator 154/645 - CPU: 19789.90 MB, GPU: 36.0118 GB free
+Operator 154: 73904 Pauli terms -> 22629 cliques (efficiency: 30.6%) - Memory: 121.94 MB
+  → Memory delta: CPU +148.41 MB, GPU +22.00 MB
+Processing operator 155/645 - CPU: 19933.41 MB, GPU: 35.9904 GB free
+Operator 155: 65600 Pauli terms -> 21251 cliques (efficiency: 32.4%) - Memory: 125.60 MB
+  → Memory delta: CPU +152.22 MB, GPU +22.00 MB
+Processing operator 156/645 - CPU: 20080.27 MB, GPU: 35.9689 GB free
+Operator 156: 76160 Pauli terms -> 22085 cliques (efficiency: 29.0%) - Memory: 118.09 MB
+  → Memory delta: CPU +147.47 MB, GPU +22.00 MB
+Processing operator 157/645 - CPU: 20222.63 MB, GPU: 35.9474 GB free
+Operator 157: 76160 Pauli terms -> 22217 cliques (efficiency: 29.2%) - Memory: 117.91 MB
+  → Memory delta: CPU +156.52 MB, GPU +24.00 MB
+Processing operator 158/645 - CPU: 20372.02 MB, GPU: 35.9240 GB free
+Operator 158: 73904 Pauli terms -> 23147 cliques (efficiency: 31.3%) - Memory: 121.81 MB
+  → Memory delta: CPU +168.69 MB, GPU +22.00 MB
+Processing operator 159/645 - CPU: 20533.73 MB, GPU: 35.9025 GB free
+Operator 159: 73904 Pauli terms -> 25142 cliques (efficiency: 34.0%) - Memory: 122.49 MB
+  → Memory delta: CPU +172.17 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 150-159 ---
+  Batch Memory Growth: +1522.07 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 224949
+  Average Efficiency: 30.5%
+  Cumulative Memory: 20705.91 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 160/645 - CPU: 20700.86 MB, GPU: 35.8771 GB free
+Operator 160: 65600 Pauli terms -> 22190 cliques (efficiency: 33.8%) - Memory: 125.85 MB
+  → Memory delta: CPU +157.65 MB, GPU +22.00 MB
+Processing operator 161/645 - CPU: 20853.21 MB, GPU: 35.8556 GB free
+Operator 161: 76160 Pauli terms -> 24043 cliques (efficiency: 31.6%) - Memory: 118.45 MB
+  → Memory delta: CPU +159.29 MB, GPU +24.00 MB
+Processing operator 162/645 - CPU: 21007.40 MB, GPU: 35.8322 GB free
+Operator 162: 73904 Pauli terms -> 23610 cliques (efficiency: 31.9%) - Memory: 122.07 MB
+  → Memory delta: CPU +168.69 MB, GPU +24.00 MB
+Processing operator 163/645 - CPU: 21171.14 MB, GPU: 35.8087 GB free
+Operator 163: 65600 Pauli terms -> 23214 cliques (efficiency: 35.4%) - Memory: 125.65 MB
+  → Memory delta: CPU +164.42 MB, GPU +24.00 MB
+Processing operator 164/645 - CPU: 21330.38 MB, GPU: 35.7853 GB free
+Operator 164: 73904 Pauli terms -> 24457 cliques (efficiency: 33.1%) - Memory: 121.93 MB
+  → Memory delta: CPU +170.39 MB, GPU +24.00 MB
+Processing operator 165/645 - CPU: 21493.75 MB, GPU: 35.7618 GB free
+Operator 165: 73904 Pauli terms -> 20454 cliques (efficiency: 27.7%) - Memory: 120.58 MB
+  → Memory delta: CPU +143.79 MB, GPU +20.00 MB
+Processing operator 166/645 - CPU: 21630.94 MB, GPU: 35.7423 GB free
+Operator 166: 73904 Pauli terms -> 20095 cliques (efficiency: 27.2%) - Memory: 120.94 MB
+  → Memory delta: CPU +144.44 MB, GPU +20.00 MB
+Processing operator 167/645 - CPU: 21768.68 MB, GPU: 35.7228 GB free
+Operator 167: 73904 Pauli terms -> 21637 cliques (efficiency: 29.3%) - Memory: 121.20 MB
+  → Memory delta: CPU +153.82 MB, GPU +22.00 MB
+Processing operator 168/645 - CPU: 21915.88 MB, GPU: 35.7013 GB free
+Operator 168: 73904 Pauli terms -> 23836 cliques (efficiency: 32.3%) - Memory: 121.36 MB
+  → Memory delta: CPU +166.48 MB, GPU +24.00 MB
+Processing operator 169/645 - CPU: 22075.76 MB, GPU: 35.6779 GB free
+Operator 169: 65600 Pauli terms -> 25104 cliques (efficiency: 38.3%) - Memory: 125.26 MB
+  → Memory delta: CPU +177.70 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 160-169 ---
+  Batch Memory Growth: +1547.55 MB
+  Pauli Terms Generated: 716384
+  Commuting Groups: 228640
+  Average Efficiency: 32.0%
+  Cumulative Memory: 22253.46 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 170/645 - CPU: 22247.02 MB, GPU: 35.6525 GB free
+Operator 170: 73904 Pauli terms -> 20732 cliques (efficiency: 28.1%) - Memory: 120.94 MB
+  → Memory delta: CPU +149.94 MB, GPU +20.00 MB
+Processing operator 171/645 - CPU: 22390.64 MB, GPU: 35.6329 GB free
+Operator 171: 73904 Pauli terms -> 20515 cliques (efficiency: 27.8%) - Memory: 121.17 MB
+  → Memory delta: CPU +145.86 MB, GPU +22.00 MB
+Processing operator 172/645 - CPU: 22530.05 MB, GPU: 35.6115 GB free
+Operator 172: 73904 Pauli terms -> 22205 cliques (efficiency: 30.0%) - Memory: 120.85 MB
+  → Memory delta: CPU +151.95 MB, GPU +22.00 MB
+Processing operator 173/645 - CPU: 22675.83 MB, GPU: 35.5900 GB free
+Operator 173: 65600 Pauli terms -> 23341 cliques (efficiency: 35.6%) - Memory: 124.98 MB
+  → Memory delta: CPU +169.23 MB, GPU +24.00 MB
+Processing operator 174/645 - CPU: 22838.62 MB, GPU: 35.5665 GB free
+Operator 174: 73904 Pauli terms -> 22844 cliques (efficiency: 30.9%) - Memory: 121.96 MB
+  → Memory delta: CPU +157.77 MB, GPU +22.00 MB
+Processing operator 175/645 - CPU: 22989.86 MB, GPU: 35.5450 GB free
+Operator 175: 73904 Pauli terms -> 22977 cliques (efficiency: 31.1%) - Memory: 121.60 MB
+  → Memory delta: CPU +170.24 MB, GPU +24.00 MB
+Processing operator 176/645 - CPU: 23153.63 MB, GPU: 35.5216 GB free
+Operator 176: 65600 Pauli terms -> 22441 cliques (efficiency: 34.2%) - Memory: 125.39 MB
+  → Memory delta: CPU +141.58 MB, GPU +22.00 MB
+Processing operator 177/645 - CPU: 23290.59 MB, GPU: 35.5001 GB free
+Operator 177: 73904 Pauli terms -> 25340 cliques (efficiency: 34.3%) - Memory: 122.32 MB
+  → Memory delta: CPU +170.19 MB, GPU +26.00 MB
+Processing operator 178/645 - CPU: 23454.23 MB, GPU: 35.4747 GB free
+Operator 178: 65600 Pauli terms -> 22153 cliques (efficiency: 33.8%) - Memory: 125.68 MB
+  → Memory delta: CPU +156.98 MB, GPU +22.00 MB
+Processing operator 179/645 - CPU: 23606.45 MB, GPU: 35.4532 GB free
+Operator 179: 65600 Pauli terms -> 22769 cliques (efficiency: 34.7%) - Memory: 125.24 MB
+  → Memory delta: CPU +155.10 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 170-179 ---
+  Batch Memory Growth: +1508.09 MB
+  Pauli Terms Generated: 705824
+  Commuting Groups: 225317
+  Average Efficiency: 32.0%
+  Cumulative Memory: 23761.55 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 180/645 - CPU: 23757.17 MB, GPU: 35.4298 GB free
+Operator 180: 38976 Pauli terms -> 13753 cliques (efficiency: 35.3%) - Memory: 59.09 MB
+  → Memory delta: CPU +110.48 MB, GPU +12.00 MB
+Processing operator 181/645 - CPU: 23867.65 MB, GPU: 35.4181 GB free
+Operator 181: 71334 Pauli terms -> 22385 cliques (efficiency: 31.4%) - Memory: 112.63 MB
+  → Memory delta: CPU +120.41 MB, GPU +24.00 MB
+Processing operator 182/645 - CPU: 23981.68 MB, GPU: 35.3947 GB free
+Operator 182: 71334 Pauli terms -> 21489 cliques (efficiency: 30.1%) - Memory: 113.08 MB
+  → Memory delta: CPU +142.93 MB, GPU +22.00 MB
+Processing operator 183/645 - CPU: 24117.98 MB, GPU: 35.3732 GB free
+Operator 183: 71334 Pauli terms -> 22097 cliques (efficiency: 31.0%) - Memory: 113.61 MB
+  → Memory delta: CPU +152.60 MB, GPU +22.00 MB
+Processing operator 184/645 - CPU: 24263.95 MB, GPU: 35.3517 GB free
+Operator 184: 71334 Pauli terms -> 23206 cliques (efficiency: 32.5%) - Memory: 113.10 MB
+  → Memory delta: CPU +160.83 MB, GPU +22.00 MB
+Processing operator 185/645 - CPU: 24418.30 MB, GPU: 35.3302 GB free
+Operator 185: 70360 Pauli terms -> 25987 cliques (efficiency: 36.9%) - Memory: 118.73 MB
+  → Memory delta: CPU +188.45 MB, GPU +26.00 MB
+Processing operator 186/645 - CPU: 24601.92 MB, GPU: 35.3048 GB free
+Operator 186: 71334 Pauli terms -> 22423 cliques (efficiency: 31.4%) - Memory: 113.07 MB
+  → Memory delta: CPU +143.84 MB, GPU +24.00 MB
+Processing operator 187/645 - CPU: 24739.39 MB, GPU: 35.2814 GB free
+Operator 187: 77680 Pauli terms -> 23616 cliques (efficiency: 30.4%) - Memory: 117.01 MB
+  → Memory delta: CPU +168.85 MB, GPU +24.00 MB
+Processing operator 188/645 - CPU: 24902.41 MB, GPU: 35.2579 GB free
+Operator 188: 77680 Pauli terms -> 23769 cliques (efficiency: 30.6%) - Memory: 117.58 MB
+  → Memory delta: CPU +163.00 MB, GPU +24.00 MB
+Processing operator 189/645 - CPU: 25059.21 MB, GPU: 35.2345 GB free
+Operator 189: 77680 Pauli terms -> 24838 cliques (efficiency: 32.0%) - Memory: 118.00 MB
+  → Memory delta: CPU +169.76 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 180-189 ---
+  Batch Memory Growth: +1467.42 MB
+  Pauli Terms Generated: 699046
+  Commuting Groups: 223563
+  Average Efficiency: 32.2%
+  Cumulative Memory: 25228.97 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 190/645 - CPU: 25222.55 MB, GPU: 35.2111 GB free
+Operator 190: 77680 Pauli terms -> 26558 cliques (efficiency: 34.2%) - Memory: 118.01 MB
+  → Memory delta: CPU +179.94 MB, GPU +26.00 MB
+Processing operator 191/645 - CPU: 25396.41 MB, GPU: 35.1857 GB free
+Operator 191: 75240 Pauli terms -> 28649 cliques (efficiency: 38.1%) - Memory: 121.80 MB
+  → Memory delta: CPU +199.04 MB, GPU +30.00 MB
+Processing operator 192/645 - CPU: 25589.39 MB, GPU: 35.1564 GB free
+Operator 192: 71334 Pauli terms -> 20392 cliques (efficiency: 28.6%) - Memory: 113.04 MB
+  → Memory delta: CPU +134.46 MB, GPU +20.00 MB
+Processing operator 193/645 - CPU: 25717.25 MB, GPU: 35.1368 GB free
+Operator 193: 77680 Pauli terms -> 22421 cliques (efficiency: 28.9%) - Memory: 117.10 MB
+  → Memory delta: CPU +162.94 MB, GPU +22.00 MB
+Processing operator 194/645 - CPU: 25874.23 MB, GPU: 35.1154 GB free
+Operator 194: 77680 Pauli terms -> 22135 cliques (efficiency: 28.5%) - Memory: 117.73 MB
+  → Memory delta: CPU +163.23 MB, GPU +24.00 MB
+Processing operator 195/645 - CPU: 26030.94 MB, GPU: 35.0919 GB free
+Operator 195: 77680 Pauli terms -> 23102 cliques (efficiency: 29.7%) - Memory: 118.05 MB
+  → Memory delta: CPU +156.41 MB, GPU +22.00 MB
+Processing operator 196/645 - CPU: 26180.92 MB, GPU: 35.0704 GB free
+Operator 196: 77680 Pauli terms -> 24854 cliques (efficiency: 32.0%) - Memory: 117.99 MB
+  → Memory delta: CPU +172.13 MB, GPU +26.00 MB
+Processing operator 197/645 - CPU: 26346.77 MB, GPU: 35.0450 GB free
+Operator 197: 75240 Pauli terms -> 27218 cliques (efficiency: 36.2%) - Memory: 122.06 MB
+  → Memory delta: CPU +192.57 MB, GPU +26.00 MB
+Processing operator 198/645 - CPU: 26533.22 MB, GPU: 35.0197 GB free
+Operator 198: 70360 Pauli terms -> 20818 cliques (efficiency: 29.6%) - Memory: 118.19 MB
+  → Memory delta: CPU +160.85 MB, GPU +22.00 MB
+Processing operator 199/645 - CPU: 26688.52 MB, GPU: 34.9982 GB free
+Operator 199: 75240 Pauli terms -> 22230 cliques (efficiency: 29.5%) - Memory: 120.56 MB
+  → Memory delta: CPU +143.15 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 190-199 ---
+  Batch Memory Growth: +1602.70 MB
+  Pauli Terms Generated: 755814
+  Commuting Groups: 238377
+  Average Efficiency: 31.5%
+  Cumulative Memory: 26831.67 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 200/645 - CPU: 26825.39 MB, GPU: 34.9767 GB free
+Operator 200: 75240 Pauli terms -> 21671 cliques (efficiency: 28.8%) - Memory: 121.17 MB
+  → Memory delta: CPU +154.71 MB, GPU +22.00 MB
+Processing operator 201/645 - CPU: 26973.69 MB, GPU: 34.9552 GB free
+Operator 201: 75240 Pauli terms -> 22832 cliques (efficiency: 30.3%) - Memory: 121.61 MB
+  → Memory delta: CPU +173.94 MB, GPU +24.00 MB
+Processing operator 202/645 - CPU: 27140.82 MB, GPU: 34.9318 GB free
+Operator 202: 75240 Pauli terms -> 24658 cliques (efficiency: 32.8%) - Memory: 121.39 MB
+  → Memory delta: CPU +162.97 MB, GPU +24.00 MB
+Processing operator 203/645 - CPU: 27297.38 MB, GPU: 34.9083 GB free
+Operator 203: 66752 Pauli terms -> 24348 cliques (efficiency: 36.5%) - Memory: 125.22 MB
+  → Memory delta: CPU +175.79 MB, GPU +24.00 MB
+Processing operator 204/645 - CPU: 27468.37 MB, GPU: 34.8849 GB free
+Operator 204: 71334 Pauli terms -> 19335 cliques (efficiency: 27.1%) - Memory: 112.36 MB
+  → Memory delta: CPU +136.55 MB, GPU +20.00 MB
+Processing operator 205/645 - CPU: 27598.06 MB, GPU: 34.8654 GB free
+Operator 205: 77680 Pauli terms -> 21952 cliques (efficiency: 28.3%) - Memory: 116.84 MB
+  → Memory delta: CPU +147.45 MB, GPU +22.00 MB
+Processing operator 206/645 - CPU: 27739.02 MB, GPU: 34.8439 GB free
+Operator 206: 77680 Pauli terms -> 21162 cliques (efficiency: 27.2%) - Memory: 117.33 MB
+  → Memory delta: CPU +162.11 MB, GPU +22.00 MB
+Processing operator 207/645 - CPU: 27895.18 MB, GPU: 34.8224 GB free
+Operator 207: 77680 Pauli terms -> 22339 cliques (efficiency: 28.8%) - Memory: 117.90 MB
+  → Memory delta: CPU +146.68 MB, GPU +22.00 MB
+Processing operator 208/645 - CPU: 28035.98 MB, GPU: 34.8009 GB free
+Operator 208: 77680 Pauli terms -> 24165 cliques (efficiency: 31.1%) - Memory: 117.73 MB
+  → Memory delta: CPU +169.86 MB, GPU +24.00 MB
+Processing operator 209/645 - CPU: 28199.61 MB, GPU: 34.7775 GB free
+Operator 209: 75240 Pauli terms -> 26526 cliques (efficiency: 35.3%) - Memory: 121.72 MB
+  → Memory delta: CPU +189.48 MB, GPU +28.00 MB
+
+--- SUMMARY: Operators 200-209 ---
+  Batch Memory Growth: +1557.42 MB
+  Pauli Terms Generated: 749766
+  Commuting Groups: 228988
+  Average Efficiency: 30.6%
+  Cumulative Memory: 28389.09 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 210/645 - CPU: 28383.12 MB, GPU: 34.7501 GB free
+Operator 210: 38976 Pauli terms -> 13143 cliques (efficiency: 33.7%) - Memory: 58.62 MB
+  → Memory delta: CPU +112.29 MB, GPU +12.00 MB
+Processing operator 211/645 - CPU: 28495.41 MB, GPU: 34.7384 GB free
+Operator 211: 71334 Pauli terms -> 22020 cliques (efficiency: 30.9%) - Memory: 112.72 MB
+  → Memory delta: CPU +116.91 MB, GPU +22.00 MB
+Processing operator 212/645 - CPU: 28605.86 MB, GPU: 34.7169 GB free
+Operator 212: 71334 Pauli terms -> 22154 cliques (efficiency: 31.1%) - Memory: 113.35 MB
+  → Memory delta: CPU +147.82 MB, GPU +22.00 MB
+Processing operator 213/645 - CPU: 28747.03 MB, GPU: 34.6954 GB free
+Operator 213: 71334 Pauli terms -> 23144 cliques (efficiency: 32.4%) - Memory: 112.69 MB
+  → Memory delta: CPU +159.09 MB, GPU +24.00 MB
+Processing operator 214/645 - CPU: 28899.80 MB, GPU: 34.6720 GB free
+Operator 214: 70360 Pauli terms -> 25648 cliques (efficiency: 36.5%) - Memory: 118.39 MB
+  → Memory delta: CPU +187.00 MB, GPU +26.00 MB
+Processing operator 215/645 - CPU: 29081.91 MB, GPU: 34.6466 GB free
+Operator 215: 77680 Pauli terms -> 23257 cliques (efficiency: 29.9%) - Memory: 117.51 MB
+  → Memory delta: CPU +161.04 MB, GPU +24.00 MB
+Processing operator 216/645 - CPU: 29236.61 MB, GPU: 34.6232 GB free
+Operator 216: 71334 Pauli terms -> 21273 cliques (efficiency: 29.8%) - Memory: 112.52 MB
+  → Memory delta: CPU +137.63 MB, GPU +20.00 MB
+Processing operator 217/645 - CPU: 29367.83 MB, GPU: 34.6036 GB free
+Operator 217: 77680 Pauli terms -> 23198 cliques (efficiency: 29.9%) - Memory: 117.40 MB
+  → Memory delta: CPU +167.61 MB, GPU +24.00 MB
+Processing operator 218/645 - CPU: 29529.40 MB, GPU: 34.5802 GB free
+Operator 218: 77680 Pauli terms -> 24165 cliques (efficiency: 31.1%) - Memory: 118.13 MB
+  → Memory delta: CPU +166.50 MB, GPU +24.00 MB
+Processing operator 219/645 - CPU: 29689.34 MB, GPU: 34.5568 GB free
+Operator 219: 77680 Pauli terms -> 26016 cliques (efficiency: 33.5%) - Memory: 117.92 MB
+  → Memory delta: CPU +175.95 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 210-219 ---
+  Batch Memory Growth: +1476.20 MB
+  Pauli Terms Generated: 705392
+  Commuting Groups: 224018
+  Average Efficiency: 31.9%
+  Cumulative Memory: 29865.29 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 220/645 - CPU: 29859.00 MB, GPU: 34.5314 GB free
+Operator 220: 75240 Pauli terms -> 28163 cliques (efficiency: 37.4%) - Memory: 121.84 MB
+  → Memory delta: CPU +194.55 MB, GPU +28.00 MB
+Processing operator 221/645 - CPU: 30047.55 MB, GPU: 34.5040 GB free
+Operator 221: 77680 Pauli terms -> 21732 cliques (efficiency: 28.0%) - Memory: 117.66 MB
+  → Memory delta: CPU +163.53 MB, GPU +22.00 MB
+Processing operator 222/645 - CPU: 30204.56 MB, GPU: 34.4825 GB free
+Operator 222: 71334 Pauli terms -> 19362 cliques (efficiency: 27.1%) - Memory: 112.46 MB
+  → Memory delta: CPU +118.38 MB, GPU +20.00 MB
+Processing operator 223/645 - CPU: 30316.42 MB, GPU: 34.4630 GB free
+Operator 223: 77680 Pauli terms -> 22031 cliques (efficiency: 28.4%) - Memory: 117.59 MB
+  → Memory delta: CPU +165.21 MB, GPU +22.00 MB
+Processing operator 224/645 - CPU: 30475.17 MB, GPU: 34.4415 GB free
+Operator 224: 77680 Pauli terms -> 22812 cliques (efficiency: 29.4%) - Memory: 118.34 MB
+  → Memory delta: CPU +157.73 MB, GPU +24.00 MB
+Processing operator 225/645 - CPU: 30626.33 MB, GPU: 34.4181 GB free
+Operator 225: 77680 Pauli terms -> 24524 cliques (efficiency: 31.6%) - Memory: 117.92 MB
+  → Memory delta: CPU +175.97 MB, GPU +24.00 MB
+Processing operator 226/645 - CPU: 30795.86 MB, GPU: 34.3947 GB free
+Operator 226: 75240 Pauli terms -> 27005 cliques (efficiency: 35.9%) - Memory: 122.10 MB
+  → Memory delta: CPU +186.57 MB, GPU +28.00 MB
+Processing operator 227/645 - CPU: 30975.68 MB, GPU: 34.3673 GB free
+Operator 227: 75240 Pauli terms -> 22169 cliques (efficiency: 29.5%) - Memory: 121.02 MB
+  → Memory delta: CPU +156.07 MB, GPU +22.00 MB
+Processing operator 228/645 - CPU: 31125.80 MB, GPU: 34.3458 GB free
+Operator 228: 70360 Pauli terms -> 19645 cliques (efficiency: 27.9%) - Memory: 117.25 MB
+  → Memory delta: CPU +140.60 MB, GPU +20.00 MB
+Processing operator 229/645 - CPU: 31259.59 MB, GPU: 34.3263 GB free
+Operator 229: 75240 Pauli terms -> 21500 cliques (efficiency: 28.6%) - Memory: 120.83 MB
+  → Memory delta: CPU +165.42 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 220-229 ---
+  Batch Memory Growth: +1559.72 MB
+  Pauli Terms Generated: 753374
+  Commuting Groups: 228943
+  Average Efficiency: 30.4%
+  Cumulative Memory: 31425.01 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 230/645 - CPU: 31418.86 MB, GPU: 34.3048 GB free
+Operator 230: 75240 Pauli terms -> 22432 cliques (efficiency: 29.8%) - Memory: 121.61 MB
+  → Memory delta: CPU +152.04 MB, GPU +22.00 MB
+Processing operator 231/645 - CPU: 31563.86 MB, GPU: 34.2833 GB free
+Operator 231: 75240 Pauli terms -> 24379 cliques (efficiency: 32.4%) - Memory: 121.16 MB
+  → Memory delta: CPU +170.54 MB, GPU +24.00 MB
+Processing operator 232/645 - CPU: 31728.50 MB, GPU: 34.2599 GB free
+Operator 232: 66752 Pauli terms -> 23801 cliques (efficiency: 35.7%) - Memory: 125.06 MB
+  → Memory delta: CPU +168.16 MB, GPU +24.00 MB
+Processing operator 233/645 - CPU: 31891.88 MB, GPU: 34.2365 GB free
+Operator 233: 77680 Pauli terms -> 21781 cliques (efficiency: 28.0%) - Memory: 117.29 MB
+  → Memory delta: CPU +149.59 MB, GPU +22.00 MB
+Processing operator 234/645 - CPU: 32034.58 MB, GPU: 34.2150 GB free
+Operator 234: 71334 Pauli terms -> 18423 cliques (efficiency: 25.8%) - Memory: 112.01 MB
+  → Memory delta: CPU +136.47 MB, GPU +18.00 MB
+Processing operator 235/645 - CPU: 32166.05 MB, GPU: 34.1974 GB free
+Operator 235: 77680 Pauli terms -> 21257 cliques (efficiency: 27.4%) - Memory: 117.24 MB
+  → Memory delta: CPU +144.93 MB, GPU +22.00 MB
+Processing operator 236/645 - CPU: 32304.09 MB, GPU: 34.1759 GB free
+Operator 236: 77680 Pauli terms -> 22023 cliques (efficiency: 28.4%) - Memory: 118.13 MB
+  → Memory delta: CPU +155.34 MB, GPU +22.00 MB
+Processing operator 237/645 - CPU: 32454.24 MB, GPU: 34.1544 GB free
+Operator 237: 77680 Pauli terms -> 23757 cliques (efficiency: 30.6%) - Memory: 117.54 MB
+  → Memory delta: CPU +168.27 MB, GPU +24.00 MB
+Processing operator 238/645 - CPU: 32615.80 MB, GPU: 34.1310 GB free
+Operator 238: 75240 Pauli terms -> 25499 cliques (efficiency: 33.9%) - Memory: 121.66 MB
+  → Memory delta: CPU +185.27 MB, GPU +26.00 MB
+Processing operator 239/645 - CPU: 32794.23 MB, GPU: 34.1056 GB free
+Operator 239: 38976 Pauli terms -> 13501 cliques (efficiency: 34.6%) - Memory: 59.25 MB
+  → Memory delta: CPU +88.99 MB, GPU +14.00 MB
+
+--- SUMMARY: Operators 230-239 ---
+  Batch Memory Growth: +1458.21 MB
+  Pauli Terms Generated: 713502
+  Commuting Groups: 216853
+  Average Efficiency: 30.7%
+  Cumulative Memory: 32883.22 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 240/645 - CPU: 32883.22 MB, GPU: 34.0919 GB free
+Operator 240: 71334 Pauli terms -> 23252 cliques (efficiency: 32.6%) - Memory: 114.09 MB
+  → Memory delta: CPU +167.60 MB, GPU +24.00 MB
+Processing operator 241/645 - CPU: 33045.30 MB, GPU: 34.0685 GB free
+Operator 241: 71302 Pauli terms -> 24394 cliques (efficiency: 34.2%) - Memory: 113.49 MB
+  → Memory delta: CPU +140.57 MB, GPU +24.00 MB
+Processing operator 242/645 - CPU: 33180.76 MB, GPU: 34.0450 GB free
+Operator 242: 70360 Pauli terms -> 26238 cliques (efficiency: 37.3%) - Memory: 118.93 MB
+  → Memory delta: CPU +192.22 MB, GPU +26.00 MB
+Processing operator 243/645 - CPU: 33367.22 MB, GPU: 34.0197 GB free
+Operator 243: 77680 Pauli terms -> 23365 cliques (efficiency: 30.1%) - Memory: 117.63 MB
+  → Memory delta: CPU +166.38 MB, GPU +24.00 MB
+Processing operator 244/645 - CPU: 33526.59 MB, GPU: 33.9962 GB free
+Operator 244: 77680 Pauli terms -> 23131 cliques (efficiency: 29.8%) - Memory: 117.04 MB
+  → Memory delta: CPU +154.21 MB, GPU +22.00 MB
+Processing operator 245/645 - CPU: 33674.06 MB, GPU: 33.9747 GB free
+Operator 245: 71334 Pauli terms -> 21194 cliques (efficiency: 29.7%) - Memory: 113.18 MB
+  → Memory delta: CPU +134.30 MB, GPU +22.00 MB
+Processing operator 246/645 - CPU: 33803.11 MB, GPU: 33.9532 GB free
+Operator 246: 77680 Pauli terms -> 24085 cliques (efficiency: 31.0%) - Memory: 117.98 MB
+  → Memory delta: CPU +175.05 MB, GPU +24.00 MB
+Processing operator 247/645 - CPU: 33971.16 MB, GPU: 33.9298 GB free
+Operator 247: 77680 Pauli terms -> 26132 cliques (efficiency: 33.6%) - Memory: 118.02 MB
+  → Memory delta: CPU +177.57 MB, GPU +26.00 MB
+Processing operator 248/645 - CPU: 34141.79 MB, GPU: 33.9044 GB free
+Operator 248: 75240 Pauli terms -> 28162 cliques (efficiency: 37.4%) - Memory: 121.94 MB
+  → Memory delta: CPU +195.59 MB, GPU +30.00 MB
+Processing operator 249/645 - CPU: 34330.81 MB, GPU: 33.8751 GB free
+Operator 249: 77680 Pauli terms -> 21728 cliques (efficiency: 28.0%) - Memory: 117.71 MB
+  → Memory delta: CPU +151.55 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 240-249 ---
+  Batch Memory Growth: +1599.14 MB
+  Pauli Terms Generated: 747970
+  Commuting Groups: 241681
+  Average Efficiency: 32.4%
+  Cumulative Memory: 34482.36 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 250/645 - CPU: 34475.42 MB, GPU: 33.8536 GB free
+Operator 250: 77680 Pauli terms -> 21628 cliques (efficiency: 27.8%) - Memory: 117.08 MB
+  → Memory delta: CPU +151.80 MB, GPU +20.00 MB
+Processing operator 251/645 - CPU: 34620.14 MB, GPU: 33.8341 GB free
+Operator 251: 71334 Pauli terms -> 19468 cliques (efficiency: 27.3%) - Memory: 113.25 MB
+  → Memory delta: CPU +147.98 MB, GPU +20.00 MB
+Processing operator 252/645 - CPU: 34761.23 MB, GPU: 33.8146 GB free
+Operator 252: 77680 Pauli terms -> 22921 cliques (efficiency: 29.5%) - Memory: 118.22 MB
+  → Memory delta: CPU +151.44 MB, GPU +24.00 MB
+Processing operator 253/645 - CPU: 34906.12 MB, GPU: 33.7911 GB free
+Operator 253: 77680 Pauli terms -> 24653 cliques (efficiency: 31.7%) - Memory: 118.13 MB
+  → Memory delta: CPU +170.79 MB, GPU +24.00 MB
+Processing operator 254/645 - CPU: 35070.63 MB, GPU: 33.7677 GB free
+Operator 254: 75240 Pauli terms -> 26902 cliques (efficiency: 35.8%) - Memory: 122.20 MB
+  → Memory delta: CPU +189.29 MB, GPU +28.00 MB
+Processing operator 255/645 - CPU: 35253.69 MB, GPU: 33.7404 GB free
+Operator 255: 75240 Pauli terms -> 22195 cliques (efficiency: 29.5%) - Memory: 121.44 MB
+  → Memory delta: CPU +157.44 MB, GPU +22.00 MB
+Processing operator 256/645 - CPU: 35404.86 MB, GPU: 33.7189 GB free
+Operator 256: 75240 Pauli terms -> 21663 cliques (efficiency: 28.8%) - Memory: 120.64 MB
+  → Memory delta: CPU +154.44 MB, GPU +22.00 MB
+Processing operator 257/645 - CPU: 35553.39 MB, GPU: 33.6974 GB free
+Operator 257: 70360 Pauli terms -> 19258 cliques (efficiency: 27.4%) - Memory: 118.52 MB
+  → Memory delta: CPU +136.38 MB, GPU +20.00 MB
+Processing operator 258/645 - CPU: 35684.58 MB, GPU: 33.6779 GB free
+Operator 258: 75240 Pauli terms -> 22713 cliques (efficiency: 30.2%) - Memory: 121.90 MB
+  → Memory delta: CPU +166.14 MB, GPU +22.00 MB
+Processing operator 259/645 - CPU: 35844.15 MB, GPU: 33.6564 GB free
+Operator 259: 75240 Pauli terms -> 24530 cliques (efficiency: 32.6%) - Memory: 121.59 MB
+  → Memory delta: CPU +170.37 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 250-259 ---
+  Batch Memory Growth: +1532.16 MB
+  Pauli Terms Generated: 750934
+  Commuting Groups: 225931
+  Average Efficiency: 30.1%
+  Cumulative Memory: 36014.52 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 260/645 - CPU: 36008.25 MB, GPU: 33.6329 GB free
+Operator 260: 66752 Pauli terms -> 23360 cliques (efficiency: 35.0%) - Memory: 125.48 MB
+  → Memory delta: CPU +165.15 MB, GPU +24.00 MB
+Processing operator 261/645 - CPU: 36168.86 MB, GPU: 33.6095 GB free
+Operator 261: 77680 Pauli terms -> 21630 cliques (efficiency: 27.8%) - Memory: 117.23 MB
+  → Memory delta: CPU +151.99 MB, GPU +22.00 MB
+Processing operator 262/645 - CPU: 36314.53 MB, GPU: 33.5880 GB free
+Operator 262: 77680 Pauli terms -> 21207 cliques (efficiency: 27.3%) - Memory: 116.80 MB
+  → Memory delta: CPU +146.86 MB, GPU +22.00 MB
+Processing operator 263/645 - CPU: 36454.23 MB, GPU: 33.5665 GB free
+Operator 263: 71334 Pauli terms -> 18006 cliques (efficiency: 25.2%) - Memory: 112.79 MB
+  → Memory delta: CPU +121.69 MB, GPU +18.00 MB
+Processing operator 264/645 - CPU: 36570.17 MB, GPU: 33.5490 GB free
+Operator 264: 77680 Pauli terms -> 22445 cliques (efficiency: 28.9%) - Memory: 118.04 MB
+  → Memory delta: CPU +166.95 MB, GPU +22.00 MB
+Processing operator 265/645 - CPU: 36730.69 MB, GPU: 33.5275 GB free
+Operator 265: 77680 Pauli terms -> 24105 cliques (efficiency: 31.0%) - Memory: 117.78 MB
+  → Memory delta: CPU +167.35 MB, GPU +24.00 MB
+Processing operator 266/645 - CPU: 36891.82 MB, GPU: 33.5040 GB free
+Operator 266: 75240 Pauli terms -> 25929 cliques (efficiency: 34.5%) - Memory: 121.85 MB
+  → Memory delta: CPU +189.13 MB, GPU +26.00 MB
+Processing operator 267/645 - CPU: 37075.02 MB, GPU: 33.4786 GB free
+Operator 267: 38976 Pauli terms -> 14937 cliques (efficiency: 38.3%) - Memory: 59.97 MB
+  → Memory delta: CPU +89.03 MB, GPU +16.00 MB
+Processing operator 268/645 - CPU: 37164.05 MB, GPU: 33.4630 GB free
+Operator 268: 71334 Pauli terms -> 27153 cliques (efficiency: 38.1%) - Memory: 114.42 MB
+  → Memory delta: CPU +168.54 MB, GPU +26.00 MB
+Processing operator 269/645 - CPU: 37325.91 MB, GPU: 33.4376 GB free
+Operator 269: 70360 Pauli terms -> 28666 cliques (efficiency: 40.7%) - Memory: 119.95 MB
+  → Memory delta: CPU +199.83 MB, GPU +30.00 MB
+
+--- SUMMARY: Operators 260-269 ---
+  Batch Memory Growth: +1511.22 MB
+  Pauli Terms Generated: 704716
+  Commuting Groups: 227438
+  Average Efficiency: 32.7%
+  Cumulative Memory: 37525.75 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 270/645 - CPU: 37520.33 MB, GPU: 33.4083 GB free
+Operator 270: 77680 Pauli terms -> 24277 cliques (efficiency: 31.3%) - Memory: 118.11 MB
+  → Memory delta: CPU +164.34 MB, GPU +24.00 MB
+Processing operator 271/645 - CPU: 37678.35 MB, GPU: 33.3849 GB free
+Operator 271: 77680 Pauli terms -> 23994 cliques (efficiency: 30.9%) - Memory: 117.71 MB
+  → Memory delta: CPU +172.43 MB, GPU +24.00 MB
+Processing operator 272/645 - CPU: 37844.41 MB, GPU: 33.3615 GB free
+Operator 272: 77680 Pauli terms -> 24191 cliques (efficiency: 31.1%) - Memory: 118.23 MB
+  → Memory delta: CPU +158.61 MB, GPU +24.00 MB
+Processing operator 273/645 - CPU: 37997.11 MB, GPU: 33.3380 GB free
+Operator 273: 71334 Pauli terms -> 22687 cliques (efficiency: 31.8%) - Memory: 114.24 MB
+  → Memory delta: CPU +162.14 MB, GPU +24.00 MB
+Processing operator 274/645 - CPU: 38152.81 MB, GPU: 33.3146 GB free
+Operator 274: 77680 Pauli terms -> 27365 cliques (efficiency: 35.2%) - Memory: 118.70 MB
+  → Memory delta: CPU +178.76 MB, GPU +28.00 MB
+Processing operator 275/645 - CPU: 38324.75 MB, GPU: 33.2872 GB free
+Operator 275: 75240 Pauli terms -> 29015 cliques (efficiency: 38.6%) - Memory: 122.54 MB
+  → Memory delta: CPU +201.20 MB, GPU +28.00 MB
+Processing operator 276/645 - CPU: 38519.28 MB, GPU: 33.2599 GB free
+Operator 276: 77680 Pauli terms -> 22674 cliques (efficiency: 29.2%) - Memory: 118.42 MB
+  → Memory delta: CPU +155.20 MB, GPU +24.00 MB
+Processing operator 277/645 - CPU: 38668.87 MB, GPU: 33.2365 GB free
+Operator 277: 77680 Pauli terms -> 22478 cliques (efficiency: 28.9%) - Memory: 117.89 MB
+  → Memory delta: CPU +156.63 MB, GPU +22.00 MB
+Processing operator 278/645 - CPU: 38820.07 MB, GPU: 33.2150 GB free
+Operator 278: 77680 Pauli terms -> 22907 cliques (efficiency: 29.5%) - Memory: 118.48 MB
+  → Memory delta: CPU +161.84 MB, GPU +22.00 MB
+Processing operator 279/645 - CPU: 38975.30 MB, GPU: 33.1935 GB free
+Operator 279: 71334 Pauli terms -> 21005 cliques (efficiency: 29.4%) - Memory: 114.37 MB
+  → Memory delta: CPU +143.02 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 270-279 ---
+  Batch Memory Growth: +1592.58 MB
+  Pauli Terms Generated: 761668
+  Commuting Groups: 240593
+  Average Efficiency: 31.6%
+  Cumulative Memory: 39118.32 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 280/645 - CPU: 39113.21 MB, GPU: 33.1720 GB free
+Operator 280: 77680 Pauli terms -> 26071 cliques (efficiency: 33.6%) - Memory: 118.80 MB
+  → Memory delta: CPU +181.41 MB, GPU +26.00 MB
+Processing operator 281/645 - CPU: 39287.68 MB, GPU: 33.1466 GB free
+Operator 281: 75240 Pauli terms -> 28257 cliques (efficiency: 37.6%) - Memory: 123.00 MB
+  → Memory delta: CPU +197.97 MB, GPU +28.00 MB
+Processing operator 282/645 - CPU: 39478.82 MB, GPU: 33.1193 GB free
+Operator 282: 75240 Pauli terms -> 22913 cliques (efficiency: 30.5%) - Memory: 122.01 MB
+  → Memory delta: CPU +161.25 MB, GPU +24.00 MB
+Processing operator 283/645 - CPU: 39634.07 MB, GPU: 33.0958 GB free
+Operator 283: 75240 Pauli terms -> 21897 cliques (efficiency: 29.1%) - Memory: 121.27 MB
+  → Memory delta: CPU +156.77 MB, GPU +22.00 MB
+Processing operator 284/645 - CPU: 39784.73 MB, GPU: 33.0743 GB free
+Operator 284: 75240 Pauli terms -> 21951 cliques (efficiency: 29.2%) - Memory: 121.96 MB
+  → Memory delta: CPU +160.24 MB, GPU +22.00 MB
+Processing operator 285/645 - CPU: 39939.32 MB, GPU: 33.0529 GB free
+Operator 285: 70360 Pauli terms -> 20622 cliques (efficiency: 29.3%) - Memory: 119.51 MB
+  → Memory delta: CPU +143.84 MB, GPU +20.00 MB
+Processing operator 286/645 - CPU: 40076.47 MB, GPU: 33.0333 GB free
+Operator 286: 75240 Pauli terms -> 25327 cliques (efficiency: 33.7%) - Memory: 122.27 MB
+  → Memory delta: CPU +175.60 MB, GPU +26.00 MB
+Processing operator 287/645 - CPU: 40246.66 MB, GPU: 33.0079 GB free
+Operator 287: 66752 Pauli terms -> 23972 cliques (efficiency: 35.9%) - Memory: 126.07 MB
+  → Memory delta: CPU +170.93 MB, GPU +24.00 MB
+Processing operator 288/645 - CPU: 40411.79 MB, GPU: 32.9845 GB free
+Operator 288: 77680 Pauli terms -> 22393 cliques (efficiency: 28.8%) - Memory: 117.67 MB
+  → Memory delta: CPU +153.22 MB, GPU +22.00 MB
+Processing operator 289/645 - CPU: 40558.78 MB, GPU: 32.9630 GB free
+Operator 289: 77680 Pauli terms -> 21774 cliques (efficiency: 28.0%) - Memory: 117.31 MB
+  → Memory delta: CPU +155.36 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 280-289 ---
+  Batch Memory Growth: +1595.81 MB
+  Pauli Terms Generated: 746352
+  Commuting Groups: 235177
+  Average Efficiency: 31.6%
+  Cumulative Memory: 40714.14 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 290/645 - CPU: 40707.89 MB, GPU: 32.9415 GB free
+Operator 290: 77680 Pauli terms -> 21923 cliques (efficiency: 28.2%) - Memory: 117.84 MB
+  → Memory delta: CPU +156.11 MB, GPU +22.00 MB
+Processing operator 291/645 - CPU: 40857.58 MB, GPU: 32.9200 GB free
+Operator 291: 71334 Pauli terms -> 19178 cliques (efficiency: 26.9%) - Memory: 113.67 MB
+  → Memory delta: CPU +134.15 MB, GPU +20.00 MB
+Processing operator 292/645 - CPU: 40986.62 MB, GPU: 32.9005 GB free
+Operator 292: 77680 Pauli terms -> 25641 cliques (efficiency: 33.0%) - Memory: 118.33 MB
+  → Memory delta: CPU +179.86 MB, GPU +26.00 MB
+Processing operator 293/645 - CPU: 41160.10 MB, GPU: 32.8751 GB free
+Operator 293: 75240 Pauli terms -> 27222 cliques (efficiency: 36.2%) - Memory: 122.40 MB
+  → Memory delta: CPU +192.43 MB, GPU +28.00 MB
+Processing operator 294/645 - CPU: 41346.05 MB, GPU: 32.8478 GB free
+Operator 294: 38976 Pauli terms -> 17630 cliques (efficiency: 45.2%) - Memory: 59.65 MB
+  → Memory delta: CPU +121.78 MB, GPU +18.00 MB [HIGH GROWTH]
+Processing operator 295/645 - CPU: 41467.96 MB, GPU: 32.8302 GB free
+Operator 295: 70360 Pauli terms -> 32793 cliques (efficiency: 46.6%) - Memory: 119.72 MB
+  → Memory delta: CPU +193.81 MB, GPU +32.00 MB
+Processing operator 296/645 - CPU: 41656.93 MB, GPU: 32.7990 GB free
+Operator 296: 77680 Pauli terms -> 26312 cliques (efficiency: 33.9%) - Memory: 117.86 MB
+  → Memory delta: CPU +175.60 MB, GPU +26.00 MB
+Processing operator 297/645 - CPU: 41826.33 MB, GPU: 32.7736 GB free
+Operator 297: 77680 Pauli terms -> 26032 cliques (efficiency: 33.5%) - Memory: 117.43 MB
+  → Memory delta: CPU +176.60 MB, GPU +26.00 MB
+Processing operator 298/645 - CPU: 41997.08 MB, GPU: 32.7482 GB free
+Operator 298: 77680 Pauli terms -> 26350 cliques (efficiency: 33.9%) - Memory: 117.96 MB
+  → Memory delta: CPU +179.35 MB, GPU +28.00 MB
+Processing operator 299/645 - CPU: 42170.16 MB, GPU: 32.7208 GB free
+Operator 299: 77680 Pauli terms -> 27353 cliques (efficiency: 35.2%) - Memory: 118.43 MB
+  → Memory delta: CPU +184.00 MB, GPU +28.00 MB
+
+--- SUMMARY: Operators 290-299 ---
+  Batch Memory Growth: +1640.02 MB
+  Pauli Terms Generated: 721990
+  Commuting Groups: 250434
+  Average Efficiency: 35.3%
+  Cumulative Memory: 42354.16 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 300/645 - CPU: 42347.81 MB, GPU: 32.6935 GB free
+Operator 300: 71334 Pauli terms -> 26788 cliques (efficiency: 37.6%) - Memory: 113.70 MB
+  → Memory delta: CPU +167.81 MB, GPU +26.00 MB
+Processing operator 301/645 - CPU: 42509.29 MB, GPU: 32.6681 GB free
+Operator 301: 75240 Pauli terms -> 31587 cliques (efficiency: 42.0%) - Memory: 122.24 MB
+  → Memory delta: CPU +221.15 MB, GPU +32.00 MB
+Processing operator 302/645 - CPU: 42724.32 MB, GPU: 32.6368 GB free
+Operator 302: 77680 Pauli terms -> 24394 cliques (efficiency: 31.4%) - Memory: 118.14 MB
+  → Memory delta: CPU +167.17 MB, GPU +24.00 MB
+Processing operator 303/645 - CPU: 42884.50 MB, GPU: 32.6134 GB free
+Operator 303: 77680 Pauli terms -> 24096 cliques (efficiency: 31.0%) - Memory: 117.44 MB
+  → Memory delta: CPU +167.14 MB, GPU +24.00 MB
+Processing operator 304/645 - CPU: 43045.81 MB, GPU: 32.5900 GB free
+Operator 304: 77680 Pauli terms -> 24476 cliques (efficiency: 31.5%) - Memory: 118.18 MB
+  → Memory delta: CPU +171.32 MB, GPU +26.00 MB
+Processing operator 305/645 - CPU: 43211.43 MB, GPU: 32.5646 GB free
+Operator 305: 77680 Pauli terms -> 26019 cliques (efficiency: 33.5%) - Memory: 118.73 MB
+  → Memory delta: CPU +178.52 MB, GPU +26.00 MB
+Processing operator 306/645 - CPU: 43383.88 MB, GPU: 32.5392 GB free
+Operator 306: 71334 Pauli terms -> 24608 cliques (efficiency: 34.5%) - Memory: 113.88 MB
+  → Memory delta: CPU +157.19 MB, GPU +24.00 MB
+Processing operator 307/645 - CPU: 43535.05 MB, GPU: 32.5157 GB free
+Operator 307: 75240 Pauli terms -> 30634 cliques (efficiency: 40.7%) - Memory: 122.63 MB
+  → Memory delta: CPU +215.70 MB, GPU +32.00 MB
+Processing operator 308/645 - CPU: 43745.49 MB, GPU: 32.4845 GB free
+Operator 308: 75240 Pauli terms -> 24226 cliques (efficiency: 32.2%) - Memory: 121.46 MB
+  → Memory delta: CPU +169.49 MB, GPU +24.00 MB
+Processing operator 309/645 - CPU: 43909.30 MB, GPU: 32.4611 GB free
+Operator 309: 75240 Pauli terms -> 23260 cliques (efficiency: 30.9%) - Memory: 120.67 MB
+  → Memory delta: CPU +164.12 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 300-309 ---
+  Batch Memory Growth: +1719.26 MB
+  Pauli Terms Generated: 754348
+  Commuting Groups: 260088
+  Average Efficiency: 34.5%
+  Cumulative Memory: 44073.42 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 310/645 - CPU: 44068.16 MB, GPU: 32.4376 GB free
+Operator 310: 75240 Pauli terms -> 23030 cliques (efficiency: 30.6%) - Memory: 121.37 MB
+  → Memory delta: CPU +167.55 MB, GPU +22.00 MB
+Processing operator 311/645 - CPU: 44228.75 MB, GPU: 32.4161 GB free
+Operator 311: 75240 Pauli terms -> 24576 cliques (efficiency: 32.7%) - Memory: 121.92 MB
+  → Memory delta: CPU +171.49 MB, GPU +24.00 MB
+Processing operator 312/645 - CPU: 44393.18 MB, GPU: 32.3927 GB free
+Operator 312: 70360 Pauli terms -> 23705 cliques (efficiency: 33.7%) - Memory: 118.53 MB
+  → Memory delta: CPU +161.29 MB, GPU +24.00 MB
+Processing operator 313/645 - CPU: 44547.93 MB, GPU: 32.3693 GB free
+Operator 313: 66752 Pauli terms -> 25228 cliques (efficiency: 37.8%) - Memory: 125.36 MB
+  → Memory delta: CPU +180.05 MB, GPU +26.00 MB
+Processing operator 314/645 - CPU: 44721.60 MB, GPU: 32.3439 GB free
+Operator 314: 77680 Pauli terms -> 23752 cliques (efficiency: 30.6%) - Memory: 117.55 MB
+  → Memory delta: CPU +161.26 MB, GPU +24.00 MB
+Processing operator 315/645 - CPU: 44875.89 MB, GPU: 32.3204 GB free
+Operator 315: 77680 Pauli terms -> 23025 cliques (efficiency: 29.6%) - Memory: 117.06 MB
+  → Memory delta: CPU +164.82 MB, GPU +24.00 MB
+Processing operator 316/645 - CPU: 45034.56 MB, GPU: 32.2970 GB free
+Operator 316: 77680 Pauli terms -> 23279 cliques (efficiency: 30.0%) - Memory: 117.71 MB
+  → Memory delta: CPU +163.57 MB, GPU +22.00 MB
+Processing operator 317/645 - CPU: 45191.25 MB, GPU: 32.2755 GB free
+Operator 317: 77680 Pauli terms -> 25069 cliques (efficiency: 32.3%) - Memory: 118.38 MB
+  → Memory delta: CPU +172.93 MB, GPU +26.00 MB
+Processing operator 318/645 - CPU: 45357.20 MB, GPU: 32.2501 GB free
+Operator 318: 71334 Pauli terms -> 22478 cliques (efficiency: 31.5%) - Memory: 113.26 MB
+  → Memory delta: CPU +145.37 MB, GPU +22.00 MB
+Processing operator 319/645 - CPU: 45497.52 MB, GPU: 32.2286 GB free
+Operator 319: 75240 Pauli terms -> 29922 cliques (efficiency: 39.8%) - Memory: 122.27 MB
+  → Memory delta: CPU +212.54 MB, GPU +30.00 MB
+
+--- SUMMARY: Operators 310-319 ---
+  Batch Memory Growth: +1636.64 MB
+  Pauli Terms Generated: 744886
+  Commuting Groups: 244064
+  Average Efficiency: 32.8%
+  Cumulative Memory: 45710.06 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 320/645 - CPU: 45703.93 MB, GPU: 32.1993 GB free
+Operator 320: 33152 Pauli terms -> 18473 cliques (efficiency: 55.7%) - Memory: 63.37 MB
+  → Memory delta: CPU +123.45 MB, GPU +20.00 MB
+Processing operator 321/645 - CPU: 45827.39 MB, GPU: 32.1798 GB free
+Operator 321: 75240 Pauli terms -> 28785 cliques (efficiency: 38.3%) - Memory: 121.93 MB
+  → Memory delta: CPU +184.03 MB, GPU +28.00 MB
+Processing operator 322/645 - CPU: 46005.50 MB, GPU: 32.1525 GB free
+Operator 322: 75240 Pauli terms -> 28424 cliques (efficiency: 37.8%) - Memory: 121.41 MB
+  → Memory delta: CPU +193.74 MB, GPU +30.00 MB
+Processing operator 323/645 - CPU: 46193.43 MB, GPU: 32.1232 GB free
+Operator 323: 75240 Pauli terms -> 28565 cliques (efficiency: 38.0%) - Memory: 121.89 MB
+  → Memory delta: CPU +194.77 MB, GPU +28.00 MB
+Processing operator 324/645 - CPU: 46381.96 MB, GPU: 32.0958 GB free
+Operator 324: 75240 Pauli terms -> 29367 cliques (efficiency: 39.0%) - Memory: 122.35 MB
+  → Memory delta: CPU +197.70 MB, GPU +30.00 MB
+Processing operator 325/645 - CPU: 46574.10 MB, GPU: 32.0665 GB free
+Operator 325: 75240 Pauli terms -> 32130 cliques (efficiency: 42.7%) - Memory: 122.46 MB
+  → Memory delta: CPU +211.43 MB, GPU +32.00 MB
+Processing operator 326/645 - CPU: 46779.29 MB, GPU: 32.0353 GB free
+Operator 326: 59026 Pauli terms -> 28118 cliques (efficiency: 47.6%) - Memory: 120.60 MB
+  → Memory delta: CPU +179.25 MB, GPU +28.00 MB
+Processing operator 327/645 - CPU: 46954.37 MB, GPU: 32.0079 GB free
+Operator 327: 75240 Pauli terms -> 27252 cliques (efficiency: 36.2%) - Memory: 122.43 MB
+  → Memory delta: CPU +189.95 MB, GPU +28.00 MB
+Processing operator 328/645 - CPU: 47137.20 MB, GPU: 31.9806 GB free
+Operator 328: 75240 Pauli terms -> 26842 cliques (efficiency: 35.7%) - Memory: 121.75 MB
+  → Memory delta: CPU +186.64 MB, GPU +26.00 MB
+Processing operator 329/645 - CPU: 47317.17 MB, GPU: 31.9552 GB free
+Operator 329: 75240 Pauli terms -> 26977 cliques (efficiency: 35.9%) - Memory: 122.45 MB
+  → Memory delta: CPU +187.54 MB, GPU +28.00 MB
+
+--- SUMMARY: Operators 320-329 ---
+  Batch Memory Growth: +1794.66 MB
+  Pauli Terms Generated: 694098
+  Commuting Groups: 274933
+  Average Efficiency: 40.7%
+  Cumulative Memory: 47504.71 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 330/645 - CPU: 47498.40 MB, GPU: 31.9279 GB free
+Operator 330: 75240 Pauli terms -> 28183 cliques (efficiency: 37.5%) - Memory: 122.92 MB
+  → Memory delta: CPU +194.41 MB, GPU +28.00 MB
+Processing operator 331/645 - CPU: 47686.41 MB, GPU: 31.9005 GB free
+Operator 331: 75240 Pauli terms -> 30848 cliques (efficiency: 41.0%) - Memory: 122.87 MB
+  → Memory delta: CPU +207.31 MB, GPU +32.00 MB
+Processing operator 332/645 - CPU: 47886.68 MB, GPU: 31.8693 GB free
+Operator 332: 59026 Pauli terms -> 25797 cliques (efficiency: 43.7%) - Memory: 121.01 MB
+  → Memory delta: CPU +173.69 MB, GPU +26.00 MB
+Processing operator 333/645 - CPU: 48055.00 MB, GPU: 31.8439 GB free
+Operator 333: 66168 Pauli terms -> 23839 cliques (efficiency: 36.0%) - Memory: 125.20 MB
+  → Memory delta: CPU +165.87 MB, GPU +24.00 MB
+Processing operator 334/645 - CPU: 48214.57 MB, GPU: 31.8204 GB free
+Operator 334: 66168 Pauli terms -> 22846 cliques (efficiency: 34.5%) - Memory: 124.38 MB
+  → Memory delta: CPU +160.10 MB, GPU +22.00 MB
+Processing operator 335/645 - CPU: 48369.79 MB, GPU: 31.7990 GB free
+Operator 335: 66168 Pauli terms -> 22517 cliques (efficiency: 34.0%) - Memory: 125.05 MB
+  → Memory delta: CPU +159.96 MB, GPU +22.00 MB
+Processing operator 336/645 - CPU: 48523.29 MB, GPU: 31.7775 GB free
+Operator 336: 66168 Pauli terms -> 23096 cliques (efficiency: 34.9%) - Memory: 125.64 MB
+  → Memory delta: CPU +160.50 MB, GPU +24.00 MB
+Processing operator 337/645 - CPU: 48679.20 MB, GPU: 31.7540 GB free
+Operator 337: 66168 Pauli terms -> 24681 cliques (efficiency: 37.3%) - Memory: 125.21 MB
+  → Memory delta: CPU +171.11 MB, GPU +24.00 MB
+Processing operator 338/645 - CPU: 48844.29 MB, GPU: 31.7306 GB free
+Operator 338: 43004 Pauli terms -> 16374 cliques (efficiency: 38.1%) - Memory: 125.10 MB
+  → Memory delta: CPU +111.66 MB, GPU +18.00 MB
+Processing operator 339/645 - CPU: 48952.27 MB, GPU: 31.7130 GB free
+Operator 339: 75240 Pauli terms -> 25896 cliques (efficiency: 34.4%) - Memory: 121.44 MB
+  → Memory delta: CPU +181.75 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 330-339 ---
+  Batch Memory Growth: +1629.30 MB
+  Pauli Terms Generated: 658590
+  Commuting Groups: 244077
+  Average Efficiency: 37.1%
+  Cumulative Memory: 49134.02 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 340/645 - CPU: 49128.06 MB, GPU: 31.6876 GB free
+Operator 340: 75240 Pauli terms -> 25034 cliques (efficiency: 33.3%) - Memory: 121.03 MB
+  → Memory delta: CPU +180.79 MB, GPU +24.00 MB
+Processing operator 341/645 - CPU: 49302.87 MB, GPU: 31.6642 GB free
+Operator 341: 75240 Pauli terms -> 25121 cliques (efficiency: 33.4%) - Memory: 121.57 MB
+  → Memory delta: CPU +173.22 MB, GPU +26.00 MB
+Processing operator 342/645 - CPU: 49469.86 MB, GPU: 31.6388 GB free
+Operator 342: 75240 Pauli terms -> 26452 cliques (efficiency: 35.2%) - Memory: 122.37 MB
+  → Memory delta: CPU +186.46 MB, GPU +26.00 MB
+Processing operator 343/645 - CPU: 49649.85 MB, GPU: 31.6134 GB free
+Operator 343: 75240 Pauli terms -> 29515 cliques (efficiency: 39.2%) - Memory: 122.16 MB
+  → Memory delta: CPU +199.80 MB, GPU +30.00 MB
+Processing operator 344/645 - CPU: 49842.94 MB, GPU: 31.5841 GB free
+Operator 344: 59026 Pauli terms -> 22665 cliques (efficiency: 38.4%) - Memory: 119.94 MB
+  → Memory delta: CPU +154.68 MB, GPU +24.00 MB
+Processing operator 345/645 - CPU: 49992.68 MB, GPU: 31.5607 GB free
+Operator 345: 38976 Pauli terms -> 11202 cliques (efficiency: 28.7%) - Memory: 58.88 MB
+  → Memory delta: CPU +97.27 MB, GPU +10.00 MB
+Processing operator 346/645 - CPU: 50090.00 MB, GPU: 31.5509 GB free
+Operator 346: 71334 Pauli terms -> 18345 cliques (efficiency: 25.7%) - Memory: 112.72 MB
+  → Memory delta: CPU +134.86 MB, GPU +20.00 MB
+Processing operator 347/645 - CPU: 50219.02 MB, GPU: 31.5314 GB free
+Operator 347: 71334 Pauli terms -> 18128 cliques (efficiency: 25.4%) - Memory: 112.70 MB
+  → Memory delta: CPU +107.22 MB, GPU +18.00 MB
+Processing operator 348/645 - CPU: 50320.50 MB, GPU: 31.5138 GB free
+Operator 348: 71334 Pauli terms -> 18436 cliques (efficiency: 25.8%) - Memory: 112.92 MB
+  → Memory delta: CPU +113.67 MB, GPU +18.00 MB
+Processing operator 349/645 - CPU: 50428.31 MB, GPU: 31.4962 GB free
+Operator 349: 71334 Pauli terms -> 19480 cliques (efficiency: 27.3%) - Memory: 112.89 MB
+  → Memory delta: CPU +138.20 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 340-349 ---
+  Batch Memory Growth: +1432.49 MB
+  Pauli Terms Generated: 684298
+  Commuting Groups: 214378
+  Average Efficiency: 31.2%
+  Cumulative Memory: 50566.51 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 350/645 - CPU: 50560.70 MB, GPU: 31.4767 GB free
+Operator 350: 70360 Pauli terms -> 22115 cliques (efficiency: 31.4%) - Memory: 118.27 MB
+  → Memory delta: CPU +165.95 MB, GPU +22.00 MB
+Processing operator 351/645 - CPU: 50721.75 MB, GPU: 31.4552 GB free
+Operator 351: 71334 Pauli terms -> 18522 cliques (efficiency: 26.0%) - Memory: 112.93 MB
+  → Memory delta: CPU +145.34 MB, GPU +18.00 MB
+Processing operator 352/645 - CPU: 50860.49 MB, GPU: 31.4376 GB free
+Operator 352: 77680 Pauli terms -> 20007 cliques (efficiency: 25.8%) - Memory: 117.19 MB
+  → Memory delta: CPU +127.50 MB, GPU +20.00 MB
+Processing operator 353/645 - CPU: 50981.18 MB, GPU: 31.4181 GB free
+Operator 353: 77680 Pauli terms -> 20208 cliques (efficiency: 26.0%) - Memory: 117.46 MB
+  → Memory delta: CPU +144.04 MB, GPU +20.00 MB
+Processing operator 354/645 - CPU: 51118.18 MB, GPU: 31.3986 GB free
+Operator 354: 77680 Pauli terms -> 21211 cliques (efficiency: 27.3%) - Memory: 117.63 MB
+  → Memory delta: CPU +148.78 MB, GPU +22.00 MB
+Processing operator 355/645 - CPU: 51261.25 MB, GPU: 31.3771 GB free
+Operator 355: 77680 Pauli terms -> 22879 cliques (efficiency: 29.5%) - Memory: 117.70 MB
+  → Memory delta: CPU +169.16 MB, GPU +24.00 MB
+Processing operator 356/645 - CPU: 51424.61 MB, GPU: 31.3536 GB free
+Operator 356: 75240 Pauli terms -> 25517 cliques (efficiency: 33.9%) - Memory: 121.81 MB
+  → Memory delta: CPU +169.20 MB, GPU +26.00 MB
+Processing operator 357/645 - CPU: 51588.35 MB, GPU: 31.3282 GB free
+Operator 357: 70360 Pauli terms -> 18828 cliques (efficiency: 26.8%) - Memory: 118.03 MB
+  → Memory delta: CPU +136.74 MB, GPU +18.00 MB
+Processing operator 358/645 - CPU: 51719.14 MB, GPU: 31.3107 GB free
+Operator 358: 75240 Pauli terms -> 20114 cliques (efficiency: 26.7%) - Memory: 120.77 MB
+  → Memory delta: CPU +144.12 MB, GPU +20.00 MB
+Processing operator 359/645 - CPU: 51856.55 MB, GPU: 31.2911 GB free
+Operator 359: 75240 Pauli terms -> 19877 cliques (efficiency: 26.4%) - Memory: 120.92 MB
+  → Memory delta: CPU +161.69 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 350-359 ---
+  Batch Memory Growth: +1451.73 MB
+  Pauli Terms Generated: 748494
+  Commuting Groups: 209278
+  Average Efficiency: 28.0%
+  Cumulative Memory: 52018.24 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 360/645 - CPU: 52012.18 MB, GPU: 31.2716 GB free
+Operator 360: 75240 Pauli terms -> 20988 cliques (efficiency: 27.9%) - Memory: 121.21 MB
+  → Memory delta: CPU +134.10 MB, GPU +22.00 MB
+Processing operator 361/645 - CPU: 52139.65 MB, GPU: 31.2501 GB free
+Operator 361: 75240 Pauli terms -> 22860 cliques (efficiency: 30.4%) - Memory: 121.12 MB
+  → Memory delta: CPU +161.38 MB, GPU +22.00 MB
+Processing operator 362/645 - CPU: 52294.70 MB, GPU: 31.2286 GB free
+Operator 362: 66752 Pauli terms -> 23043 cliques (efficiency: 34.5%) - Memory: 125.16 MB
+  → Memory delta: CPU +170.35 MB, GPU +24.00 MB
+Processing operator 363/645 - CPU: 52460.30 MB, GPU: 31.2052 GB free
+Operator 363: 71334 Pauli terms -> 17451 cliques (efficiency: 24.5%) - Memory: 112.22 MB
+  → Memory delta: CPU +119.71 MB, GPU +18.00 MB
+Processing operator 364/645 - CPU: 52573.20 MB, GPU: 31.1876 GB free
+Operator 364: 77680 Pauli terms -> 19661 cliques (efficiency: 25.3%) - Memory: 116.97 MB
+  → Memory delta: CPU +135.83 MB, GPU +20.00 MB
+Processing operator 365/645 - CPU: 52702.70 MB, GPU: 31.1681 GB free
+Operator 365: 77680 Pauli terms -> 18888 cliques (efficiency: 24.3%) - Memory: 117.02 MB
+  → Memory delta: CPU +155.98 MB, GPU +18.00 MB
+Processing operator 366/645 - CPU: 52852.27 MB, GPU: 31.1505 GB free
+Operator 366: 77680 Pauli terms -> 20131 cliques (efficiency: 25.9%) - Memory: 117.42 MB
+  → Memory delta: CPU +138.93 MB, GPU +20.00 MB
+Processing operator 367/645 - CPU: 52984.68 MB, GPU: 31.1310 GB free
+Operator 367: 77680 Pauli terms -> 22098 cliques (efficiency: 28.4%) - Memory: 117.38 MB
+  → Memory delta: CPU +156.03 MB, GPU +22.00 MB
+Processing operator 368/645 - CPU: 53134.48 MB, GPU: 31.1095 GB free
+Operator 368: 75240 Pauli terms -> 24293 cliques (efficiency: 32.3%) - Memory: 121.33 MB
+  → Memory delta: CPU +167.33 MB, GPU +26.00 MB
+Processing operator 369/645 - CPU: 53296.56 MB, GPU: 31.0841 GB free
+Operator 369: 38976 Pauli terms -> 10934 cliques (efficiency: 28.1%) - Memory: 58.78 MB
+  → Memory delta: CPU +82.29 MB, GPU +10.00 MB
+
+--- SUMMARY: Operators 360-369 ---
+  Batch Memory Growth: +1360.61 MB
+  Pauli Terms Generated: 713502
+  Commuting Groups: 200347
+  Average Efficiency: 28.2%
+  Cumulative Memory: 53378.84 MB
+  ⚠️  High memory growth in this batch
+--- END SUMMARY ---
+
+Processing operator 370/645 - CPU: 53378.84 MB, GPU: 31.0743 GB free
+Operator 370: 71334 Pauli terms -> 18231 cliques (efficiency: 25.6%) - Memory: 112.66 MB
+  → Memory delta: CPU +128.16 MB, GPU +18.00 MB
+Processing operator 371/645 - CPU: 53501.59 MB, GPU: 31.0568 GB free
+Operator 371: 71334 Pauli terms -> 18533 cliques (efficiency: 26.0%) - Memory: 113.00 MB
+  → Memory delta: CPU +105.25 MB, GPU +20.00 MB
+Processing operator 372/645 - CPU: 53601.42 MB, GPU: 31.0372 GB free
+Operator 372: 71334 Pauli terms -> 19571 cliques (efficiency: 27.4%) - Memory: 112.92 MB
+  → Memory delta: CPU +140.37 MB, GPU +18.00 MB
+Processing operator 373/645 - CPU: 53736.96 MB, GPU: 31.0197 GB free
+Operator 373: 70360 Pauli terms -> 22058 cliques (efficiency: 31.4%) - Memory: 118.38 MB
+  → Memory delta: CPU +158.27 MB, GPU +24.00 MB
+Processing operator 374/645 - CPU: 53890.58 MB, GPU: 30.9962 GB free
+Operator 374: 77680 Pauli terms -> 19855 cliques (efficiency: 25.6%) - Memory: 117.32 MB
+  → Memory delta: CPU +138.63 MB, GPU +20.00 MB
+Processing operator 375/645 - CPU: 54023.97 MB, GPU: 30.9767 GB free
+Operator 375: 71334 Pauli terms -> 17652 cliques (efficiency: 24.7%) - Memory: 112.63 MB
+  → Memory delta: CPU +128.79 MB, GPU +16.00 MB
+Processing operator 376/645 - CPU: 54147.86 MB, GPU: 30.9611 GB free
+Operator 376: 77680 Pauli terms -> 19944 cliques (efficiency: 25.7%) - Memory: 117.21 MB
+  → Memory delta: CPU +135.73 MB, GPU +22.00 MB
+Processing operator 377/645 - CPU: 54278.50 MB, GPU: 30.9396 GB free
