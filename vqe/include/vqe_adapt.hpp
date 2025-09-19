@@ -288,13 +288,28 @@ namespace NWQSim {
                       << "MB, CommOps=" << (comm_ops_actual_bytes / (1024.0 * 1024.0))
                       << "MB, Cliques=" << (cliques_actual_bytes / (1024.0 * 1024.0)) << "MB" << std::endl;
             
-            // Show container efficiency
+            // Show container efficiency with detailed sizes
             double pmap_overhead = (pmap_actual_bytes > pauli_map_memory_bytes) ? 
                                   ((double)pmap_actual_bytes / pauli_map_memory_bytes) : 1.0;
             double comm_ops_overhead = (comm_ops_actual_bytes > comm_ops_memory_bytes) ? 
                                       ((double)comm_ops_actual_bytes / comm_ops_memory_bytes) : 1.0;
             std::cout << "  Container Overhead: PauliMap=" << std::fixed << std::setprecision(1) << pmap_overhead 
                       << "x, CommOps=" << comm_ops_overhead << "x" << std::endl;
+            
+            // Detailed container diagnostics
+            std::cout << "  Container Details: CommOps size=" << comm_ops.size() 
+                      << ", capacity=" << comm_ops.capacity() 
+                      << ", PauliMap size=" << pmap.size() 
+                      << ", buckets=" << pmap.bucket_count() << std::endl;
+            
+            // Show accumulated data structure sizes
+            size_t accumulated_coeffs = i * comm_ops.size() * sizeof(std::complex<double>);
+            size_t accumulated_zmasks = i * comm_ops.size() * sizeof(IdxType) * 2;
+            size_t accumulated_observables = total_observables_created * sizeof(ObservableList);
+            std::cout << "  Accumulated Data: Coeffs=" << std::fixed << std::setprecision(2) 
+                      << (accumulated_coeffs / (1024.0 * 1024.0)) << "MB, ZMasks=" 
+                      << (accumulated_zmasks / (1024.0 * 1024.0)) << "MB, Observables=" 
+                      << (accumulated_observables / (1024.0 * 1024.0)) << "MB" << std::endl;
             
             // Update batch tracking
             batch_pauli_terms += comm_ops.size();
@@ -375,6 +390,20 @@ namespace NWQSim {
             }
             std::cout << "  Estimated Circuit Memory: " << std::fixed << std::setprecision(2) 
                       << (estimated_circuit_size / (1024.0 * 1024.0)) << " MB" << std::endl;
+            
+            // Circuit overhead analysis
+            double circuit_overhead = (estimated_circuit_size > 0) ? 
+                                    (circuit_memory_mb * 1024.0 * 1024.0) / estimated_circuit_size : 0.0;
+            if (circuit_overhead > 2.0) {
+              std::cout << "  🔴 Circuit Overhead: " << std::fixed << std::setprecision(1) 
+                        << circuit_overhead << "x excessive!" << std::endl;
+            }
+            
+            // Show cumulative circuit memory growth
+            static double total_circuit_memory = 0.0;
+            total_circuit_memory += circuit_memory_mb;
+            std::cout << "  Cumulative Circuit Memory: " << std::fixed << std::setprecision(2) 
+                      << total_circuit_memory << " MB" << std::endl;
           }
           
           // Memory tracking after operator processing

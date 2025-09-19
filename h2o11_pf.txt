@@ -1,0 +1,1391 @@
+========================================
+  NWQSim ADAPT-VQE Memory Profiling
+========================================
+CUDA detected. GPU information:
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+NVIDIA A100-SXM4-40GB, 40960, 40327, 1
+
+Configuration:
+  Input file: /global/homes/z/zhen002/NSMem/H2O_1.75_Eq_11-Orbitals_DUCC3_H2O-1.75_Eq_DUCC3_10-electrons_11-Orbitals.out-xacc
+  Output file: memory_profile_output.log
+  Build type: GPU-enabled ADAPT-VQE
+
+Starting ADAPT-VQE with GPU memory profiling...
+Output will be saved to: memory_profile_output.log
+
+=== ADAPT-VQE Memory Profiling Session ===
+Date: Thu 18 Sep 2025 05:49:21 PM PDT
+System Info:
+  CPU: AMD EPYC 7763 64-Core Processor
+  Total RAM: 251Gi
+  Available RAM: 228Gi
+GPU Info:
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+=== Initial Memory State ===
+CPU Memory:
+               total        used        free      shared  buff/cache   available
+Mem:           251Gi        22Gi       234Gi       857Mi       1.3Gi       228Gi
+Swap:             0B          0B          0B
+GPU Memory:
+40960, 40327, 1
+40960, 40327, 1
+40960, 40327, 1
+40960, 40327, 1
+
+Starting simulation...
+Reading Hamiltonian...
+Constructed 33016 Pauli observables
+Constructing the ansatz...
+Starting with 10 Gates and 0 parameters
+Beginning ADAPT-VQE loop...
+
+=== ADAPT-VQE Memory Profiling (CPU + GPU) ===
+Initial CPU memory:
+  RSS (Resident Set Size): 256.06 MB
+Initial GPU memory:
+  Total GPU memory: 39.3812 GB
+  Free GPU memory: 38.8380 GB
+  Used GPU memory: 0.5432 GB
+
+Starting UCCSD operator pool allocation...
+  Pool size: 645 operators
+  Hamiltonian terms: 7833
+Processing operator 0/645 - CPU: 256.06 MB, GPU: 38.8380 GB free
+Operator 0: 11136 Pauli terms -> 3077 cliques (efficiency: 27.6%) - Memory: 32.65 MB
+  STL Containers: PauliMap=27.21MB, CommOps=14.72MB, Cliques=0.23MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.2x
+  Circuit Construction: +11.62 MB (3077 circuits)
+  Estimated Circuit Memory: 4.13 MB
+  → Memory delta: CPU +14.44 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 1/645 - CPU: 267.79 MB, GPU: 38.8341 GB free
+Operator 1: 11136 Pauli terms -> 2962 cliques (efficiency: 26.6%) - Memory: 32.58 MB
+  STL Containers: PauliMap=27.17MB, CommOps=14.69MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.2x
+  Circuit Construction: +22.11 MB (2962 circuits)
+  Estimated Circuit Memory: 3.98 MB
+  → Memory delta: CPU +22.63 MB, GPU +4.00 MB
+Processing operator 2/645 - CPU: 290.41 MB, GPU: 38.8302 GB free
+Operator 2: 11136 Pauli terms -> 2991 cliques (efficiency: 26.9%) - Memory: 32.73 MB
+  STL Containers: PauliMap=27.29MB, CommOps=14.77MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +16.81 MB (2991 circuits)
+  Estimated Circuit Memory: 4.02 MB
+  → Memory delta: CPU +17.57 MB, GPU +2.00 MB
+Processing operator 3/645 - CPU: 307.46 MB, GPU: 38.8282 GB free
+Operator 3: 11136 Pauli terms -> 3037 cliques (efficiency: 27.3%) - Memory: 32.89 MB
+  STL Containers: PauliMap=27.41MB, CommOps=14.84MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.4x
+  Circuit Construction: +17.86 MB (3037 circuits)
+  Estimated Circuit Memory: 4.08 MB
+  → Memory delta: CPU +18.37 MB, GPU +4.00 MB
+Processing operator 4/645 - CPU: 325.07 MB, GPU: 38.8243 GB free
+Operator 4: 11136 Pauli terms -> 3064 cliques (efficiency: 27.5%) - Memory: 32.67 MB
+  STL Containers: PauliMap=27.23MB, CommOps=14.73MB, Cliques=0.23MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +25.39 MB (3064 circuits)
+  Estimated Circuit Memory: 4.11 MB
+  → Memory delta: CPU +25.91 MB, GPU +2.00 MB
+Processing operator 5/645 - CPU: 350.98 MB, GPU: 38.8224 GB free
+Operator 5: 9384 Pauli terms -> 3152 cliques (efficiency: 33.6%) - Memory: 34.09 MB
+  STL Containers: PauliMap=28.47MB, CommOps=15.48MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.0x
+  Circuit Construction: +18.30 MB (3152 circuits)
+  Estimated Circuit Memory: 4.23 MB
+  → Memory delta: CPU +20.80 MB, GPU +4.00 MB
+Processing operator 6/645 - CPU: 369.68 MB, GPU: 38.8185 GB free
+Operator 6: 11136 Pauli terms -> 2949 cliques (efficiency: 26.5%) - Memory: 32.63 MB
+  STL Containers: PauliMap=27.21MB, CommOps=14.72MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.2x
+  Circuit Construction: +19.32 MB (2949 circuits)
+  Estimated Circuit Memory: 3.96 MB
+  → Memory delta: CPU +19.32 MB, GPU +2.00 MB
+Processing operator 7/645 - CPU: 388.99 MB, GPU: 38.8165 GB free
+Operator 7: 11136 Pauli terms -> 2871 cliques (efficiency: 25.8%) - Memory: 32.58 MB
+  STL Containers: PauliMap=27.18MB, CommOps=14.70MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.2x
+  Circuit Construction: +15.07 MB (2871 circuits)
+  Estimated Circuit Memory: 3.86 MB
+  → Memory delta: CPU +15.07 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 8/645 - CPU: 404.06 MB, GPU: 38.8126 GB free
+Operator 8: 11136 Pauli terms -> 2935 cliques (efficiency: 26.4%) - Memory: 32.72 MB
+  STL Containers: PauliMap=27.28MB, CommOps=14.76MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +13.29 MB (2935 circuits)
+  Estimated Circuit Memory: 3.94 MB
+  → Memory delta: CPU +14.06 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 9/645 - CPU: 418.12 MB, GPU: 38.8107 GB free
+Operator 9: 11136 Pauli terms -> 2988 cliques (efficiency: 26.8%) - Memory: 32.82 MB
+  STL Containers: PauliMap=27.36MB, CommOps=14.81MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.4x
+  Circuit Construction: +18.61 MB (2988 circuits)
+  Estimated Circuit Memory: 4.01 MB
+  → Memory delta: CPU +19.37 MB, GPU +4.00 MB
+
+--- SUMMARY: Operators 0-9 ---
+  Batch Memory Growth: +181.43 MB
+  Pauli Terms Generated: 109608
+  Commuting Groups: 30026
+  Average Efficiency: 27.5%
+  Cumulative Memory: 437.49 MB
+  Average Memory/Operator: 18.14 MB
+  Theoretical Memory/Op: 0.62 MB (bloat factor: 29.4x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 29.4x memory bloat detected!
+  System Memory Pressure: 10.4%
+--- END SUMMARY ---
+
+Processing operator 10/645 - CPU: 437.49 MB, GPU: 38.8068 GB free
+Operator 10: 11136 Pauli terms -> 3049 cliques (efficiency: 27.4%) - Memory: 32.71 MB
+  STL Containers: PauliMap=27.26MB, CommOps=14.75MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +19.86 MB (3049 circuits)
+  Estimated Circuit Memory: 4.09 MB
+  → Memory delta: CPU +19.86 MB, GPU +2.00 MB
+Processing operator 11/645 - CPU: 457.34 MB, GPU: 38.8048 GB free
+Operator 11: 9384 Pauli terms -> 3047 cliques (efficiency: 32.5%) - Memory: 34.05 MB
+  STL Containers: PauliMap=28.46MB, CommOps=15.47MB, Cliques=0.21MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.0x
+  Circuit Construction: +18.29 MB (3047 circuits)
+  Estimated Circuit Memory: 4.09 MB
+  → Memory delta: CPU +18.29 MB, GPU +4.00 MB
+Processing operator 12/645 - CPU: 475.64 MB, GPU: 38.8009 GB free
+Operator 12: 11136 Pauli terms -> 2913 cliques (efficiency: 26.2%) - Memory: 32.80 MB
+  STL Containers: PauliMap=27.35MB, CommOps=14.80MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.4x
+  Circuit Construction: +24.86 MB (2913 circuits)
+  Estimated Circuit Memory: 3.91 MB
+  → Memory delta: CPU +24.86 MB, GPU +2.00 MB
+Processing operator 13/645 - CPU: 500.49 MB, GPU: 38.7990 GB free
+Operator 13: 11136 Pauli terms -> 2905 cliques (efficiency: 26.1%) - Memory: 32.72 MB
+  STL Containers: PauliMap=27.29MB, CommOps=14.76MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +7.77 MB (2905 circuits)
+  Estimated Circuit Memory: 3.90 MB
+  → Memory delta: CPU +7.77 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 14/645 - CPU: 508.27 MB, GPU: 38.7950 GB free
+Operator 14: 11136 Pauli terms -> 2941 cliques (efficiency: 26.4%) - Memory: 32.87 MB
+  STL Containers: PauliMap=27.41MB, CommOps=14.84MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.4x
+  Circuit Construction: +24.81 MB (2941 circuits)
+  Estimated Circuit Memory: 3.95 MB
+  → Memory delta: CPU +25.59 MB, GPU +2.00 MB
+Processing operator 15/645 - CPU: 533.85 MB, GPU: 38.7931 GB free
+Operator 15: 11136 Pauli terms -> 2970 cliques (efficiency: 26.7%) - Memory: 32.98 MB
+  STL Containers: PauliMap=27.49MB, CommOps=14.89MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.5x
+  Circuit Construction: +18.55 MB (2970 circuits)
+  Estimated Circuit Memory: 3.99 MB
+  → Memory delta: CPU +18.55 MB, GPU +4.00 MB
+Processing operator 16/645 - CPU: 552.40 MB, GPU: 38.7892 GB free
+Operator 16: 11136 Pauli terms -> 3082 cliques (efficiency: 27.7%) - Memory: 32.83 MB
+  STL Containers: PauliMap=27.36MB, CommOps=14.81MB, Cliques=0.23MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.4x
+  Circuit Construction: +14.30 MB (3082 circuits)
+  Estimated Circuit Memory: 4.14 MB
+  → Memory delta: CPU +14.30 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 17/645 - CPU: 566.70 MB, GPU: 38.7872 GB free
+Operator 17: 9384 Pauli terms -> 3050 cliques (efficiency: 32.5%) - Memory: 34.22 MB
+  STL Containers: PauliMap=28.59MB, CommOps=15.55MB, Cliques=0.21MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.1x
+  Circuit Construction: +19.77 MB (3050 circuits)
+  Estimated Circuit Memory: 4.10 MB
+  → Memory delta: CPU +21.99 MB, GPU +4.00 MB
+Processing operator 18/645 - CPU: 586.75 MB, GPU: 38.7833 GB free
+Operator 18: 9384 Pauli terms -> 2568 cliques (efficiency: 27.4%) - Memory: 34.03 MB
+  STL Containers: PauliMap=28.50MB, CommOps=15.49MB, Cliques=0.19MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.0x
+  Circuit Construction: +15.73 MB (2568 circuits)
+  Estimated Circuit Memory: 3.45 MB
+  → Memory delta: CPU +16.20 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 19/645 - CPU: 602.94 MB, GPU: 38.7814 GB free
+Operator 19: 9384 Pauli terms -> 2568 cliques (efficiency: 27.4%) - Memory: 33.94 MB
+  STL Containers: PauliMap=28.43MB, CommOps=15.45MB, Cliques=0.19MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.0x
+  Circuit Construction: +14.00 MB (2568 circuits)
+  Estimated Circuit Memory: 3.45 MB
+  → Memory delta: CPU +14.00 MB, GPU +2.00 MB [LOW GROWTH]
+
+--- SUMMARY: Operators 10-19 ---
+  Batch Memory Growth: +179.45 MB
+  Pauli Terms Generated: 104352
+  Commuting Groups: 29093
+  Average Efficiency: 28.0%
+  Cumulative Memory: 616.94 MB
+  Average Memory/Operator: 17.95 MB
+  Theoretical Memory/Op: 0.59 MB (bloat factor: 30.2x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 30.2x memory bloat detected!
+  System Memory Pressure: 10.4%
+--- END SUMMARY ---
+
+Processing operator 20/645 - CPU: 616.94 MB, GPU: 38.7794 GB free
+Operator 20: 9384 Pauli terms -> 2614 cliques (efficiency: 27.9%) - Memory: 34.11 MB
+  STL Containers: PauliMap=28.56MB, CommOps=15.53MB, Cliques=0.19MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.1x
+  Circuit Construction: +14.73 MB (2614 circuits)
+  Estimated Circuit Memory: 3.51 MB
+  → Memory delta: CPU +17.25 MB, GPU +4.00 MB
+Processing operator 21/645 - CPU: 634.19 MB, GPU: 38.7755 GB free
+Operator 21: 9384 Pauli terms -> 2636 cliques (efficiency: 28.1%) - Memory: 34.23 MB
+  STL Containers: PauliMap=28.65MB, CommOps=15.58MB, Cliques=0.19MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.2x
+  Circuit Construction: +16.80 MB (2636 circuits)
+  Estimated Circuit Memory: 3.54 MB
+  → Memory delta: CPU +16.80 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 22/645 - CPU: 650.98 MB, GPU: 38.7736 GB free
+Operator 22: 9384 Pauli terms -> 2731 cliques (efficiency: 29.1%) - Memory: 34.08 MB
+  STL Containers: PauliMap=28.52MB, CommOps=15.50MB, Cliques=0.20MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.1x
+  Circuit Construction: +22.09 MB (2731 circuits)
+  Estimated Circuit Memory: 3.67 MB
+  → Memory delta: CPU +22.09 MB, GPU +2.00 MB
+Processing operator 23/645 - CPU: 673.08 MB, GPU: 38.7716 GB free
+Operator 23: 3912 Pauli terms -> 1117 cliques (efficiency: 28.6%) - Memory: 33.88 MB
+  STL Containers: PauliMap=28.99MB, CommOps=15.78MB, Cliques=0.08MB
+  Container Overhead: PauliMap=1.0x, CommOps=58.8x
+  Circuit Construction: +4.00 MB (1117 circuits)
+  Estimated Circuit Memory: 1.50 MB
+  → Memory delta: CPU +4.24 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 24/645 - CPU: 677.14 MB, GPU: 38.7697 GB free
+Operator 24: 11136 Pauli terms -> 2998 cliques (efficiency: 26.9%) - Memory: 32.67 MB
+  STL Containers: PauliMap=27.24MB, CommOps=14.73MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +28.09 MB (2998 circuits)
+  Estimated Circuit Memory: 4.03 MB
+  → Memory delta: CPU +30.09 MB, GPU +2.00 MB
+Processing operator 25/645 - CPU: 707.23 MB, GPU: 38.7677 GB free
+Operator 25: 11136 Pauli terms -> 2865 cliques (efficiency: 25.7%) - Memory: 32.60 MB
+  STL Containers: PauliMap=27.20MB, CommOps=14.71MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.2x
+  Circuit Construction: +11.77 MB (2865 circuits)
+  Estimated Circuit Memory: 3.85 MB
+  → Memory delta: CPU +11.77 MB, GPU +4.00 MB [LOW GROWTH]
+Processing operator 26/645 - CPU: 719.00 MB, GPU: 38.7638 GB free
+Operator 26: 11136 Pauli terms -> 2936 cliques (efficiency: 26.4%) - Memory: 32.76 MB
+  STL Containers: PauliMap=27.31MB, CommOps=14.78MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +13.85 MB (2936 circuits)
+  Estimated Circuit Memory: 3.94 MB
+  → Memory delta: CPU +13.85 MB, GPU +2.00 MB [LOW GROWTH]
+Processing operator 27/645 - CPU: 732.84 MB, GPU: 38.7618 GB free
+Operator 27: 11136 Pauli terms -> 2984 cliques (efficiency: 26.8%) - Memory: 32.87 MB
+  STL Containers: PauliMap=27.40MB, CommOps=14.83MB, Cliques=0.22MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.4x
+  Circuit Construction: +17.53 MB (2984 circuits)
+  Estimated Circuit Memory: 4.01 MB
+  → Memory delta: CPU +19.77 MB, GPU +4.00 MB
+Processing operator 28/645 - CPU: 752.61 MB, GPU: 38.7579 GB free
+Operator 28: 11136 Pauli terms -> 3063 cliques (efficiency: 27.5%) - Memory: 32.71 MB
+  STL Containers: PauliMap=27.26MB, CommOps=14.75MB, Cliques=0.23MB
+  Container Overhead: PauliMap=1.0x, CommOps=19.3x
+  Circuit Construction: +18.96 MB (3063 circuits)
+  Estimated Circuit Memory: 4.11 MB
+  → Memory delta: CPU +18.96 MB, GPU +2.00 MB
+Processing operator 29/645 - CPU: 771.57 MB, GPU: 38.7560 GB free
+Operator 29: 9384 Pauli terms -> 2983 cliques (efficiency: 31.8%) - Memory: 34.08 MB
+  STL Containers: PauliMap=28.49MB, CommOps=15.49MB, Cliques=0.21MB
+  Container Overhead: PauliMap=1.0x, CommOps=24.0x
+  Circuit Construction: +20.30 MB (2983 circuits)
+  Estimated Circuit Memory: 4.01 MB
+  → Memory delta: CPU +20.84 MB, GPU +4.00 MB
+
+--- SUMMARY: Operators 20-29 ---
+  Batch Memory Growth: +175.47 MB
+  Pauli Terms Generated: 97128
+  Commuting Groups: 26927
+  Average Efficiency: 27.9%
+  Cumulative Memory: 792.41 MB
+  Average Memory/Operator: 17.55 MB
+  Theoretical Memory/Op: 0.55 MB (bloat factor: 31.8x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 31.8x memory bloat detected!
+  System Memory Pressure: 10.5%
+--- END SUMMARY ---
+
+Processing operator 30/645 - CPU: 792.41 MB, GPU: 38.7521 GB free
+Operator 30: 76160 Pauli terms -> 25523 cliques (efficiency: 33.5%) - Memory: 117.60 MB
+  STL Containers: PauliMap=94.84MB, CommOps=50.28MB, Cliques=1.75MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +165.53 MB (25523 circuits)
+  Estimated Circuit Memory: 34.27 MB
+  → Memory delta: CPU +223.72 MB, GPU +26.00 MB
+Processing operator 31/645 - CPU: 1010.04 MB, GPU: 38.7267 GB free
+Operator 31: 76160 Pauli terms -> 22302 cliques (efficiency: 29.3%) - Memory: 117.14 MB
+  STL Containers: PauliMap=94.87MB, CommOps=50.30MB, Cliques=1.60MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +138.14 MB (22302 circuits)
+  Estimated Circuit Memory: 29.95 MB
+  → Memory delta: CPU +155.30 MB, GPU +22.00 MB
+Processing operator 32/645 - CPU: 1159.48 MB, GPU: 38.7052 GB free
+Operator 32: 76160 Pauli terms -> 22065 cliques (efficiency: 29.0%) - Memory: 117.38 MB
+  STL Containers: PauliMap=95.09MB, CommOps=50.43MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +138.62 MB (22065 circuits)
+  Estimated Circuit Memory: 29.63 MB
+  → Memory delta: CPU +155.91 MB, GPU +22.00 MB
+Processing operator 33/645 - CPU: 1309.37 MB, GPU: 38.6837 GB free
+Operator 33: 76160 Pauli terms -> 24145 cliques (efficiency: 31.7%) - Memory: 117.42 MB
+  STL Containers: PauliMap=94.87MB, CommOps=50.30MB, Cliques=1.69MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +151.20 MB (24145 circuits)
+  Estimated Circuit Memory: 32.42 MB
+  → Memory delta: CPU +168.35 MB, GPU +24.00 MB
+Processing operator 34/645 - CPU: 1471.75 MB, GPU: 38.6603 GB free
+Operator 34: 73904 Pauli terms -> 26723 cliques (efficiency: 36.2%) - Memory: 121.38 MB
+  STL Containers: PauliMap=97.86MB, CommOps=52.09MB, Cliques=1.79MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +172.65 MB (26723 circuits)
+  Estimated Circuit Memory: 35.88 MB
+  → Memory delta: CPU +189.60 MB, GPU +28.00 MB
+Processing operator 35/645 - CPU: 1655.57 MB, GPU: 38.6329 GB free
+Operator 35: 76160 Pauli terms -> 24194 cliques (efficiency: 31.8%) - Memory: 117.84 MB
+  STL Containers: PauliMap=95.20MB, CommOps=50.49MB, Cliques=1.69MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +157.52 MB (24194 circuits)
+  Estimated Circuit Memory: 32.49 MB
+  → Memory delta: CPU +163.77 MB, GPU +24.00 MB
+Processing operator 36/645 - CPU: 1813.20 MB, GPU: 38.6095 GB free
+Operator 36: 76160 Pauli terms -> 21274 cliques (efficiency: 27.9%) - Memory: 117.69 MB
+  STL Containers: PauliMap=95.43MB, CommOps=50.63MB, Cliques=1.55MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +133.04 MB (21274 circuits)
+  Estimated Circuit Memory: 28.57 MB
+  → Memory delta: CPU +150.53 MB, GPU +22.00 MB
+Processing operator 37/645 - CPU: 1957.38 MB, GPU: 38.5880 GB free
+Operator 37: 76160 Pauli terms -> 21420 cliques (efficiency: 28.1%) - Memory: 117.92 MB
+  STL Containers: PauliMap=95.59MB, CommOps=50.73MB, Cliques=1.56MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +135.38 MB (21420 circuits)
+  Estimated Circuit Memory: 28.76 MB
+  → Memory delta: CPU +152.96 MB, GPU +20.00 MB
+Processing operator 38/645 - CPU: 2103.88 MB, GPU: 38.5685 GB free
+Operator 38: 76160 Pauli terms -> 23402 cliques (efficiency: 30.7%) - Memory: 117.82 MB
+  STL Containers: PauliMap=95.27MB, CommOps=50.54MB, Cliques=1.65MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +147.71 MB (23402 circuits)
+  Estimated Circuit Memory: 31.42 MB
+  → Memory delta: CPU +165.11 MB, GPU +24.00 MB
+Processing operator 39/645 - CPU: 2262.67 MB, GPU: 38.5450 GB free
+Operator 39: 73904 Pauli terms -> 25695 cliques (efficiency: 34.8%) - Memory: 121.93 MB
+  STL Containers: PauliMap=98.42MB, CommOps=52.43MB, Cliques=1.74MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +165.64 MB (25695 circuits)
+  Estimated Circuit Memory: 34.50 MB
+  → Memory delta: CPU +182.92 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 30-39 ---
+  Batch Memory Growth: +1653.18 MB
+  Pauli Terms Generated: 757088
+  Commuting Groups: 236743
+  Average Efficiency: 31.3%
+  Cumulative Memory: 2445.59 MB
+  Average Memory/Operator: 165.32 MB
+  Theoretical Memory/Op: 4.62 MB (bloat factor: 35.8x)
+  ⚠️  High memory growth in this batch
+  🔴 CRITICAL: 35.8x memory bloat detected!
+  System Memory Pressure: 11.1%
+--- END SUMMARY ---
+
+Processing operator 40/645 - CPU: 2439.52 MB, GPU: 38.5197 GB free
+Operator 40: 73904 Pauli terms -> 23356 cliques (efficiency: 31.6%) - Memory: 121.08 MB
+  STL Containers: PauliMap=98.03MB, CommOps=52.19MB, Cliques=1.63MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +144.90 MB (23356 circuits)
+  Estimated Circuit Memory: 31.36 MB
+  → Memory delta: CPU +161.94 MB, GPU +24.00 MB
+Processing operator 41/645 - CPU: 2595.46 MB, GPU: 38.4962 GB free
+Operator 41: 73904 Pauli terms -> 21214 cliques (efficiency: 28.7%) - Memory: 121.02 MB
+  STL Containers: PauliMap=98.24MB, CommOps=52.32MB, Cliques=1.53MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +134.26 MB (21214 circuits)
+  Estimated Circuit Memory: 28.49 MB
+  → Memory delta: CPU +151.32 MB, GPU +22.00 MB
+Processing operator 42/645 - CPU: 2740.88 MB, GPU: 38.4747 GB free
+Operator 42: 73904 Pauli terms -> 21511 cliques (efficiency: 29.1%) - Memory: 121.34 MB
+  STL Containers: PauliMap=98.46MB, CommOps=52.45MB, Cliques=1.55MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +137.02 MB (21511 circuits)
+  Estimated Circuit Memory: 28.88 MB
+  → Memory delta: CPU +154.10 MB, GPU +20.00 MB
+Processing operator 43/645 - CPU: 2888.91 MB, GPU: 38.4552 GB free
+Operator 43: 73904 Pauli terms -> 22769 cliques (efficiency: 30.8%) - Memory: 120.96 MB
+  STL Containers: PauliMap=98.01MB, CommOps=52.18MB, Cliques=1.61MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +145.07 MB (22769 circuits)
+  Estimated Circuit Memory: 30.57 MB
+  → Memory delta: CPU +162.08 MB, GPU +24.00 MB
+Processing operator 44/645 - CPU: 3045.20 MB, GPU: 38.4318 GB free
+Operator 44: 65600 Pauli terms -> 22835 cliques (efficiency: 34.8%) - Memory: 124.87 MB
+  STL Containers: PauliMap=101.73MB, CommOps=54.42MB, Cliques=1.55MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +146.13 MB (22835 circuits)
+  Estimated Circuit Memory: 30.66 MB
+  → Memory delta: CPU +163.40 MB, GPU +22.00 MB
+Processing operator 45/645 - CPU: 3202.54 MB, GPU: 38.4103 GB free
+Operator 45: 76160 Pauli terms -> 24445 cliques (efficiency: 32.1%) - Memory: 117.28 MB
+  STL Containers: PauliMap=94.73MB, CommOps=50.21MB, Cliques=1.70MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +141.86 MB (24445 circuits)
+  Estimated Circuit Memory: 32.82 MB
+  → Memory delta: CPU +158.92 MB, GPU +26.00 MB
+Processing operator 46/645 - CPU: 3355.56 MB, GPU: 38.3849 GB free
+Operator 46: 76160 Pauli terms -> 21098 cliques (efficiency: 27.7%) - Memory: 116.90 MB
+  STL Containers: PauliMap=94.83MB, CommOps=50.27MB, Cliques=1.55MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +133.28 MB (21098 circuits)
+  Estimated Circuit Memory: 28.33 MB
+  → Memory delta: CPU +150.40 MB, GPU +20.00 MB
+Processing operator 47/645 - CPU: 3499.87 MB, GPU: 38.3654 GB free
+Operator 47: 76160 Pauli terms -> 21266 cliques (efficiency: 27.9%) - Memory: 117.33 MB
+  STL Containers: PauliMap=95.14MB, CommOps=50.46MB, Cliques=1.55MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +133.92 MB (21266 circuits)
+  Estimated Circuit Memory: 28.56 MB
+  → Memory delta: CPU +148.15 MB, GPU +22.00 MB
+Processing operator 48/645 - CPU: 3641.85 MB, GPU: 38.3439 GB free
+Operator 48: 76160 Pauli terms -> 23097 cliques (efficiency: 30.3%) - Memory: 117.06 MB
+  STL Containers: PauliMap=94.71MB, CommOps=50.20MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +144.38 MB (23097 circuits)
+  Estimated Circuit Memory: 31.01 MB
+  → Memory delta: CPU +161.30 MB, GPU +24.00 MB
+Processing operator 49/645 - CPU: 3797.26 MB, GPU: 38.3204 GB free
+Operator 49: 73904 Pauli terms -> 26141 cliques (efficiency: 35.4%) - Memory: 121.25 MB
+  STL Containers: PauliMap=97.83MB, CommOps=52.07MB, Cliques=1.76MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +166.67 MB (26141 circuits)
+  Estimated Circuit Memory: 35.10 MB
+  → Memory delta: CPU +183.37 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 40-49 ---
+  Batch Memory Growth: +1535.04 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 227732
+  Average Efficiency: 30.8%
+  Cumulative Memory: 3980.62 MB
+  Average Memory/Operator: 153.50 MB
+  Theoretical Memory/Op: 4.47 MB (bloat factor: 34.3x)
+  ⚠️  High memory growth in this batch
+  🔴 CRITICAL: 34.3x memory bloat detected!
+  System Memory Pressure: 11.7%
+--- END SUMMARY ---
+
+Processing operator 50/645 - CPU: 3974.90 MB, GPU: 38.2950 GB free
+Operator 50: 76160 Pauli terms -> 24760 cliques (efficiency: 32.5%) - Memory: 117.60 MB
+  STL Containers: PauliMap=94.94MB, CommOps=50.34MB, Cliques=1.71MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +149.12 MB (24760 circuits)
+  Estimated Circuit Memory: 33.25 MB
+  → Memory delta: CPU +166.30 MB, GPU +24.00 MB
+Processing operator 51/645 - CPU: 4135.28 MB, GPU: 38.2716 GB free
+Operator 51: 76160 Pauli terms -> 22307 cliques (efficiency: 29.3%) - Memory: 117.64 MB
+  STL Containers: PauliMap=95.27MB, CommOps=50.53MB, Cliques=1.60MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +150.37 MB (22307 circuits)
+  Estimated Circuit Memory: 29.95 MB
+  → Memory delta: CPU +167.70 MB, GPU +24.00 MB
+Processing operator 52/645 - CPU: 4296.62 MB, GPU: 38.2482 GB free
+Operator 52: 76160 Pauli terms -> 24143 cliques (efficiency: 31.7%) - Memory: 117.28 MB
+  STL Containers: PauliMap=94.76MB, CommOps=50.23MB, Cliques=1.69MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +150.75 MB (24143 circuits)
+  Estimated Circuit Memory: 32.42 MB
+  → Memory delta: CPU +158.79 MB, GPU +24.00 MB
+Processing operator 53/645 - CPU: 4449.54 MB, GPU: 38.2247 GB free
+Operator 53: 73904 Pauli terms -> 26666 cliques (efficiency: 36.1%) - Memory: 121.49 MB
+  STL Containers: PauliMap=97.96MB, CommOps=52.15MB, Cliques=1.78MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +172.29 MB (26666 circuits)
+  Estimated Circuit Memory: 35.81 MB
+  → Memory delta: CPU +189.07 MB, GPU +26.00 MB
+Processing operator 54/645 - CPU: 4632.76 MB, GPU: 38.1993 GB free
+Operator 54: 76160 Pauli terms -> 23363 cliques (efficiency: 30.7%) - Memory: 117.89 MB
+  STL Containers: PauliMap=95.34MB, CommOps=50.58MB, Cliques=1.65MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +146.71 MB (23363 circuits)
+  Estimated Circuit Memory: 31.37 MB
+  → Memory delta: CPU +164.14 MB, GPU +24.00 MB
+Processing operator 55/645 - CPU: 4790.51 MB, GPU: 38.1759 GB free
+Operator 55: 76160 Pauli terms -> 21682 cliques (efficiency: 28.5%) - Memory: 117.94 MB
+  STL Containers: PauliMap=95.57MB, CommOps=50.72MB, Cliques=1.57MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +136.57 MB (21682 circuits)
+  Estimated Circuit Memory: 29.11 MB
+  → Memory delta: CPU +149.71 MB, GPU +22.00 MB
+Processing operator 56/645 - CPU: 4933.89 MB, GPU: 38.1544 GB free
+Operator 56: 76160 Pauli terms -> 23478 cliques (efficiency: 30.8%) - Memory: 117.48 MB
+  STL Containers: PauliMap=95.00MB, CommOps=50.37MB, Cliques=1.66MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +147.23 MB (23478 circuits)
+  Estimated Circuit Memory: 31.53 MB
+  → Memory delta: CPU +164.30 MB, GPU +24.00 MB
+Processing operator 57/645 - CPU: 5092.23 MB, GPU: 38.1310 GB free
+Operator 57: 73904 Pauli terms -> 25725 cliques (efficiency: 34.8%) - Memory: 121.79 MB
+  STL Containers: PauliMap=98.31MB, CommOps=52.36MB, Cliques=1.74MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +165.56 MB (25725 circuits)
+  Estimated Circuit Memory: 34.54 MB
+  → Memory delta: CPU +182.56 MB, GPU +26.00 MB
+Processing operator 58/645 - CPU: 5268.75 MB, GPU: 38.1056 GB free
+Operator 58: 73904 Pauli terms -> 22414 cliques (efficiency: 30.3%) - Memory: 121.20 MB
+  STL Containers: PauliMap=98.24MB, CommOps=52.32MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +142.13 MB (22414 circuits)
+  Estimated Circuit Memory: 30.10 MB
+  → Memory delta: CPU +159.14 MB, GPU +22.00 MB
+Processing operator 59/645 - CPU: 5421.76 MB, GPU: 38.0841 GB free
+Operator 59: 73904 Pauli terms -> 22036 cliques (efficiency: 29.8%) - Memory: 121.54 MB
+  STL Containers: PauliMap=98.55MB, CommOps=52.51MB, Cliques=1.57MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +139.07 MB (22036 circuits)
+  Estimated Circuit Memory: 29.59 MB
+  → Memory delta: CPU +156.39 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 50-59 ---
+  Batch Memory Growth: +1597.52 MB
+  Pauli Terms Generated: 752576
+  Commuting Groups: 236574
+  Average Efficiency: 31.5%
+  Cumulative Memory: 5578.15 MB
+  Average Memory/Operator: 159.75 MB
+  Theoretical Memory/Op: 4.61 MB (bloat factor: 34.7x)
+  ⚠️  High memory growth in this batch
+  🔴 CRITICAL: 34.7x memory bloat detected!
+  System Memory Pressure: 12.3%
+--- END SUMMARY ---
+
+Processing operator 60/645 - CPU: 5571.86 MB, GPU: 38.0626 GB free
+Operator 60: 73904 Pauli terms -> 23158 cliques (efficiency: 31.3%) - Memory: 120.82 MB
+  STL Containers: PauliMap=97.85MB, CommOps=52.09MB, Cliques=1.62MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +145.74 MB (23158 circuits)
+  Estimated Circuit Memory: 31.10 MB
+  → Memory delta: CPU +162.55 MB, GPU +24.00 MB
+Processing operator 61/645 - CPU: 5728.74 MB, GPU: 38.0392 GB free
+Operator 61: 65600 Pauli terms -> 22164 cliques (efficiency: 33.8%) - Memory: 124.74 MB
+  STL Containers: PauliMap=101.71MB, CommOps=54.40MB, Cliques=1.52MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +149.44 MB (22164 circuits)
+  Estimated Circuit Memory: 29.76 MB
+  → Memory delta: CPU +166.70 MB, GPU +22.00 MB
+Processing operator 62/645 - CPU: 5889.21 MB, GPU: 38.0177 GB free
+Operator 62: 76160 Pauli terms -> 22406 cliques (efficiency: 29.4%) - Memory: 117.36 MB
+  STL Containers: PauliMap=95.03MB, CommOps=50.39MB, Cliques=1.61MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +133.68 MB (22406 circuits)
+  Estimated Circuit Memory: 30.09 MB
+  → Memory delta: CPU +144.18 MB, GPU +22.00 MB
+Processing operator 63/645 - CPU: 6027.31 MB, GPU: 37.9962 GB free
+Operator 63: 76160 Pauli terms -> 21029 cliques (efficiency: 27.6%) - Memory: 117.68 MB
+  STL Containers: PauliMap=95.45MB, CommOps=50.64MB, Cliques=1.54MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +132.26 MB (21029 circuits)
+  Estimated Circuit Memory: 28.24 MB
+  → Memory delta: CPU +149.52 MB, GPU +22.00 MB
+Processing operator 64/645 - CPU: 6170.38 MB, GPU: 37.9747 GB free
+Operator 64: 76160 Pauli terms -> 22818 cliques (efficiency: 30.0%) - Memory: 117.05 MB
+  STL Containers: PauliMap=94.74MB, CommOps=50.22MB, Cliques=1.63MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +145.05 MB (22818 circuits)
+  Estimated Circuit Memory: 30.64 MB
+  → Memory delta: CPU +162.05 MB, GPU +22.00 MB
+Processing operator 65/645 - CPU: 6326.39 MB, GPU: 37.9532 GB free
+Operator 65: 73904 Pauli terms -> 25486 cliques (efficiency: 34.5%) - Memory: 121.47 MB
+  STL Containers: PauliMap=98.08MB, CommOps=52.22MB, Cliques=1.73MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +165.39 MB (25486 circuits)
+  Estimated Circuit Memory: 34.22 MB
+  → Memory delta: CPU +180.14 MB, GPU +26.00 MB
+Processing operator 66/645 - CPU: 6500.52 MB, GPU: 37.9279 GB free
+Operator 66: 76160 Pauli terms -> 23129 cliques (efficiency: 30.4%) - Memory: 117.90 MB
+  STL Containers: PauliMap=95.37MB, CommOps=50.60MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +143.90 MB (23129 circuits)
+  Estimated Circuit Memory: 31.06 MB
+  → Memory delta: CPU +161.16 MB, GPU +24.00 MB
+Processing operator 67/645 - CPU: 6655.40 MB, GPU: 37.9044 GB free
+Operator 67: 76160 Pauli terms -> 23147 cliques (efficiency: 30.4%) - Memory: 117.42 MB
+  STL Containers: PauliMap=94.99MB, CommOps=50.37MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +147.04 MB (23147 circuits)
+  Estimated Circuit Memory: 31.08 MB
+  → Memory delta: CPU +164.05 MB, GPU +24.00 MB
+Processing operator 68/645 - CPU: 6813.32 MB, GPU: 37.8810 GB free
+Operator 68: 73904 Pauli terms -> 26137 cliques (efficiency: 35.4%) - Memory: 121.58 MB
+  STL Containers: PauliMap=98.09MB, CommOps=52.23MB, Cliques=1.76MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +170.98 MB (26137 circuits)
+  Estimated Circuit Memory: 35.10 MB
+  → Memory delta: CPU +187.99 MB, GPU +26.00 MB
+Processing operator 69/645 - CPU: 6995.26 MB, GPU: 37.8556 GB free
+Operator 69: 76160 Pauli terms -> 22498 cliques (efficiency: 29.5%) - Memory: 118.45 MB
+  STL Containers: PauliMap=95.88MB, CommOps=50.90MB, Cliques=1.61MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +139.77 MB (22498 circuits)
+  Estimated Circuit Memory: 30.21 MB
+  → Memory delta: CPU +157.14 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 60-69 ---
+  Batch Memory Growth: +1574.25 MB
+  Pauli Terms Generated: 744272
+  Commuting Groups: 231972
+  Average Efficiency: 31.2%
+  Cumulative Memory: 7152.39 MB
+  Average Memory/Operator: 157.42 MB
+  Theoretical Memory/Op: 4.54 MB (bloat factor: 34.7x)
+  ⚠️  High memory growth in this batch
+  🔴 CRITICAL: 34.7x memory bloat detected!
+  System Memory Pressure: 12.9%
+--- END SUMMARY ---
+
+Processing operator 70/645 - CPU: 7145.91 MB, GPU: 37.8341 GB free
+Operator 70: 76160 Pauli terms -> 23094 cliques (efficiency: 30.3%) - Memory: 117.95 MB
+  STL Containers: PauliMap=95.42MB, CommOps=50.62MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +155.44 MB (23094 circuits)
+  Estimated Circuit Memory: 31.01 MB
+  → Memory delta: CPU +172.91 MB, GPU +24.00 MB
+Processing operator 71/645 - CPU: 7312.37 MB, GPU: 37.8107 GB free
+Operator 71: 73904 Pauli terms -> 25322 cliques (efficiency: 34.3%) - Memory: 122.15 MB
+  STL Containers: PauliMap=98.64MB, CommOps=52.56MB, Cliques=1.72MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +164.06 MB (25322 circuits)
+  Estimated Circuit Memory: 34.00 MB
+  → Memory delta: CPU +172.15 MB, GPU +24.00 MB
+Processing operator 72/645 - CPU: 7478.30 MB, GPU: 37.7872 GB free
+Operator 72: 73904 Pauli terms -> 23166 cliques (efficiency: 31.3%) - Memory: 122.09 MB
+  STL Containers: PauliMap=98.85MB, CommOps=52.69MB, Cliques=1.62MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +146.91 MB (23166 circuits)
+  Estimated Circuit Memory: 31.11 MB
+  → Memory delta: CPU +164.36 MB, GPU +24.00 MB
+Processing operator 73/645 - CPU: 7636.23 MB, GPU: 37.7638 GB free
+Operator 73: 73904 Pauli terms -> 23615 cliques (efficiency: 32.0%) - Memory: 121.43 MB
+  STL Containers: PauliMap=98.28MB, CommOps=52.34MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +149.52 MB (23615 circuits)
+  Estimated Circuit Memory: 31.71 MB
+  → Memory delta: CPU +166.72 MB, GPU +24.00 MB
+Processing operator 74/645 - CPU: 7796.82 MB, GPU: 37.7404 GB free
+Operator 74: 65600 Pauli terms -> 22315 cliques (efficiency: 34.0%) - Memory: 125.21 MB
+  STL Containers: PauliMap=102.07MB, CommOps=54.61MB, Cliques=1.52MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +144.32 MB (22315 circuits)
+  Estimated Circuit Memory: 29.96 MB
+  → Memory delta: CPU +161.76 MB, GPU +22.00 MB
+Processing operator 75/645 - CPU: 7952.32 MB, GPU: 37.7189 GB free
+Operator 75: 76160 Pauli terms -> 22416 cliques (efficiency: 29.4%) - Memory: 118.10 MB
+  STL Containers: PauliMap=95.61MB, CommOps=50.74MB, Cliques=1.61MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +134.98 MB (22416 circuits)
+  Estimated Circuit Memory: 30.10 MB
+  → Memory delta: CPU +152.58 MB, GPU +22.00 MB
+Processing operator 76/645 - CPU: 8098.33 MB, GPU: 37.6974 GB free
+Operator 76: 76160 Pauli terms -> 22934 cliques (efficiency: 30.1%) - Memory: 117.47 MB
+  STL Containers: PauliMap=95.05MB, CommOps=50.41MB, Cliques=1.63MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +143.72 MB (22934 circuits)
+  Estimated Circuit Memory: 30.80 MB
+  → Memory delta: CPU +159.32 MB, GPU +24.00 MB
+Processing operator 77/645 - CPU: 8251.48 MB, GPU: 37.6740 GB free
+Operator 77: 73904 Pauli terms -> 24564 cliques (efficiency: 33.2%) - Memory: 121.60 MB
+  STL Containers: PauliMap=98.30MB, CommOps=52.35MB, Cliques=1.69MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +159.49 MB (24564 circuits)
+  Estimated Circuit Memory: 32.98 MB
+  → Memory delta: CPU +176.70 MB, GPU +24.00 MB
+Processing operator 78/645 - CPU: 8422.11 MB, GPU: 37.6505 GB free
+Operator 78: 76160 Pauli terms -> 21989 cliques (efficiency: 28.9%) - Memory: 117.82 MB
+  STL Containers: PauliMap=95.45MB, CommOps=50.64MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +140.04 MB (21989 circuits)
+  Estimated Circuit Memory: 29.53 MB
+  → Memory delta: CPU +157.30 MB, GPU +24.00 MB
+Processing operator 79/645 - CPU: 8573.17 MB, GPU: 37.6271 GB free
+Operator 79: 73904 Pauli terms -> 24943 cliques (efficiency: 33.8%) - Memory: 121.93 MB
+  STL Containers: PauliMap=98.51MB, CommOps=52.48MB, Cliques=1.71MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +165.64 MB (24943 circuits)
+  Estimated Circuit Memory: 33.49 MB
+  → Memory delta: CPU +182.98 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 70-79 ---
+  Batch Memory Growth: +1603.75 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 234358
+  Average Efficiency: 31.7%
+  Cumulative Memory: 8756.15 MB
+  Average Memory/Operator: 160.38 MB
+  Theoretical Memory/Op: 4.55 MB (bloat factor: 35.2x)
+  ⚠️  High memory growth in this batch
+  🔴 CRITICAL: 35.2x memory bloat detected!
+  System Memory Pressure: 13.6%
+--- END SUMMARY ---
+
+Processing operator 80/645 - CPU: 8749.87 MB, GPU: 37.6036 GB free
+Operator 80: 76160 Pauli terms -> 23218 cliques (efficiency: 30.5%) - Memory: 118.49 MB
+  STL Containers: PauliMap=95.82MB, CommOps=50.87MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +145.57 MB (23218 circuits)
+  Estimated Circuit Memory: 31.18 MB
+  → Memory delta: CPU +163.09 MB, GPU +24.00 MB
+Processing operator 81/645 - CPU: 8906.30 MB, GPU: 37.5802 GB free
+Operator 81: 73904 Pauli terms -> 25272 cliques (efficiency: 34.2%) - Memory: 122.59 MB
+  STL Containers: PauliMap=98.99MB, CommOps=52.77MB, Cliques=1.72MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +165.88 MB (25272 circuits)
+  Estimated Circuit Memory: 33.93 MB
+  → Memory delta: CPU +183.40 MB, GPU +24.00 MB
+Processing operator 82/645 - CPU: 9083.27 MB, GPU: 37.5568 GB free
+Operator 82: 73904 Pauli terms -> 25355 cliques (efficiency: 34.3%) - Memory: 122.26 MB
+  STL Containers: PauliMap=98.72MB, CommOps=52.61MB, Cliques=1.72MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +163.51 MB (25355 circuits)
+  Estimated Circuit Memory: 34.05 MB
+  → Memory delta: CPU +180.84 MB, GPU +26.00 MB
+Processing operator 83/645 - CPU: 9257.68 MB, GPU: 37.5314 GB free
+Operator 83: 65600 Pauli terms -> 23243 cliques (efficiency: 35.4%) - Memory: 125.90 MB
+  STL Containers: PauliMap=102.50MB, CommOps=54.87MB, Cliques=1.56MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.2x
+  Circuit Construction: +148.21 MB (23243 circuits)
+  Estimated Circuit Memory: 31.21 MB
+  → Memory delta: CPU +160.10 MB, GPU +24.00 MB
+Processing operator 84/645 - CPU: 9413.23 MB, GPU: 37.5079 GB free
+Operator 84: 76160 Pauli terms -> 23943 cliques (efficiency: 31.4%) - Memory: 118.30 MB
+  STL Containers: PauliMap=95.58MB, CommOps=50.73MB, Cliques=1.68MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +154.41 MB (23943 circuits)
+  Estimated Circuit Memory: 32.15 MB
+  → Memory delta: CPU +171.99 MB, GPU +24.00 MB
+Processing operator 85/645 - CPU: 9578.68 MB, GPU: 37.4845 GB free
+Operator 85: 73904 Pauli terms -> 24971 cliques (efficiency: 33.8%) - Memory: 122.31 MB
+  STL Containers: PauliMap=98.80MB, CommOps=52.66MB, Cliques=1.71MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +161.18 MB (24971 circuits)
+  Estimated Circuit Memory: 33.53 MB
+  → Memory delta: CPU +167.44 MB, GPU +26.00 MB
+Processing operator 86/645 - CPU: 9739.78 MB, GPU: 37.4591 GB free
+Operator 86: 73904 Pauli terms -> 23929 cliques (efficiency: 32.4%) - Memory: 121.17 MB
+  STL Containers: PauliMap=98.03MB, CommOps=52.19MB, Cliques=1.66MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +159.47 MB (23929 circuits)
+  Estimated Circuit Memory: 32.13 MB
+  → Memory delta: CPU +176.45 MB, GPU +24.00 MB
+Processing operator 87/645 - CPU: 9910.30 MB, GPU: 37.4357 GB free
+Operator 87: 73904 Pauli terms -> 25570 cliques (efficiency: 34.6%) - Memory: 121.97 MB
+  STL Containers: PauliMap=98.46MB, CommOps=52.45MB, Cliques=1.73MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +165.47 MB (25570 circuits)
+  Estimated Circuit Memory: 34.33 MB
+  → Memory delta: CPU +182.85 MB, GPU +26.00 MB
+Processing operator 88/645 - CPU: 10086.99 MB, GPU: 37.4103 GB free
+Operator 88: 65600 Pauli terms -> 24234 cliques (efficiency: 36.9%) - Memory: 125.15 MB
+  STL Containers: PauliMap=101.79MB, CommOps=54.45MB, Cliques=1.61MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +154.92 MB (24234 circuits)
+  Estimated Circuit Memory: 32.54 MB
+  → Memory delta: CPU +172.22 MB, GPU +24.00 MB
+Processing operator 89/645 - CPU: 10252.98 MB, GPU: 37.3868 GB free
+Operator 89: 73904 Pauli terms -> 25973 cliques (efficiency: 35.1%) - Memory: 121.63 MB
+  STL Containers: PauliMap=98.15MB, CommOps=52.26MB, Cliques=1.75MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +161.26 MB (25973 circuits)
+  Estimated Circuit Memory: 34.88 MB
+  → Memory delta: CPU +178.38 MB, GPU +26.00 MB
+
+--- SUMMARY: Operators 80-89 ---
+  Batch Memory Growth: +1675.22 MB
+  Pauli Terms Generated: 726944
+  Commuting Groups: 245708
+  Average Efficiency: 33.9%
+  Cumulative Memory: 10431.37 MB
+  Average Memory/Operator: 167.52 MB
+  Theoretical Memory/Op: 4.66 MB (bloat factor: 35.9x)
+  ⚠️  High memory growth in this batch
+  🔴 CRITICAL: 35.9x memory bloat detected!
+  System Memory Pressure: 14.2%
+--- END SUMMARY ---
+
+Processing operator 90/645 - CPU: 10425.36 MB, GPU: 37.3615 GB free
+Operator 90: 76160 Pauli terms -> 22853 cliques (efficiency: 30.0%) - Memory: 117.60 MB
+  STL Containers: PauliMap=95.17MB, CommOps=50.48MB, Cliques=1.63MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +137.27 MB (22853 circuits)
+  Estimated Circuit Memory: 30.69 MB
+  → Memory delta: CPU +154.60 MB, GPU +22.00 MB
+Processing operator 91/645 - CPU: 10573.77 MB, GPU: 37.3400 GB free
+Operator 91: 76160 Pauli terms -> 19827 cliques (efficiency: 26.0%) - Memory: 117.41 MB
+  STL Containers: PauliMap=95.38MB, CommOps=50.61MB, Cliques=1.49MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +125.00 MB (19827 circuits)
+  Estimated Circuit Memory: 26.62 MB
+  → Memory delta: CPU +142.46 MB, GPU +20.00 MB
+Processing operator 92/645 - CPU: 10710.03 MB, GPU: 37.3204 GB free
+Operator 92: 76160 Pauli terms -> 20142 cliques (efficiency: 26.4%) - Memory: 117.34 MB
+  STL Containers: PauliMap=95.29MB, CommOps=50.55MB, Cliques=1.50MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +142.55 MB (20142 circuits)
+  Estimated Circuit Memory: 27.05 MB
+  → Memory delta: CPU +159.96 MB, GPU +22.00 MB
+Processing operator 93/645 - CPU: 10863.62 MB, GPU: 37.2990 GB free
+Operator 93: 76160 Pauli terms -> 22038 cliques (efficiency: 28.9%) - Memory: 117.87 MB
+  STL Containers: PauliMap=95.48MB, CommOps=50.66MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +135.90 MB (22038 circuits)
+  Estimated Circuit Memory: 29.59 MB
+  → Memory delta: CPU +142.34 MB, GPU +22.00 MB
+Processing operator 94/645 - CPU: 10999.59 MB, GPU: 37.2775 GB free
+Operator 94: 73904 Pauli terms -> 24316 cliques (efficiency: 32.9%) - Memory: 121.67 MB
+  STL Containers: PauliMap=98.38MB, CommOps=52.40MB, Cliques=1.68MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +156.59 MB (24316 circuits)
+  Estimated Circuit Memory: 32.65 MB
+  → Memory delta: CPU +173.84 MB, GPU +24.00 MB
+Processing operator 95/645 - CPU: 11167.25 MB, GPU: 37.2540 GB free
+Operator 95: 73904 Pauli terms -> 21132 cliques (efficiency: 28.6%) - Memory: 120.94 MB
+  STL Containers: PauliMap=98.18MB, CommOps=52.29MB, Cliques=1.53MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +134.84 MB (21132 circuits)
+  Estimated Circuit Memory: 28.38 MB
+  → Memory delta: CPU +151.84 MB, GPU +22.00 MB
+Processing operator 96/645 - CPU: 11312.98 MB, GPU: 37.2325 GB free
+Operator 96: 73904 Pauli terms -> 18967 cliques (efficiency: 25.7%) - Memory: 120.90 MB
+  STL Containers: PauliMap=98.42MB, CommOps=52.43MB, Cliques=1.43MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +129.14 MB (18967 circuits)
+  Estimated Circuit Memory: 25.47 MB
+  → Memory delta: CPU +143.18 MB, GPU +18.00 MB
+Processing operator 97/645 - CPU: 11449.91 MB, GPU: 37.2150 GB free
+Operator 97: 73904 Pauli terms -> 19260 cliques (efficiency: 26.1%) - Memory: 120.85 MB
+  STL Containers: PauliMap=98.35MB, CommOps=52.38MB, Cliques=1.45MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +124.12 MB (19260 circuits)
+  Estimated Circuit Memory: 25.86 MB
+  → Memory delta: CPU +133.66 MB, GPU +20.00 MB
+Processing operator 98/645 - CPU: 11577.57 MB, GPU: 37.1954 GB free
+Operator 98: 73904 Pauli terms -> 20476 cliques (efficiency: 27.7%) - Memory: 121.10 MB
+  STL Containers: PauliMap=98.39MB, CommOps=52.41MB, Cliques=1.50MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +144.79 MB (20476 circuits)
+  Estimated Circuit Memory: 27.49 MB
+  → Memory delta: CPU +161.86 MB, GPU +20.00 MB
+Processing operator 99/645 - CPU: 11733.20 MB, GPU: 37.1759 GB free
+Operator 99: 65600 Pauli terms -> 20485 cliques (efficiency: 31.2%) - Memory: 124.71 MB
+  STL Containers: PauliMap=101.89MB, CommOps=54.51MB, Cliques=1.44MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +129.84 MB (20485 circuits)
+  Estimated Circuit Memory: 27.51 MB
+  → Memory delta: CPU +136.09 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 90-99 ---
+  Batch Memory Growth: +1437.92 MB
+  Pauli Terms Generated: 739760
+  Commuting Groups: 209496
+  Average Efficiency: 28.4%
+  Cumulative Memory: 11869.29 MB
+  Average Memory/Operator: 143.79 MB
+  Theoretical Memory/Op: 4.25 MB (bloat factor: 33.8x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 33.8x memory bloat detected!
+  System Memory Pressure: 14.7%
+--- END SUMMARY ---
+
+Processing operator 100/645 - CPU: 11863.16 MB, GPU: 37.1564 GB free
+Operator 100: 76160 Pauli terms -> 22622 cliques (efficiency: 29.7%) - Memory: 117.03 MB
+  STL Containers: PauliMap=94.75MB, CommOps=50.22MB, Cliques=1.62MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +131.69 MB (22622 circuits)
+  Estimated Circuit Memory: 30.38 MB
+  → Memory delta: CPU +148.76 MB, GPU +24.00 MB
+Processing operator 101/645 - CPU: 12005.97 MB, GPU: 37.1329 GB free
+Operator 101: 76160 Pauli terms -> 19299 cliques (efficiency: 25.3%) - Memory: 116.71 MB
+  STL Containers: PauliMap=94.89MB, CommOps=50.31MB, Cliques=1.46MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +120.71 MB (19299 circuits)
+  Estimated Circuit Memory: 25.91 MB
+  → Memory delta: CPU +137.71 MB, GPU +20.00 MB
+Processing operator 102/645 - CPU: 12137.80 MB, GPU: 37.1134 GB free
+Operator 102: 76160 Pauli terms -> 19439 cliques (efficiency: 25.5%) - Memory: 116.80 MB
+  STL Containers: PauliMap=94.94MB, CommOps=50.34MB, Cliques=1.47MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +121.29 MB (19439 circuits)
+  Estimated Circuit Memory: 26.10 MB
+  → Memory delta: CPU +138.49 MB, GPU +18.00 MB
+Processing operator 103/645 - CPU: 12270.28 MB, GPU: 37.0958 GB free
+Operator 103: 76160 Pauli terms -> 21133 cliques (efficiency: 27.7%) - Memory: 117.10 MB
+  STL Containers: PauliMap=94.98MB, CommOps=50.36MB, Cliques=1.55MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +141.23 MB (21133 circuits)
+  Estimated Circuit Memory: 28.38 MB
+  → Memory delta: CPU +158.45 MB, GPU +22.00 MB
+Processing operator 104/645 - CPU: 12422.54 MB, GPU: 37.0743 GB free
+Operator 104: 73904 Pauli terms -> 23999 cliques (efficiency: 32.5%) - Memory: 120.92 MB
+  STL Containers: PauliMap=97.83MB, CommOps=52.07MB, Cliques=1.66MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +154.39 MB (23999 circuits)
+  Estimated Circuit Memory: 32.23 MB
+  → Memory delta: CPU +162.89 MB, GPU +24.00 MB
+Processing operator 105/645 - CPU: 12579.74 MB, GPU: 37.0509 GB free
+Operator 105: 76160 Pauli terms -> 22044 cliques (efficiency: 28.9%) - Memory: 117.45 MB
+  STL Containers: PauliMap=95.15MB, CommOps=50.46MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +134.21 MB (22044 circuits)
+  Estimated Circuit Memory: 29.60 MB
+  → Memory delta: CPU +151.54 MB, GPU +22.00 MB
+Processing operator 106/645 - CPU: 12725.22 MB, GPU: 37.0294 GB free
+Operator 106: 76160 Pauli terms -> 20416 cliques (efficiency: 26.8%) - Memory: 117.27 MB
+  STL Containers: PauliMap=95.20MB, CommOps=50.50MB, Cliques=1.52MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +131.70 MB (20416 circuits)
+  Estimated Circuit Memory: 27.41 MB
+  → Memory delta: CPU +149.05 MB, GPU +22.00 MB
+Processing operator 107/645 - CPU: 12867.95 MB, GPU: 37.0079 GB free
+Operator 107: 76160 Pauli terms -> 21936 cliques (efficiency: 28.8%) - Memory: 117.34 MB
+  STL Containers: PauliMap=95.08MB, CommOps=50.42MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +138.05 MB (21936 circuits)
+  Estimated Circuit Memory: 29.46 MB
+  → Memory delta: CPU +151.29 MB, GPU +22.00 MB
+Processing operator 108/645 - CPU: 13013.00 MB, GPU: 36.9865 GB free
+Operator 108: 73904 Pauli terms -> 24146 cliques (efficiency: 32.7%) - Memory: 121.39 MB
+  STL Containers: PauliMap=98.18MB, CommOps=52.28MB, Cliques=1.67MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +161.89 MB (24146 circuits)
+  Estimated Circuit Memory: 32.42 MB
+  → Memory delta: CPU +178.23 MB, GPU +24.00 MB
+Processing operator 109/645 - CPU: 13185.12 MB, GPU: 36.9630 GB free
+Operator 109: 73904 Pauli terms -> 20075 cliques (efficiency: 27.2%) - Memory: 120.81 MB
+  STL Containers: PauliMap=98.21MB, CommOps=52.30MB, Cliques=1.48MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +135.55 MB (20075 circuits)
+  Estimated Circuit Memory: 26.96 MB
+  → Memory delta: CPU +145.42 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 100-109 ---
+  Batch Memory Growth: +1461.25 MB
+  Pauli Terms Generated: 754832
+  Commuting Groups: 215109
+  Average Efficiency: 28.5%
+  Cumulative Memory: 13330.54 MB
+  Average Memory/Operator: 146.13 MB
+  Theoretical Memory/Op: 4.35 MB (bloat factor: 33.6x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 33.6x memory bloat detected!
+  System Memory Pressure: 15.3%
+--- END SUMMARY ---
+
+Processing operator 110/645 - CPU: 13324.42 MB, GPU: 36.9435 GB free
+Operator 110: 73904 Pauli terms -> 19385 cliques (efficiency: 26.2%) - Memory: 120.85 MB
+  STL Containers: PauliMap=98.33MB, CommOps=52.37MB, Cliques=1.45MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +126.75 MB (19385 circuits)
+  Estimated Circuit Memory: 26.03 MB
+  → Memory delta: CPU +135.31 MB, GPU +20.00 MB
+Processing operator 111/645 - CPU: 13453.54 MB, GPU: 36.9240 GB free
+Operator 111: 73904 Pauli terms -> 20418 cliques (efficiency: 27.6%) - Memory: 120.65 MB
+  STL Containers: PauliMap=98.05MB, CommOps=52.20MB, Cliques=1.50MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +129.38 MB (20418 circuits)
+  Estimated Circuit Memory: 27.42 MB
+  → Memory delta: CPU +143.94 MB, GPU +20.00 MB
+Processing operator 112/645 - CPU: 13591.65 MB, GPU: 36.9044 GB free
+Operator 112: 65600 Pauli terms -> 19887 cliques (efficiency: 30.3%) - Memory: 124.41 MB
+  STL Containers: PauliMap=101.73MB, CommOps=54.41MB, Cliques=1.41MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +129.03 MB (19887 circuits)
+  Estimated Circuit Memory: 26.70 MB
+  → Memory delta: CPU +146.29 MB, GPU +20.00 MB
+Processing operator 113/645 - CPU: 13731.86 MB, GPU: 36.8849 GB free
+Operator 113: 76160 Pauli terms -> 20522 cliques (efficiency: 26.9%) - Memory: 116.83 MB
+  STL Containers: PauliMap=94.84MB, CommOps=50.28MB, Cliques=1.52MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +120.98 MB (20522 circuits)
+  Estimated Circuit Memory: 27.56 MB
+  → Memory delta: CPU +137.99 MB, GPU +20.00 MB
+Processing operator 114/645 - CPU: 13863.91 MB, GPU: 36.8654 GB free
+Operator 114: 76160 Pauli terms -> 18877 cliques (efficiency: 24.8%) - Memory: 116.89 MB
+  STL Containers: PauliMap=95.09MB, CommOps=50.43MB, Cliques=1.45MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +127.98 MB (18877 circuits)
+  Estimated Circuit Memory: 25.35 MB
+  → Memory delta: CPU +145.27 MB, GPU +20.00 MB
+Processing operator 115/645 - CPU: 14002.93 MB, GPU: 36.8458 GB free
+Operator 115: 76160 Pauli terms -> 20694 cliques (efficiency: 27.2%) - Memory: 116.77 MB
+  STL Containers: PauliMap=94.77MB, CommOps=50.24MB, Cliques=1.53MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +130.10 MB (20694 circuits)
+  Estimated Circuit Memory: 27.79 MB
+  → Memory delta: CPU +139.52 MB, GPU +20.00 MB
+Processing operator 116/645 - CPU: 14136.61 MB, GPU: 36.8263 GB free
+Operator 116: 73904 Pauli terms -> 23099 cliques (efficiency: 31.3%) - Memory: 120.85 MB
+  STL Containers: PauliMap=97.88MB, CommOps=52.10MB, Cliques=1.62MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +149.18 MB (23099 circuits)
+  Estimated Circuit Memory: 31.02 MB
+  → Memory delta: CPU +166.14 MB, GPU +24.00 MB
+Processing operator 117/645 - CPU: 14297.07 MB, GPU: 36.8029 GB free
+Operator 117: 76160 Pauli terms -> 21616 cliques (efficiency: 28.4%) - Memory: 117.76 MB
+  STL Containers: PauliMap=95.44MB, CommOps=50.64MB, Cliques=1.57MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +138.56 MB (21616 circuits)
+  Estimated Circuit Memory: 29.03 MB
+  → Memory delta: CPU +156.08 MB, GPU +22.00 MB
+Processing operator 118/645 - CPU: 14446.69 MB, GPU: 36.7814 GB free
+Operator 118: 76160 Pauli terms -> 21891 cliques (efficiency: 28.7%) - Memory: 117.79 MB
+  STL Containers: PauliMap=95.43MB, CommOps=50.64MB, Cliques=1.58MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +138.24 MB (21891 circuits)
+  Estimated Circuit Memory: 29.39 MB
+  → Memory delta: CPU +151.05 MB, GPU +22.00 MB
+Processing operator 119/645 - CPU: 14591.35 MB, GPU: 36.7599 GB free
+Operator 119: 73904 Pauli terms -> 24324 cliques (efficiency: 32.9%) - Memory: 121.77 MB
+  STL Containers: PauliMap=98.46MB, CommOps=52.45MB, Cliques=1.68MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +156.13 MB (24324 circuits)
+  Estimated Circuit Memory: 32.66 MB
+  → Memory delta: CPU +173.43 MB, GPU +24.00 MB
+
+--- SUMMARY: Operators 110-119 ---
+  Batch Memory Growth: +1434.24 MB
+  Pauli Terms Generated: 742016
+  Commuting Groups: 210713
+  Average Efficiency: 28.4%
+  Cumulative Memory: 14764.78 MB
+  Average Memory/Operator: 143.42 MB
+  Theoretical Memory/Op: 4.27 MB (bloat factor: 33.6x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 33.6x memory bloat detected!
+  System Memory Pressure: 15.9%
+--- END SUMMARY ---
+
+Processing operator 120/645 - CPU: 14758.56 MB, GPU: 36.7365 GB free
+Operator 120: 73904 Pauli terms -> 20523 cliques (efficiency: 27.8%) - Memory: 121.37 MB
+  STL Containers: PauliMap=98.60MB, CommOps=52.53MB, Cliques=1.50MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +136.93 MB (20523 circuits)
+  Estimated Circuit Memory: 27.56 MB
+  → Memory delta: CPU +154.32 MB, GPU +20.00 MB
+Processing operator 121/645 - CPU: 14906.52 MB, GPU: 36.7169 GB free
+Operator 121: 73904 Pauli terms -> 20960 cliques (efficiency: 28.4%) - Memory: 121.24 MB
+  STL Containers: PauliMap=98.45MB, CommOps=52.44MB, Cliques=1.52MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +133.38 MB (20960 circuits)
+  Estimated Circuit Memory: 28.14 MB
+  → Memory delta: CPU +144.77 MB, GPU +22.00 MB
+Processing operator 122/645 - CPU: 15045.27 MB, GPU: 36.6954 GB free
+Operator 122: 65600 Pauli terms -> 19983 cliques (efficiency: 30.5%) - Memory: 124.85 MB
+  STL Containers: PauliMap=102.07MB, CommOps=54.62MB, Cliques=1.42MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +130.25 MB (19983 circuits)
+  Estimated Circuit Memory: 26.83 MB
+  → Memory delta: CPU +147.72 MB, GPU +20.00 MB
+Processing operator 123/645 - CPU: 15186.76 MB, GPU: 36.6759 GB free
+Operator 123: 76160 Pauli terms -> 20371 cliques (efficiency: 26.7%) - Memory: 117.34 MB
+  STL Containers: PauliMap=95.26MB, CommOps=50.53MB, Cliques=1.51MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +140.95 MB (20371 circuits)
+  Estimated Circuit Memory: 27.35 MB
+  → Memory delta: CPU +158.27 MB, GPU +20.00 MB
+Processing operator 124/645 - CPU: 15338.68 MB, GPU: 36.6564 GB free
+Operator 124: 76160 Pauli terms -> 20921 cliques (efficiency: 27.5%) - Memory: 117.22 MB
+  STL Containers: PauliMap=95.10MB, CommOps=50.43MB, Cliques=1.54MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +122.38 MB (20921 circuits)
+  Estimated Circuit Memory: 28.09 MB
+  → Memory delta: CPU +128.63 MB, GPU +22.00 MB
+Processing operator 125/645 - CPU: 15461.25 MB, GPU: 36.6349 GB free
+Operator 125: 73904 Pauli terms -> 22293 cliques (efficiency: 30.2%) - Memory: 121.03 MB
+  STL Containers: PauliMap=98.12MB, CommOps=52.25MB, Cliques=1.58MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +145.39 MB (22293 circuits)
+  Estimated Circuit Memory: 29.93 MB
+  → Memory delta: CPU +162.39 MB, GPU +22.00 MB
+Processing operator 126/645 - CPU: 15617.59 MB, GPU: 36.6134 GB free
+Operator 126: 76160 Pauli terms -> 22651 cliques (efficiency: 29.7%) - Memory: 118.15 MB
+  STL Containers: PauliMap=95.62MB, CommOps=50.75MB, Cliques=1.62MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +141.66 MB (22651 circuits)
+  Estimated Circuit Memory: 30.42 MB
+  → Memory delta: CPU +159.35 MB, GPU +22.00 MB
+Processing operator 127/645 - CPU: 15770.55 MB, GPU: 36.5919 GB free
+Operator 127: 73904 Pauli terms -> 24321 cliques (efficiency: 32.9%) - Memory: 121.91 MB
+  STL Containers: PauliMap=98.57MB, CommOps=52.51MB, Cliques=1.68MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +158.93 MB (24321 circuits)
+  Estimated Circuit Memory: 32.66 MB
+  → Memory delta: CPU +176.30 MB, GPU +26.00 MB
+Processing operator 128/645 - CPU: 15940.64 MB, GPU: 36.5665 GB free
+Operator 128: 73904 Pauli terms -> 22595 cliques (efficiency: 30.6%) - Memory: 121.77 MB
+  STL Containers: PauliMap=98.67MB, CommOps=52.58MB, Cliques=1.60MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +141.95 MB (22595 circuits)
+  Estimated Circuit Memory: 30.34 MB
+  → Memory delta: CPU +159.38 MB, GPU +22.00 MB
+Processing operator 129/645 - CPU: 16093.86 MB, GPU: 36.5450 GB free
+Operator 129: 65600 Pauli terms -> 20635 cliques (efficiency: 31.5%) - Memory: 125.16 MB
+  STL Containers: PauliMap=102.23MB, CommOps=54.71MB, Cliques=1.45MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +134.15 MB (20635 circuits)
+  Estimated Circuit Memory: 27.71 MB
+  → Memory delta: CPU +149.72 MB, GPU +20.00 MB
+
+--- SUMMARY: Operators 120-129 ---
+  Batch Memory Growth: +1478.80 MB
+  Pauli Terms Generated: 729200
+  Commuting Groups: 215253
+  Average Efficiency: 29.6%
+  Cumulative Memory: 16243.58 MB
+  Average Memory/Operator: 147.88 MB
+  Theoretical Memory/Op: 4.30 MB (bloat factor: 34.4x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 34.4x memory bloat detected!
+  System Memory Pressure: 16.4%
+--- END SUMMARY ---
+
+Processing operator 130/645 - CPU: 16239.21 MB, GPU: 36.5255 GB free
+Operator 130: 76160 Pauli terms -> 22001 cliques (efficiency: 28.9%) - Memory: 117.79 MB
+  STL Containers: PauliMap=95.42MB, CommOps=50.63MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +131.54 MB (22001 circuits)
+  Estimated Circuit Memory: 29.54 MB
+  → Memory delta: CPU +149.01 MB, GPU +24.00 MB
+Processing operator 131/645 - CPU: 16381.98 MB, GPU: 36.5021 GB free
+Operator 131: 73904 Pauli terms -> 22524 cliques (efficiency: 30.5%) - Memory: 121.41 MB
+  STL Containers: PauliMap=98.39MB, CommOps=52.41MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +156.41 MB (22524 circuits)
+  Estimated Circuit Memory: 30.24 MB
+  → Memory delta: CPU +173.68 MB, GPU +22.00 MB
+Processing operator 132/645 - CPU: 16549.42 MB, GPU: 36.4806 GB free
+Operator 132: 73904 Pauli terms -> 24555 cliques (efficiency: 33.2%) - Memory: 121.87 MB
+  STL Containers: PauliMap=98.51MB, CommOps=52.48MB, Cliques=1.69MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +157.66 MB (24555 circuits)
+  Estimated Circuit Memory: 32.97 MB
+  → Memory delta: CPU +164.75 MB, GPU +24.00 MB
+Processing operator 133/645 - CPU: 16708.03 MB, GPU: 36.4572 GB free
+Operator 133: 65600 Pauli terms -> 21500 cliques (efficiency: 32.8%) - Memory: 124.97 MB
+  STL Containers: PauliMap=101.97MB, CommOps=54.56MB, Cliques=1.48MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +137.88 MB (21500 circuits)
+  Estimated Circuit Memory: 28.87 MB
+  → Memory delta: CPU +155.30 MB, GPU +22.00 MB
+Processing operator 134/645 - CPU: 16857.10 MB, GPU: 36.4357 GB free
+Operator 134: 73904 Pauli terms -> 23439 cliques (efficiency: 31.7%) - Memory: 121.25 MB
+  STL Containers: PauliMap=98.16MB, CommOps=52.27MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +144.77 MB (23439 circuits)
+  Estimated Circuit Memory: 31.47 MB
+  → Memory delta: CPU +161.89 MB, GPU +24.00 MB
+Processing operator 135/645 - CPU: 17012.91 MB, GPU: 36.4122 GB free
+Operator 135: 73904 Pauli terms -> 20947 cliques (efficiency: 28.3%) - Memory: 121.21 MB
+  STL Containers: PauliMap=98.42MB, CommOps=52.43MB, Cliques=1.52MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +146.22 MB (20947 circuits)
+  Estimated Circuit Memory: 28.13 MB
+  → Memory delta: CPU +163.48 MB, GPU +20.00 MB
+Processing operator 136/645 - CPU: 17170.14 MB, GPU: 36.3927 GB free
+Operator 136: 73904 Pauli terms -> 19332 cliques (efficiency: 26.2%) - Memory: 121.49 MB
+  STL Containers: PauliMap=98.84MB, CommOps=52.68MB, Cliques=1.45MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +127.53 MB (19332 circuits)
+  Estimated Circuit Memory: 25.96 MB
+  → Memory delta: CPU +133.78 MB, GPU +20.00 MB
+Processing operator 137/645 - CPU: 17297.42 MB, GPU: 36.3732 GB free
+Operator 137: 73904 Pauli terms -> 19864 cliques (efficiency: 26.9%) - Memory: 121.40 MB
+  STL Containers: PauliMap=98.70MB, CommOps=52.60MB, Cliques=1.47MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +142.82 MB (19864 circuits)
+  Estimated Circuit Memory: 26.67 MB
+  → Memory delta: CPU +153.38 MB, GPU +20.00 MB
+Processing operator 138/645 - CPU: 17444.38 MB, GPU: 36.3536 GB free
+Operator 138: 73904 Pauli terms -> 21123 cliques (efficiency: 28.6%) - Memory: 121.56 MB
+  STL Containers: PauliMap=98.68MB, CommOps=52.58MB, Cliques=1.53MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +129.30 MB (21123 circuits)
+  Estimated Circuit Memory: 28.36 MB
+  → Memory delta: CPU +135.71 MB, GPU +22.00 MB
+Processing operator 139/645 - CPU: 17573.69 MB, GPU: 36.3322 GB free
+Operator 139: 65600 Pauli terms -> 21438 cliques (efficiency: 32.7%) - Memory: 125.39 MB
+  STL Containers: PauliMap=102.31MB, CommOps=54.76MB, Cliques=1.48MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.2x
+  Circuit Construction: +136.96 MB (21438 circuits)
+  Estimated Circuit Memory: 28.79 MB
+  → Memory delta: CPU +151.04 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 130-139 ---
+  Batch Memory Growth: +1481.15 MB
+  Pauli Terms Generated: 724688
+  Commuting Groups: 216723
+  Average Efficiency: 30.0%
+  Cumulative Memory: 17724.73 MB
+  Average Memory/Operator: 148.12 MB
+  Theoretical Memory/Op: 4.30 MB (bloat factor: 34.4x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 34.4x memory bloat detected!
+  System Memory Pressure: 17.0%
+--- END SUMMARY ---
+
+Processing operator 140/645 - CPU: 17720.34 MB, GPU: 36.3107 GB free
+Operator 140: 76160 Pauli terms -> 21522 cliques (efficiency: 28.3%) - Memory: 117.22 MB
+  STL Containers: PauliMap=95.03MB, CommOps=50.39MB, Cliques=1.57MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +125.93 MB (21522 circuits)
+  Estimated Circuit Memory: 28.90 MB
+  → Memory delta: CPU +143.17 MB, GPU +22.00 MB
+Processing operator 141/645 - CPU: 17857.33 MB, GPU: 36.2892 GB free
+Operator 141: 76160 Pauli terms -> 19771 cliques (efficiency: 26.0%) - Memory: 117.37 MB
+  STL Containers: PauliMap=95.35MB, CommOps=50.59MB, Cliques=1.49MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +122.63 MB (19771 circuits)
+  Estimated Circuit Memory: 26.55 MB
+  → Memory delta: CPU +140.07 MB, GPU +20.00 MB
+Processing operator 142/645 - CPU: 17991.18 MB, GPU: 36.2697 GB free
+Operator 142: 76160 Pauli terms -> 21277 cliques (efficiency: 27.9%) - Memory: 117.55 MB
+  STL Containers: PauliMap=95.32MB, CommOps=50.57MB, Cliques=1.56MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +143.79 MB (21277 circuits)
+  Estimated Circuit Memory: 28.57 MB
+  → Memory delta: CPU +161.21 MB, GPU +20.00 MB
+Processing operator 143/645 - CPU: 18146.00 MB, GPU: 36.2501 GB free
+Operator 143: 76160 Pauli terms -> 23185 cliques (efficiency: 30.4%) - Memory: 117.85 MB
+  STL Containers: PauliMap=95.32MB, CommOps=50.57MB, Cliques=1.64MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +149.11 MB (23185 circuits)
+  Estimated Circuit Memory: 31.13 MB
+  → Memory delta: CPU +155.50 MB, GPU +24.00 MB
+Processing operator 144/645 - CPU: 18295.11 MB, GPU: 36.2267 GB free
+Operator 144: 73904 Pauli terms -> 25606 cliques (efficiency: 34.6%) - Memory: 121.79 MB
+  STL Containers: PauliMap=98.32MB, CommOps=52.37MB, Cliques=1.74MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +162.55 MB (25606 circuits)
+  Estimated Circuit Memory: 34.38 MB
+  → Memory delta: CPU +174.29 MB, GPU +26.00 MB
+Processing operator 145/645 - CPU: 18463.43 MB, GPU: 36.2013 GB free
+Operator 145: 73904 Pauli terms -> 21080 cliques (efficiency: 28.5%) - Memory: 121.37 MB
+  STL Containers: PauliMap=98.53MB, CommOps=52.49MB, Cliques=1.53MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +132.87 MB (21080 circuits)
+  Estimated Circuit Memory: 28.31 MB
+  → Memory delta: CPU +150.22 MB, GPU +20.00 MB
+Processing operator 146/645 - CPU: 18607.38 MB, GPU: 36.1818 GB free
+Operator 146: 73904 Pauli terms -> 20659 cliques (efficiency: 28.0%) - Memory: 121.30 MB
+  STL Containers: PauliMap=98.53MB, CommOps=52.49MB, Cliques=1.51MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +133.52 MB (20659 circuits)
+  Estimated Circuit Memory: 27.74 MB
+  → Memory delta: CPU +150.72 MB, GPU +22.00 MB
+Processing operator 147/645 - CPU: 18751.78 MB, GPU: 36.1603 GB free
+Operator 147: 73904 Pauli terms -> 21396 cliques (efficiency: 29.0%) - Memory: 121.04 MB
+  STL Containers: PauliMap=98.23MB, CommOps=52.31MB, Cliques=1.54MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +135.70 MB (21396 circuits)
+  Estimated Circuit Memory: 28.73 MB
+  → Memory delta: CPU +149.48 MB, GPU +22.00 MB
+Processing operator 148/645 - CPU: 18895.14 MB, GPU: 36.1388 GB free
+Operator 148: 65600 Pauli terms -> 20731 cliques (efficiency: 31.6%) - Memory: 124.88 MB
+  STL Containers: PauliMap=101.99MB, CommOps=54.57MB, Cliques=1.45MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.1x
+  Circuit Construction: +147.09 MB (20731 circuits)
+  Estimated Circuit Memory: 27.84 MB
+  → Memory delta: CPU +164.36 MB, GPU +20.00 MB
+Processing operator 149/645 - CPU: 19053.10 MB, GPU: 36.1193 GB free
+Operator 149: 76160 Pauli terms -> 20667 cliques (efficiency: 27.1%) - Memory: 117.31 MB
+  STL Containers: PauliMap=95.20MB, CommOps=50.50MB, Cliques=1.53MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +121.40 MB (20667 circuits)
+  Estimated Circuit Memory: 27.75 MB
+  → Memory delta: CPU +127.72 MB, GPU +22.00 MB
+
+--- SUMMARY: Operators 140-149 ---
+  Batch Memory Growth: +1456.09 MB
+  Pauli Terms Generated: 742016
+  Commuting Groups: 215894
+  Average Efficiency: 29.1%
+  Cumulative Memory: 19180.82 MB
+  Average Memory/Operator: 145.61 MB
+  Theoretical Memory/Op: 4.33 MB (bloat factor: 33.6x)
+  ⚠️  High memory growth in this batch
+  ⚠️  Low grouping efficiency in this batch
+  🔴 CRITICAL: 33.6x memory bloat detected!
+  System Memory Pressure: 17.6%
+--- END SUMMARY ---
+
+Processing operator 150/645 - CPU: 19174.50 MB, GPU: 36.0978 GB free
+Operator 150: 76160 Pauli terms -> 20030 cliques (efficiency: 26.3%) - Memory: 117.34 MB
+  STL Containers: PauliMap=95.30MB, CommOps=50.56MB, Cliques=1.50MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +133.14 MB (20030 circuits)
+  Estimated Circuit Memory: 26.90 MB
+  → Memory delta: CPU +149.77 MB, GPU +20.00 MB
+Processing operator 151/645 - CPU: 19317.89 MB, GPU: 36.0782 GB free
+Operator 151: 76160 Pauli terms -> 21697 cliques (efficiency: 28.5%) - Memory: 117.22 MB
+  STL Containers: PauliMap=95.00MB, CommOps=50.38MB, Cliques=1.57MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.6x
+  Circuit Construction: +135.52 MB (21697 circuits)
+  Estimated Circuit Memory: 29.13 MB
+  → Memory delta: CPU +146.86 MB, GPU +22.00 MB
+Processing operator 152/645 - CPU: 19458.59 MB, GPU: 36.0568 GB free
+Operator 152: 73904 Pauli terms -> 24014 cliques (efficiency: 32.5%) - Memory: 121.42 MB
+  STL Containers: PauliMap=98.22MB, CommOps=52.31MB, Cliques=1.66MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.3x
+  Circuit Construction: +153.86 MB (24014 circuits)
+  Estimated Circuit Memory: 32.25 MB
+  → Memory delta: CPU +171.02 MB, GPU +24.00 MB
+Processing operator 153/645 - CPU: 19623.57 MB, GPU: 36.0333 GB free
+Operator 153: 73904 Pauli terms -> 22737 cliques (efficiency: 30.8%) - Memory: 122.19 MB
+  STL Containers: PauliMap=98.98MB, CommOps=52.76MB, Cliques=1.60MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +152.97 MB (22737 circuits)
+  Estimated Circuit Memory: 30.53 MB
+  → Memory delta: CPU +170.59 MB, GPU +22.00 MB
+Processing operator 154/645 - CPU: 19787.57 MB, GPU: 36.0118 GB free
+Operator 154: 73904 Pauli terms -> 22629 cliques (efficiency: 30.6%) - Memory: 121.94 MB
+  STL Containers: PauliMap=98.80MB, CommOps=52.65MB, Cliques=1.60MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +142.50 MB (22629 circuits)
+  Estimated Circuit Memory: 30.39 MB
+  → Memory delta: CPU +149.96 MB, GPU +22.00 MB
+Processing operator 155/645 - CPU: 19931.07 MB, GPU: 35.9904 GB free
+Operator 155: 65600 Pauli terms -> 21251 cliques (efficiency: 32.4%) - Memory: 125.60 MB
+  STL Containers: PauliMap=102.50MB, CommOps=54.87MB, Cliques=1.47MB
+  Container Overhead: PauliMap=1.0x, CommOps=12.2x
+  Circuit Construction: +135.82 MB (21251 circuits)
+  Estimated Circuit Memory: 28.54 MB
+  → Memory delta: CPU +151.55 MB, GPU +22.00 MB
+Processing operator 156/645 - CPU: 20077.94 MB, GPU: 35.9689 GB free
+Operator 156: 76160 Pauli terms -> 22085 cliques (efficiency: 29.0%) - Memory: 118.09 MB
+  STL Containers: PauliMap=95.65MB, CommOps=50.76MB, Cliques=1.59MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +131.17 MB (22085 circuits)
+  Estimated Circuit Memory: 29.66 MB
+  → Memory delta: CPU +148.79 MB, GPU +22.00 MB
+Processing operator 157/645 - CPU: 20220.30 MB, GPU: 35.9474 GB free
+Operator 157: 76160 Pauli terms -> 22217 cliques (efficiency: 29.2%) - Memory: 117.91 MB
+  STL Containers: PauliMap=95.49MB, CommOps=50.67MB, Cliques=1.60MB
+  Container Overhead: PauliMap=1.0x, CommOps=9.7x
+  Circuit Construction: +138.31 MB (22217 circuits)
+  Estimated Circuit Memory: 29.83 MB
+  → Memory delta: CPU +155.83 MB, GPU +24.00 MB
+Processing operator 158/645 - CPU: 20369.68 MB, GPU: 35.9240 GB free
+Operator 158: 73904 Pauli terms -> 23147 cliques (efficiency: 31.3%) - Memory: 121.81 MB
+  STL Containers: PauliMap=98.63MB, CommOps=52.55MB, Cliques=1.62MB
+  Container Overhead: PauliMap=1.0x, CommOps=10.4x
+  Circuit Construction: +150.75 MB (23147 circuits)
+  Estimated Circuit Memory: 31.08 MB
+  → Memory delta: CPU +168.01 MB, GPU +22.00 MB
+Processing operator 159/645 - CPU: 20531.40 MB, GPU: 35.9025 GB free
