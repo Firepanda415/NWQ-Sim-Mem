@@ -404,6 +404,27 @@ namespace NWQSim {
             total_circuit_memory += circuit_memory_mb;
             std::cout << "  Cumulative Circuit Memory: " << std::fixed << std::setprecision(2) 
                       << total_circuit_memory << " MB" << std::endl;
+            
+            // Circuit gate analysis
+            if (gradient_measurement[i] && cliques.size() > 0) {
+              // Try to get actual circuit gate count (rough estimate)
+              size_t estimated_gates_per_circuit = ansatz->num_qubits() * 2; // rough estimate
+              size_t total_estimated_gates = cliques.size() * estimated_gates_per_circuit;
+              size_t actual_gate_memory_bytes = circuit_memory_mb * 1024.0 * 1024.0;
+              size_t estimated_gate_memory_bytes = total_estimated_gates * 64; // 64 bytes per gate
+              
+              std::cout << "  Gate Analysis: Est.Gates=" << total_estimated_gates 
+                        << ", Est.Memory=" << std::fixed << std::setprecision(2) 
+                        << (estimated_gate_memory_bytes / (1024.0 * 1024.0)) << "MB"
+                        << ", Actual=" << std::fixed << std::setprecision(2) << circuit_memory_mb << "MB" << std::endl;
+              
+              if (actual_gate_memory_bytes > estimated_gate_memory_bytes * 3) {
+                std::cout << "  🔴 CIRCUIT BLOAT: Gates using " 
+                          << std::fixed << std::setprecision(1) 
+                          << ((double)actual_gate_memory_bytes / estimated_gate_memory_bytes) 
+                          << "x more memory than expected!" << std::endl;
+              }
+            }
           }
           
           // Memory tracking after operator processing
