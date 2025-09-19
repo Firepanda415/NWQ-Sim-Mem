@@ -430,14 +430,16 @@ namespace NWQSim {
               }
               
               // Report circuit construction details
-              std::cout << "    Clique " << j << "/" << cliques.size() 
-                        << " - Gates: " << gates_before_compose << " -> " 
-                        << gates_after_circ1 << " -> " << gates_after_circ2 
-                        << " (+" << (gates_after_circ1 - gates_before_compose) 
-                        << "+" << (gates_after_circ2 - gates_after_circ1) << ")"
-                        << " - Memory: " << std::fixed << std::setprecision(2)
-                        << (cpu_rss_after_circ1 / 1024.0) << " -> " 
-                        << (cpu_rss_after_circ2 / 1024.0) << " MB" << std::endl;
+              if (j%500 == 0) {
+                std::cout << "    Clique " << j << "/" << cliques.size() 
+                          << " - Gates: " << gates_before_compose << " -> " 
+                          << gates_after_circ1 << " -> " << gates_after_circ2 
+                          << " (+" << (gates_after_circ1 - gates_before_compose) 
+                          << "+" << (gates_after_circ2 - gates_after_circ1) << ")"
+                          << " - Memory: " << std::fixed << std::setprecision(2)
+                          << (cpu_rss_after_circ1 / 1024.0) << " -> " 
+                          << (cpu_rss_after_circ2 / 1024.0) << " MB" << std::endl;
+              }
             }
             
             
@@ -744,14 +746,8 @@ namespace NWQSim {
               
               // Theoretical vs actual comparison
               double avg_pauli_per_op = (double)batch_pauli_terms / summary_interval;
-              double theoretical_mb_per_op = (avg_pauli_per_op * 16 + avg_pauli_per_op * 8 + batch_cliques * 128 / summary_interval) / (1024.0 * 1024.0);
-              double bloat_factor = avg_memory_per_op / theoretical_mb_per_op;
-              std::cout << "  Theoretical Memory/Op: " << std::fixed << std::setprecision(2) << theoretical_mb_per_op 
-                        << " MB (bloat factor: " << std::fixed << std::setprecision(1) << bloat_factor << "x)" << std::endl;
-              
               // Memory analysis data
               std::cout << "  Memory Growth Rate: " << std::fixed << std::setprecision(1) << (batch_memory_growth / summary_interval) << " MB/op" << std::endl;
-              std::cout << "  Memory Bloat Factor: " << std::fixed << std::setprecision(1) << bloat_factor << "x" << std::endl;
               
               // Memory fragmentation analysis
               size_t total_heap_size = 0;
