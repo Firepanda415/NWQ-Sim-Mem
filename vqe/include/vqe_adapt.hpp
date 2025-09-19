@@ -329,6 +329,23 @@ namespace NWQSim {
           num_commuting_groups += cliques.size();
           gradient_measurement[i] = std::make_shared<Ansatz>(ansatz->num_qubits());
           
+          // Memory tracking immediately after Ansatz creation
+          size_t cpu_rss_after_ansatz = 0;
+          if (state->get_process_rank() == 0) {
+            std::ifstream status_file("/proc/self/status");
+            std::string line;
+            while (std::getline(status_file, line)) {
+              if (line.find("VmRSS:") == 0) {
+                sscanf(line.c_str(), "VmRSS: %zu kB", &cpu_rss_after_ansatz);
+                break;
+              }
+            }
+            size_t ansatz_creation_delta = cpu_rss_after_ansatz - cpu_rss_before;
+            std::cout << "  After Ansatz creation: " << std::fixed << std::setprecision(2) 
+                      << (cpu_rss_after_ansatz / 1024.0) << " MB (+" 
+                      << (ansatz_creation_delta / 1024.0) << " MB)" << std::endl;
+          }
+          
           // Track observables created for this operator
           total_observables_created += cliques.size();
           cumulative_observable_memory_bytes += (cliques.size() * sizeof(ObservableList));
@@ -344,6 +361,22 @@ namespace NWQSim {
             }
           }
           
+          // Memory tracking before circuit construction starts
+          size_t cpu_rss_before_construction = 0;
+          if (state->get_process_rank() == 0) {
+            std::ifstream status_file("/proc/self/status");
+            std::string line;
+            while (std::getline(status_file, line)) {
+              if (line.find("VmRSS:") == 0) {
+                sscanf(line.c_str(), "VmRSS: %zu kB", &cpu_rss_before_construction);
+                break;
+              }
+            }
+            std::cout << "  Before circuit construction: " << std::fixed << std::setprecision(2) 
+                      << (cpu_rss_before_construction / 1024.0) << " MB ("
+                      << cliques.size() << " cliques to process)" << std::endl;
+          }
+          
           // For each clique, construct a measurement circuit and append
           
           for (size_t j = 0; j < cliques.size(); j++) {
@@ -357,15 +390,77 @@ namespace NWQSim {
                                                   commutator_coeffs[i][j]);
             
             
+            // Track circuit size before composition
+            size_t gates_before_compose = gradient_measurement[i]->gates->size();
+            
             Measurement circ1 (common, false); // QWC measurement circuit $U_M$
             gradient_measurement[i]->compose(circ1, qubit_mapping);         // add to gradient measurement
+            
+            // Track memory and circuit growth after first compose
+            size_t gates_after_circ1 = gradient_measurement[i]->gates->size();
+            size_t cpu_rss_after_circ1 = 0;
+            if (state->get_process_rank() == 0) {
+              std::ifstream status_file("/proc/self/status");
+              std::string line;
+              while (std::getline(status_file, line)) {
+                if (line.find("VmRSS:") == 0) {
+                  sscanf(line.c_str(), "VmRSS: %zu kB", &cpu_rss_after_circ1);
+                  break;
+                }
+              }
+            }
+            
             // add a gate to compute the expectation values   
             state->set_exp_gate(gradient_measurement[i], gradient_observables[i] + j, commutator_zmasks[i][j], commutator_coeffs[i][j]);
+            
             Measurement circ2 (common, true); // inverse of the measurement circuit $U_M^\dagger$
             gradient_measurement[i]->compose(circ2, qubit_mapping);  // add the inverse
             
+            // Track final circuit size and memory after complete composition
+            size_t gates_after_circ2 = gradient_measurement[i]->gates->size();
+            size_t cpu_rss_after_circ2 = 0;
+            if (state->get_process_rank() == 0) {
+              std::ifstream status_file("/proc/self/status");
+              std::string line;
+              while (std::getline(status_file, line)) {
+                if (line.find("VmRSS:") == 0) {
+                  sscanf(line.c_str(), "VmRSS: %zu kB", &cpu_rss_after_circ2);
+                  break;
+                }
+              }
+              
+              // Report circuit construction details
+              std::cout << "    Clique " << j << "/" << cliques.size() 
+                        << " - Gates: " << gates_before_compose << " -> " 
+                        << gates_after_circ1 << " -> " << gates_after_circ2 
+                        << " (+" << (gates_after_circ1 - gates_before_compose) 
+                        << "+" << (gates_after_circ2 - gates_after_circ1) << ")"
+                        << " - Memory: " << std::fixed << std::setprecision(2)
+                        << (cpu_rss_after_circ1 / 1024.0) << " -> " 
+                        << (cpu_rss_after_circ2 / 1024.0) << " MB" << std::endl;
+            }
+            
             
             cliqueiter++;
+          }
+          
+          // Memory tracking after all circuit construction for this operator
+          size_t cpu_rss_after_construction = 0;
+          if (state->get_process_rank() == 0) {
+            std::ifstream status_file("/proc/self/status");
+            std::string line;
+            while (std::getline(status_file, line)) {
+              if (line.find("VmRSS:") == 0) {
+                sscanf(line.c_str(), "VmRSS: %zu kB", &cpu_rss_after_construction);
+                break;
+              }
+            }
+            size_t total_circuit_construction_delta = cpu_rss_after_construction - cpu_rss_before_construction;
+            size_t final_circuit_gates = gradient_measurement[i]->gates->size();
+            std::cout << "  After circuit construction: " << std::fixed << std::setprecision(2) 
+                      << (cpu_rss_after_construction / 1024.0) << " MB (+" 
+                      << (total_circuit_construction_delta / 1024.0) << " MB) - Final circuit: " 
+                      << final_circuit_gates << " gates" << std::endl;
           }
           
           // Shrink vectors to actual size to reclaim over-allocated memory
