@@ -347,6 +347,13 @@ namespace NWQSim {
           }
           
           // For each clique, construct a measurement circuit and append
+          size_t circuit_gate_count_before = 0;
+          size_t circuit_instruction_count_before = 0;
+          if (state->get_process_rank() == 0) {
+            circuit_gate_count_before = gradient_measurement[i]->get_gate_count();
+            circuit_instruction_count_before = gradient_measurement[i]->get_instruction_count();
+          }
+          
           for (size_t j = 0; j < cliques.size(); j++) {
             std::vector<IdxType>& clique = *cliqueiter;
             std::vector<PauliOperator> commuting_group (clique.size());
@@ -357,13 +364,71 @@ namespace NWQSim {
                                                   commutator_zmasks[i][j], 
                                                   commutator_coeffs[i][j]);
             
+            // Track memory before individual circuit construction
+            size_t clique_cpu_before = 0;
+            if (state->get_process_rank() == 0 && j == 0) {
+              std::ifstream status_clique("/proc/self/status");
+              std::string line_clique;
+              while (std::getline(status_clique, line_clique)) {
+                if (line_clique.find("VmRSS:") == 0) {
+                  sscanf(line_clique.c_str(), "VmRSS: %zu kB", &clique_cpu_before);
+                  break;
+                }
+              }
+            }
+            
             Measurement circ1 (common, false); // QWC measurement circuit $U_M$
             gradient_measurement[i]->compose(circ1, qubit_mapping);         // add to gradient measurement
             // add a gate to compute the expectation values   
             state->set_exp_gate(gradient_measurement[i], gradient_observables[i] + j, commutator_zmasks[i][j], commutator_coeffs[i][j]);
             Measurement circ2 (common, true); // inverse of the measurement circuit $U_M^\dagger$
             gradient_measurement[i]->compose(circ2, qubit_mapping);  // add the inverse
+            
+            // Track memory after individual circuit construction (sample first few)
+            if (state->get_process_rank() == 0 && j < 3) {
+              size_t clique_cpu_after = 0;
+              std::ifstream status_clique_after("/proc/self/status");
+              std::string line_clique_after;
+              while (std::getline(status_clique_after, line_clique_after)) {
+                if (line_clique_after.find("VmRSS:") == 0) {
+                  sscanf(line_clique_after.c_str(), "VmRSS: %zu kB", &clique_cpu_after);
+                  break;
+                }
+              }
+              
+              double clique_memory_delta = (clique_cpu_after - clique_cpu_before) / 1024.0;
+              std::cout << "    Clique " << j << " Memory: +" << std::fixed << std::setprecision(3) 
+                        << clique_memory_delta << " MB (" << commuting_group.size() << " Pauli ops)" << std::endl;
+            }
+            
             cliqueiter++;
+          }
+          
+          // Detailed circuit construction analysis
+          if (state->get_process_rank() == 0) {
+            size_t circuit_gate_count_after = gradient_measurement[i]->get_gate_count();
+            size_t circuit_instruction_count_after = gradient_measurement[i]->get_instruction_count();
+            size_t gates_added = circuit_gate_count_after - circuit_gate_count_before;
+            size_t instructions_added = circuit_instruction_count_after - circuit_instruction_count_before;
+            
+            std::cout << "  Circuit Details: +" << gates_added << " gates, +" << instructions_added 
+                      << " instructions (" << cliques.size() << " cliques * 2 circuits each)" << std::endl;
+            
+            // Memory per gate analysis
+            double circuit_memory_mb = (cpu_rss_after_circuits - cpu_rss_before_circuits) / 1024.0;
+            if (gates_added > 0) {
+              double memory_per_gate_kb = (circuit_memory_mb * 1024.0) / gates_added;
+              std::cout << "  Memory/Gate: " << std::fixed << std::setprecision(2) << memory_per_gate_kb 
+                        << " KB (" << std::fixed << std::setprecision(1) << (gates_added / (double)cliques.size()) 
+                        << " gates/clique)" << std::endl;
+            }
+            
+            // Circuit object memory analysis
+            size_t estimated_circuit_object_bytes = sizeof(std::shared_ptr<Ansatz>) + 
+                                                   gates_added * 64 + // estimated gate storage
+                                                   instructions_added * 32; // estimated instruction storage
+            std::cout << "  Estimated Circuit Object: " << std::fixed << std::setprecision(3) 
+                      << (estimated_circuit_object_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
           }
           
           // Memory tracking after circuit construction
@@ -382,49 +447,41 @@ namespace NWQSim {
             std::cout << "  Circuit Construction: +" << std::fixed << std::setprecision(2) << circuit_memory_mb 
                       << " MB (" << cliques.size() << " circuits)" << std::endl;
             
-            // Estimate gradient_measurement size
-            size_t estimated_circuit_size = 0;
-            if (gradient_measurement[i]) {
-              // Rough estimate based on circuit gates and qubits
-              estimated_circuit_size = ansatz->num_qubits() * cliques.size() * 64; // 64 bytes per gate estimate
-            }
-            std::cout << "  Estimated Circuit Memory: " << std::fixed << std::setprecision(2) 
-                      << (estimated_circuit_size / (1024.0 * 1024.0)) << " MB" << std::endl;
-            
-            // Circuit overhead analysis
-            double circuit_overhead = (estimated_circuit_size > 0) ? 
-                                    (circuit_memory_mb * 1024.0 * 1024.0) / estimated_circuit_size : 0.0;
-            if (circuit_overhead > 2.0) {
-              std::cout << "  🔴 Circuit Overhead: " << std::fixed << std::setprecision(1) 
-                        << circuit_overhead << "x excessive!" << std::endl;
-            }
-            
             // Show cumulative circuit memory growth
             static double total_circuit_memory = 0.0;
+            static double prev_circuit_memory = 0.0;
+            static size_t prev_cliques = 0;
+            static size_t total_circuits_created = 0;
             total_circuit_memory += circuit_memory_mb;
+            total_circuits_created += cliques.size();
             std::cout << "  Cumulative Circuit Memory: " << std::fixed << std::setprecision(2) 
-                      << total_circuit_memory << " MB" << std::endl;
+                      << total_circuit_memory << " MB (Total circuits: " << total_circuits_created << ")" << std::endl;
             
-            // Circuit gate analysis
-            if (gradient_measurement[i] && cliques.size() > 0) {
-              // Try to get actual circuit gate count (rough estimate)
-              size_t estimated_gates_per_circuit = ansatz->num_qubits() * 2; // rough estimate
-              size_t total_estimated_gates = cliques.size() * estimated_gates_per_circuit;
-              size_t actual_gate_memory_bytes = circuit_memory_mb * 1024.0 * 1024.0;
-              size_t estimated_gate_memory_bytes = total_estimated_gates * 64; // 64 bytes per gate
+            // gradient_measurement vector analysis
+            size_t gradient_measurement_vector_bytes = gradient_measurement.capacity() * sizeof(std::shared_ptr<Ansatz>);
+            size_t accumulated_ansatz_objects = (i + 1) * sizeof(Ansatz); // approximation
+            std::cout << "  gradient_measurement Vector: " << std::fixed << std::setprecision(3) 
+                      << (gradient_measurement_vector_bytes / (1024.0 * 1024.0)) << " MB capacity, " 
+                      << std::fixed << std::setprecision(3) << (accumulated_ansatz_objects / (1024.0 * 1024.0)) 
+                      << " MB ansatz objects" << std::endl;
+            
+            // Track circuit memory per clique for analysis
+            if (i > 0 && prev_cliques > 0) {
+              double memory_per_clique_current = circuit_memory_mb / cliques.size();
+              double memory_per_clique_prev = prev_circuit_memory / prev_cliques;
               
-              std::cout << "  Gate Analysis: Est.Gates=" << total_estimated_gates 
-                        << ", Est.Memory=" << std::fixed << std::setprecision(2) 
-                        << (estimated_gate_memory_bytes / (1024.0 * 1024.0)) << "MB"
-                        << ", Actual=" << std::fixed << std::setprecision(2) << circuit_memory_mb << "MB" << std::endl;
-              
-              if (actual_gate_memory_bytes > estimated_gate_memory_bytes * 3) {
-                std::cout << "  🔴 CIRCUIT BLOAT: Gates using " 
-                          << std::fixed << std::setprecision(1) 
-                          << ((double)actual_gate_memory_bytes / estimated_gate_memory_bytes) 
-                          << "x more memory than expected!" << std::endl;
-              }
+              std::cout << "  Memory/Clique: " << std::fixed << std::setprecision(3) 
+                        << memory_per_clique_current << " MB (prev: " 
+                        << memory_per_clique_prev << " MB)" << std::endl;
+            } else if (cliques.size() > 0) {
+              double memory_per_clique_current = circuit_memory_mb / cliques.size();
+              std::cout << "  Memory/Clique: " << std::fixed << std::setprecision(3) 
+                        << memory_per_clique_current << " MB" << std::endl;
             }
+            
+            // Track for next iteration
+            prev_circuit_memory = circuit_memory_mb;
+            prev_cliques = cliques.size();
           }
           
           // Memory tracking after operator processing
@@ -459,12 +516,10 @@ namespace NWQSim {
             }
             #endif
             
-            // Show memory leak detection
-            if (cpu_growth_mb > (operator_total_memory_bytes / (1024.0 * 1024.0)) * 2.0) {
-              std::cout << " [HIGH GROWTH]";
-            } else if (cpu_growth_mb < (operator_total_memory_bytes / (1024.0 * 1024.0)) * 0.5) {
-              std::cout << " [LOW GROWTH]";
-            }
+            // Memory growth ratio
+            double growth_ratio = (operator_total_memory_bytes > 0) ? 
+                                (cpu_growth_mb * 1024.0 * 1024.0) / operator_total_memory_bytes : 0.0;
+            std::cout << " [" << std::fixed << std::setprecision(1) << growth_ratio << "x]";
             std::cout << std::endl;
             
             // Periodic summary every 10 operators
@@ -491,19 +546,9 @@ namespace NWQSim {
               std::cout << "  Theoretical Memory/Op: " << std::fixed << std::setprecision(2) << theoretical_mb_per_op 
                         << " MB (bloat factor: " << std::fixed << std::setprecision(1) << bloat_factor << "x)" << std::endl;
               
-              // Check for concerning trends
-              if (batch_memory_growth > 50.0) {
-                std::cout << "  ⚠️  High memory growth in this batch" << std::endl;
-              }
-              if (avg_efficiency < 30.0) {
-                std::cout << "  ⚠️  Low grouping efficiency in this batch" << std::endl;
-              }
-              if (bloat_factor > 10.0) {
-                std::cout << "  🔴 CRITICAL: " << std::fixed << std::setprecision(1) << bloat_factor 
-                          << "x memory bloat detected!" << std::endl;
-              } else if (bloat_factor > 5.0) {
-                std::cout << "  ⚠️  High memory bloat: " << std::fixed << std::setprecision(1) << bloat_factor << "x" << std::endl;
-              }
+              // Memory analysis data
+              std::cout << "  Memory Growth Rate: " << std::fixed << std::setprecision(1) << (batch_memory_growth / summary_interval) << " MB/op" << std::endl;
+              std::cout << "  Memory Bloat Factor: " << std::fixed << std::setprecision(1) << bloat_factor << "x" << std::endl;
               
               // Memory fragmentation analysis
               size_t total_heap_size = 0;
@@ -583,26 +628,45 @@ namespace NWQSim {
           std::cout << "  Pauli Map Storage: " << std::fixed << std::setprecision(3) << (cumulative_pauli_map_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
           std::cout << "  Comm Ops Storage: " << std::fixed << std::setprecision(3) << (cumulative_comm_ops_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
           
+          // Circuit memory breakdown estimate
+          double non_circuit_memory_mb = (cumulative_coefficient_memory_bytes + cumulative_zmask_memory_bytes + 
+                                         cumulative_observable_memory_bytes + cumulative_clique_memory_bytes +
+                                         cumulative_pauli_map_memory_bytes + cumulative_comm_ops_memory_bytes) / (1024.0 * 1024.0);
+          double actual_growth_mb = (final_cpu_rss - initial_cpu_rss) / 1024.0;
+          double estimated_circuit_memory_mb = actual_growth_mb - non_circuit_memory_mb;
+          
+          std::cout << "\nCircuit Memory Analysis:" << std::endl;
+          std::cout << "  Non-Circuit Memory: " << std::fixed << std::setprecision(3) << non_circuit_memory_mb << " MB" << std::endl;
+          std::cout << "  Estimated Circuit Memory: " << std::fixed << std::setprecision(3) << estimated_circuit_memory_mb << " MB" << std::endl;
+          std::cout << "  Circuit Memory Percentage: " << std::fixed << std::setprecision(1) 
+                    << (100.0 * estimated_circuit_memory_mb / actual_growth_mb) << "%" << std::endl;
+          
+          // gradient_measurement vector final analysis
+          size_t final_gradient_measurement_bytes = gradient_measurement.size() * sizeof(std::shared_ptr<Ansatz>);
+          std::cout << "  gradient_measurement Vector Size: " << gradient_measurement.size() << " entries, " 
+                    << std::fixed << std::setprecision(3) << (final_gradient_measurement_bytes / (1024.0 * 1024.0)) 
+                    << " MB vector overhead" << std::endl;
+          
+          // Circuit density analysis
+          double avg_circuit_memory_per_operator = estimated_circuit_memory_mb / poolsize;
+          double avg_cliques_per_operator = (double)num_commuting_groups / poolsize;
+          std::cout << "  Average Circuit Memory/Operator: " << std::fixed << std::setprecision(3) 
+                    << avg_circuit_memory_per_operator << " MB (" << std::fixed << std::setprecision(1) 
+                    << avg_cliques_per_operator << " cliques/op)" << std::endl;
+          
           double total_estimated_mb = (cumulative_coefficient_memory_bytes + cumulative_zmask_memory_bytes + 
                                      cumulative_observable_memory_bytes + cumulative_clique_memory_bytes +
                                      cumulative_pauli_map_memory_bytes + cumulative_comm_ops_memory_bytes) / (1024.0 * 1024.0);
           std::cout << "  Total Estimated: " << std::fixed << std::setprecision(3) << total_estimated_mb << " MB" << std::endl;
           std::cout << "  Largest Single Operator: " << std::fixed << std::setprecision(3) << (max_single_operator_memory_bytes / (1024.0 * 1024.0)) << " MB" << std::endl;
           
-          // Memory efficiency analysis
+          // Memory analysis
           double actual_growth_mb = (final_cpu_rss - initial_cpu_rss) / 1024.0;
           if (actual_growth_mb > 0) {
-            double efficiency = (total_estimated_mb / actual_growth_mb) * 100.0;
-            std::cout << "\nMemory Efficiency Analysis:" << std::endl;
-            std::cout << "  Estimated vs Actual Growth: " << std::fixed << std::setprecision(1) << efficiency << "%" << std::endl;
-            
-            if (efficiency < 50.0) {
-              std::cout << "  WARNING: Possible memory leaks detected - efficiency below 50%" << std::endl;
-            } else if (efficiency > 150.0) {
-              std::cout << "  INFO: Better than expected memory usage" << std::endl;
-            } else {
-              std::cout << "  OK: Memory usage within expected range" << std::endl;
-            }
+            double efficiency_ratio = total_estimated_mb / actual_growth_mb;
+            std::cout << "\nMemory Analysis:" << std::endl;
+            std::cout << "  Estimated vs Actual Growth: " << std::fixed << std::setprecision(1) << (efficiency_ratio * 100.0) << "%" << std::endl;
+            std::cout << "  Memory Efficiency Ratio: " << std::fixed << std::setprecision(2) << efficiency_ratio << std::endl;
           }
           
           // Enhanced GPU memory analysis
@@ -618,15 +682,9 @@ namespace NWQSim {
           double expected_gpu_mb = statevector_size_bytes / (1024.0 * 1024.0);
           std::cout << "  Expected Statevector (" << num_qubits << " qubits): " << std::fixed << std::setprecision(2) << expected_gpu_mb << " MB" << std::endl;
           
-          if (gpu_memory_consumed > (total_estimated_mb / 1024.0) * 2) {
-            std::cout << "  WARNING: GPU memory usage significantly higher than expected" << std::endl;
-            std::cout << "           This may indicate statevector memory not being properly freed" << std::endl;
-            std::cout << "           or multiple statevectors allocated simultaneously" << std::endl;
-          } else if (gpu_memory_consumed < expected_gpu_mb / (1024.0 * 1024.0)) {
-            std::cout << "  INFO: GPU memory usage lower than expected - good cleanup" << std::endl;
-          } else {
-            std::cout << "  OK: GPU memory usage within expected range" << std::endl;
-          }
+          double gpu_vs_expected_ratio = (expected_gpu_mb > 0) ? 
+                                        (gpu_memory_consumed * 1024.0) / expected_gpu_mb : 0.0;
+          std::cout << "  GPU vs Expected Ratio: " << std::fixed << std::setprecision(2) << gpu_vs_expected_ratio << std::endl;
           #endif
           
           std::cout << "\nGenerated " << poolsize << " commutators with " << num_pauli_terms_total << " Individual Pauli Strings" << std::endl;
